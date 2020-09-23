@@ -23,14 +23,17 @@
 
 #' @return An object of S4 class "cptCovSubspace" is returned. If Class="FALSE", just the vector of changepoints are returned.
 #' @export
-cptSubspace <- function(X,q,threshold='PermTest',noCpts='AMOC',thresholdValue=0.05,msl=dim(X)[2],nperm=200,m=NA,Class=FALSE){
+cptSubspace <- function(X,q,threshold='PermTest',noCpts='AMOC',thresholdValue=0.05,msl=dim(X)[2],nperm=200,m=NA,Class=TRUE){
 	subspaceErrorChecks(X,q,threshold,noCpts,thresholdValue,msl,nperm,m)
+	n <- dim(X)[1]
+	p <- dim(X)[2]
 	if(noCpts=='AMOC'){
 		testStat <- subspaceTestStat(X,q,msl)
 		if(threshold=='PermTest'){
 			thresh <- permutationTest(X,q,msl,thresholdValue,nperm)
 		}else if(threshold=='Manual'){
 			thresh <- thresholdValue
+			nperm <- NA
 		}
 		if(testStat$T>thresh){
 			cpts <- c(testStat$cpt,n)
@@ -40,6 +43,8 @@ cptSubspace <- function(X,q,threshold='PermTest',noCpts='AMOC',thresholdValue=0.
 	}
 	if(Class==FALSE){
 		return(list('cpts'=cpts))
+	}else{
+		return(classInput(X=X,cpts=cpts,method='Subspace',noCpts=noCpts,testStat=testStat$T,threshold=threshold,thresholdValue=thresh,msl=msl,q=q,nperm=nperm))
 	}
 }
 

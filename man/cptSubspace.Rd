@@ -13,7 +13,7 @@ cptSubspace(
   msl = dim(X)[2],
   nperm = 200,
   m = NA,
-  Class = FALSE
+  Class = TRUE
 )
 }
 \arguments{
