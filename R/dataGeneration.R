@@ -39,20 +39,20 @@ subspaceDataGeneration <- function(n,p,q,tau=c(1,n),nvar=0.05,svar=1,changeSize=
 		qTemp <- q
 	}
 	w <- list()
-	wTemp <- orthonormalization(matrix(rnorm(p*2*qTemp),ncol=2*qTemp),basis=FALSE)
+	wTemp <- far::orthonormalization(matrix(rnorm(p*2*qTemp),ncol=2*qTemp),basis=FALSE)
 	w[[1]] <- wTemp[,1:qTemp]
 	if(m>0){
 		w[[2]] <- sqrt(1-min(1,(changeSize[1]^2)/qTemp))*w[[1]]+(changeSize[1]/sqrt(qTemp))*wTemp[,(qTemp+1):(2*qTemp)]
 	}
 	if(m>1){
 		for(i in 3:(m+1)){
-			wTemp <- nullspace(t(w[[i-1]]))[,1:qTemp]
+			wTemp <- pracma::nullspace(t(w[[i-1]]))[,1:qTemp]
 			w[[i]] <- sqrt(1-min(1,(changeSize[i-1]^2)/qTemp))*w[[i-1]]+(changeSize[i-1]/sqrt(qTemp))*wTemp
 		}
 	}
 	if(q>(p/2)){
 		for(i in 1:(m+1)){
-			w[[i]] <- nullspace(t(w[[i]]))
+			w[[i]] <- pracma::nullspace(t(w[[i]]))
 		}
 	}
 	X <- matrix(0,ncol=p,nrow=n)
