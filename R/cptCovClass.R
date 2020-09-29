@@ -8,10 +8,14 @@
 #' @slot threshold Character containing the method used for generating the threshold
 #' @slot thresholdValue Numeric value of threshold
 #' @slot msl Numeric containing the minimum segment length between changepoints
+#' @slot q Numeric value of subspace dimension. Only used for Subspace method
+#' @slot nperm Numeric value of number of permutations used in permutation test. Only used for subspace method when threshold is "PermTest"
+#' @slot LRCov Character describing the long-run covariance estimator used. Only used for Aue method.
+#' @slot statType Character describing which of the two test statistics were used. Only used for Aue method.
 #' @slot date Creation date of the object
 #' @slot version Version of the cpt.covariance used
 #' @export
-setClass("cptCov",slots=list(data='matrix',cpts='numeric',method='character',msl='numeric',noCpts='ANY',threshold='character',thresholdValue='numeric',testStat='numeric',date='character',version='character'),prototype=list(version=as(packageVersion("changepoint.cov"),'character'),date=date(),method=NULL))
+setClass("cptCov",slots=list(data='matrix',cpts='numeric',method='character',msl='numeric',noCpts='ANY',threshold='character',thresholdValue='numeric',testStat='numeric',q='numeric',nperm='numeric',LRCov='character',statType='character',date='character',version='character'),prototype=list(q=0,nperm=0,LRCov='NA',statType='NA',version=as(packageVersion("changepoint.cov"),'character'),date=date(),method=NULL))
 
 #' @describeIn cptCov Summarises the cptCov object
 #'

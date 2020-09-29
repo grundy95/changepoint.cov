@@ -6,10 +6,10 @@
 #' @param q Dimension of the latent subspace
 #' @param threshold Threshold choice for determining significance of changepoints. Choices include:
 #' \itemize{
-#'	\item "PermTest" - Permutation test is performed using the number of permutations and significance level contained in the nperm and thresholdValue paramters respectively
+#'	\item "PermTest" - Permutation test is performed using the number of permutations and significance level contained in the nperm and thresholdValue parameters respectively
 #'	\item "Manual" - A user chosen threshold is used which is contained in the thresholdValue parameter.
 #' }
-#' @param noCpts Number of changepoints in the data. Choices inlcude: 
+#' @param noCpts Number of changepoints in the data. Choices include: 
 #' \itemize{
 #' 	\item "AMOC" - At Most One Changepoint; test to see if the data contains a single changepoint or not.
 #'	\item "BinSeg"- Binary segmentation is performed to detect multiple changepoints.
@@ -24,7 +24,7 @@
 #' @return An object of S4 class "cptCovSubspace" is returned. If Class="FALSE", just the vector of changepoints are returned.
 #' @export
 cptSubspace <- function(X,q,threshold='PermTest',noCpts='AMOC',thresholdValue=0.05,msl=dim(X)[2],nperm=200,m=NA,Class=TRUE){
-	subspaceErrorChecks(X,q,threshold,noCpts,thresholdValue,msl,nperm,m)
+	subspaceErrorChecks(X=X,q=q,threshold=threshold,noCpts=noCpts,thresholdValue=thresholdValue,msl=msl,nperm=nperm,m=m,Class)
 	n <- dim(X)[1]
 	p <- dim(X)[2]
 	if(noCpts=='AMOC'){

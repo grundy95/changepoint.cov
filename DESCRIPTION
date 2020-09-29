@@ -1,6 +1,6 @@
 Package: changepoint.cov
 Title: Implementation of Covariance Changepoint Methods
-Version: 0.0.2
+Version: 0.0.3
 Authors@R: 
     person(given = "Thomas",
            family = "Grundy",
@@ -16,13 +16,6 @@ RoxygenNote: 7.1.0
 Imports: 
     purrr,
     far,
-    pracma
-Collate: 
-    'cptCovClass.R'
-    'cptCovSubspaceClass.R'
-    'classInput.R'
-    'cptSubspace.R'
-    'dataGeneration.R'
-    'permutationTest.R'
-    'subspaceErrorChecks.R'
-    'subspaceTestStatistic.R'
+    pracma,
+    sandwich,
+    rlang

@@ -13,8 +13,10 @@ classInput(
   threshold,
   thresholdValue,
   msl,
-  q,
-  nperm
+  q = 0,
+  nperm = 0,
+  LRCov = "NA",
+  statType = "NA"
 )
 }
 \description{

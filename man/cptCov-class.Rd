@@ -44,6 +44,14 @@ Shows the cptCov object and all the slots it contains. Also displays the summary
 
 \item{\code{msl}}{Numeric containing the minimum segment length between changepoints}
 
+\item{\code{q}}{Numeric value of subspace dimension. Only used for Subspace method}
+
+\item{\code{nperm}}{Numeric value of number of permutations used in permutation test. Only used for subspace method when threshold is "PermTest"}
+
+\item{\code{LRCov}}{Character describing the long-run covariance estimator used. Only used for Aue method.}
+
+\item{\code{statType}}{Character describing which of the two test statistics were used. Only used for Aue method.}
+
 \item{\code{date}}{Creation date of the object}
 
 \item{\code{version}}{Version of the cpt.covariance used}

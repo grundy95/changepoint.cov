@@ -2,7 +2,7 @@
 % Please edit documentation in R/dataGeneration.R
 \name{subspaceDataGeneration}
 \alias{subspaceDataGeneration}
-\title{Data Generation}
+\title{Data Generation - Subspace}
 \usage{
 subspaceDataGeneration(
   n,
