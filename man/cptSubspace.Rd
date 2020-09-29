@@ -23,11 +23,11 @@ cptSubspace(
 
 \item{threshold}{Threshold choice for determining significance of changepoints. Choices include:
 \itemize{
-\item "PermTest" - Permutation test is performed using the number of permutations and significance level contained in the nperm and thresholdValue paramters respectively
+\item "PermTest" - Permutation test is performed using the number of permutations and significance level contained in the nperm and thresholdValue parameters respectively
 \item "Manual" - A user chosen threshold is used which is contained in the thresholdValue parameter.
 }}
 
-\item{noCpts}{Number of changepoints in the data. Choices inlcude:
+\item{noCpts}{Number of changepoints in the data. Choices include:
 \itemize{
 \item "AMOC" - At Most One Changepoint; test to see if the data contains a single changepoint or not.
 \item "BinSeg"- Binary segmentation is performed to detect multiple changepoints.
