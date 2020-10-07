@@ -1,2 +1,2 @@
 # changepoint.cov
-Implementation of covariance changepoint methods
+Implementation of covariance changepoint methods. 
