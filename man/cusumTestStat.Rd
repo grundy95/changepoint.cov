@@ -9,7 +9,7 @@ cusumTestStat(X, LRCov, msl)
 \arguments{
 \item{X}{Data matrix of dimension n by p}
 
-\item{LRCov}{A character describing the Long-run covariance estimator to be used. Currently, only "Bartlett" and "Empirical" are available, see \code{\link{cptAue}} for more details.}
+\item{LRCov}{A character describing the Long-run covariance estimator to be used. Currently, only "Bartlett" and "Empirical" are available, see \code{\link{cptCUSUM}} for more details.}
 
 \item{msl}{A numeric giving the minimum segment length between changepoints. NOTE this should be greater than or equal to p.}
 }

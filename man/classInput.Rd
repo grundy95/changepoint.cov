@@ -8,17 +8,51 @@ classInput(
   X,
   cpts,
   method,
-  noCpts,
+  numCpts,
   testStat,
   threshold,
   thresholdValue,
   msl,
   q = 0,
   nperm = 0,
-  LRCov = "NA",
-  statType = "NA"
+  LRCov = "NA"
 )
 }
+\arguments{
+\item{X}{Data matrix of dimension n by p}
+
+\item{cpts}{Vector of changepoint locations}
+
+\item{method}{Covariance changepoint method to be used. Choice of "Ratio" or "CUSUM".}
+
+\item{numCpts}{Number of changepoints in the data. Choices include:
+\itemize{
+\item "AMOC" - At Most One Changepoint; test to see if the data contains a single changepoint or not.
+\item "BinSeg"- Binary segmentation is performed to detect multiple changepoints.
+\item "Set" - Number of changepoints in the data is known and is contained in the m parameter. The method returns the m most significant changepoints via a Binary Segmentation framework.
+}}
+
+\item{testStat}{Maximum test statistic of the method}
+
+\item{threshold}{Threshold choice for determining significance of changepoints. Choices include:
+\itemize{
+\item "Asymptotic" - Uses the asymptotic threshold derived for each method. For method="Ratio" the threshold is log(n). For method="CUSUM" the threshold is the specified quantile of the standard normal distribution. The quantile is set by the argument thresholdValue.
+\item "Manual"- A user chosen threshold which is contained in the thresholdValue argument. NOTE the normalized test statistics will be compared to the set thresholds.
+}}
+
+\item{thresholdValue}{Either the manual threshold value when threshold="Manual" or the (1-thresholdValue)-quantile of asymptotic distribution of the CUSUM test statistic when method="CUSUM" and threshold="Asymptotic"}
+
+\item{msl}{Minimum segment length allowed between the changepoints. NOTE this should be greater than or equal to p, the dimension of the time series.}
+
+\item{q}{Dimension of the latent subspace}
+
+\item{nperm}{Only required for threshold="PermTest". Number of permutations to use in the permutation test.}
+
+\item{LRCov}{The long-run covariance estimator to be used for CUSUM method. Currently, only "Bartlett" and "Empirical" are supported.}
+}
+\value{
+S4 class of type \code{\link{cptCovariance-class}}
+}
 \description{
-Function for inputting results into the S4 class \code{\link{cptCov}}.
+Function for inputting results into the S4 class \code{\link{cptCovariance-class}}.
 }

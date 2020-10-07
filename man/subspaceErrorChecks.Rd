@@ -7,14 +7,39 @@
 subspaceErrorChecks(
   X,
   q,
-  threhsold,
-  noCpts,
+  threshold,
+  numCpts,
   thresholdValue,
   msl,
   nperm,
-  m,
   Class
 )
+}
+\arguments{
+\item{X}{Data matrix of dimension n by p}
+
+\item{q}{Dimension of the latent subspace}
+
+\item{threshold}{Threshold choice for determining significance of changepoints. Choices include:
+\itemize{
+\item "PermTest" - Permutation test is performed using the number of permutations and significance level contained in the nperm and thresholdValue parameters respectively
+\item "Manual" - A user chosen threshold is used which is contained in the thresholdValue parameter.
+}}
+
+\item{numCpts}{Number of changepoints in the data. Choices include:
+\itemize{
+\item "AMOC" - At Most One Changepoint; test to see if the data contains a single changepoint or not.
+\item "BinSeg"- Binary segmentation is performed to detect multiple changepoints.
+\item "Set" - Number of changepoints in the data is known and is contained in the m parameter. The method returns the m most significant changepoints via a Binary Segmentation framework.
+}}
+
+\item{thresholdValue}{Either the significance level of the permutation test when using threshold="PermTest" or the user defined threshold when using threshold="Manual".}
+
+\item{msl}{Minimum segment length allowed between the changepoints. NOTE this should be greater than or equal to p, the dimension of the time series.}
+
+\item{nperm}{Only required for threshold="PermTest". Number of permutations to use in the permutation test.}
+
+\item{Class}{Logical. If TRUE then an S4 class is returned. Else just the estimated changepoints are returned.}
 }
 \description{
 DEVELOPER USE ONLY. This function checks the user inputs to make sure they are all valid

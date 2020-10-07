@@ -1,39 +1,45 @@
 #' Inputs results into S4 class
 #'
-#' Function for inputting results into the S4 class \code{\link{cptCov}}. 
+#' Function for inputting results into the S4 class \code{\link{cptCovariance-class}}. 
 #'
-classInput <- function(X,cpts,method,noCpts,testStat,threshold,thresholdValue,msl,q=0,nperm=0,LRCov='NA',statType='NA'){
+#' @inheritParams cptCov
+#' @inheritParams cptSubspace
+#' @param testStat Maximum test statistic of the method
+#' @param cpts Vector of changepoint locations
+#'
+#' @return S4 class of type \code{\link{cptCovariance-class}}
+#' @importFrom methods new
+classInput <- function(X,cpts,method,numCpts,testStat,threshold,thresholdValue,msl,q=0,nperm=0,LRCov='NA'){
 	if(method=='Subspace'){
-		ans <- new('cptCov',data=X,
+		ans <- new('cptCovariance',data=X,
                            cpts=cpts,
 			   method=method,
-	                   noCpts=noCpts,
+	                   numCpts=numCpts,
 	         	   testStat=testStat,
 			   threshold=threshold,
 			   thresholdValue=thresholdValue,
-			   msl=msl,
+			   msl=as.integer(msl),
 			   q=q,
 			   nperm=nperm)
 	}else if(method=='CUSUM'){
-		ans <- new('cptCov',data=X,
+		ans <- new('cptCovariance',data=X,
 			   cpts=cpts,
 			   method=method,
-			   noCpts=noCpts,
+			   numCpts=numCpts,
 			   testStat=testStat,
 			   threshold=threshold,
 			   thresholdValue=thresholdValue,
-			   msl=msl,
-			   LRCov=LRCov,
-			   statType=statType)
-	}else if(method=='Fisher'){
-		ans <- new('cptCov',data=X,
+			   msl=as.integer(msl),
+			   LRCov=LRCov)
+	}else if(method=='Ratio'){
+		ans <- new('cptCovariance',data=X,
 			   cpts=cpts,
 			   method=method,
-			   noCpts=noCpts,
+			   numCpts=numCpts,
 			   testStat=testStat,
 			   threshold=threshold,
 			   thresholdValue=thresholdValue,
-			   msl=msl)
+			   msl=as.integer(msl))
 	}
 	return(ans)
 }

@@ -3,19 +3,22 @@
 #' Calculates the test statistic for all potential changepoint locations within the time series.
 #'
 #' @param X Data matrix of dimension n by p
-#' @param LRCov A character describing the Long-run covariance estimator to be used. Currently, only "Bartlett" and "Empirical" are available, see \code{\link{cptAue}} for more details.
+#' @param LRCov A character describing the Long-run covariance estimator to be used. Currently, only "Bartlett" and "Empirical" are available, see \code{\link{cptCUSUM}} for more details.
 #' @param msl A numeric giving the minimum segment length between changepoints. NOTE this should be greater than or equal to p.
 #'
 #' @return A numeric vector containing the test statistic at each potential changepoint location.
+#'
+#' @importFrom stats cov
 cusumTestStat <- function(X,LRCov,msl){
 	n <- nrow(X)
 	p <- ncol(X)
+	LRCov <- toupper(LRCov)
 	X <- purrr::map(1:n,~X[.,])
 	Xvech <- cusumVech(X)
-	if(LRCov=='Bartlett'){
+	if(LRCov=='BARTLETT'){
 		#Should we be multiplying by n or n-delta?
 		cusumCov <- sandwich::lrvar(Xvech,kernel='Bartlett')*n
-	}else if(LRCov=='Empirical'){
+	}else if(LRCov=='EMPIRICAL'){
 		cusumCov <- cov(Xvech)
 	}
 	calculateCusum <- CusumCalculator(X)
