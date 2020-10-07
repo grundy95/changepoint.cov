@@ -9,8 +9,10 @@
 #' @param nperm Number of random permutations to be performed
 #'
 #' @return Numeric containing the threshold value
+#'
+#' @importFrom stats quantile
 permutationTest <- function(X,q,msl=dim(X)[2],alpha=0.05,nperm=200){
-	T <- purrr::rerun(nperm,subspaceTestStat(X[sample(nrow(X),replace=FALSE),],q,msl)$T)
+	T <- purrr::rerun(nperm,max(subspaceTestStat(X[sample(nrow(X),replace=FALSE),],q,msl),na.rm=TRUE))
 	thresh <- quantile(unlist(T),1-alpha)
 	return(thresh)
 }

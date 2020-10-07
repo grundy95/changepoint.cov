@@ -1,41 +1,41 @@
 #' Test statistic for Subspace method
 #'
-#' Calculates the test statistic, most likely changepoint location and the null and alternative costs for the Subspace Covariance changepoint method.
+#' Calculates the Subspace test statistic for all potential changepoint locations within the time series.
 #'
 #' @param X Data matrix of dimension n by p
 #' @param q Dimension of the latent subspace
 #' @param msl Minimum segment length between changepoints. NOTE this should be greater than or equal to p
 #' 
-#' @return A list with slots:
-#' \itemize{
-#'	\item T - Test statistic 
-#'	\item cpt - Most likely changepoint position
-#' 	\item nullCost - Cost of data with no changes
-#'	\item altCost - List with cost of data with a changepoint at the slot location
-#' }
+#' @return A numeric vector containing the test statistic at each potential changepoint location
 subspaceTestStat <- function(X,q,msl=dim(X)[2]){
-	n <- dim(X)[1]
-	p <- dim(X)[2]
-	nullCost <- subspaceCost(X,q)
-	altCost <- rep(NA,n)
-	altCost <- purrr::map(msl:(n-msl),~subspaceCost(X[1:.,],q)+subspaceCost(X[(.+1):n,],q))
-	tau <- which.min(altCost)
-	return(list('T'=nullCost-altCost[[tau]],'cpt'=tau,'nullCost'=nullCost,'altCost'=altCost))
+	n <- nrow(X)
+	p <- ncol(X)
+	X <- purrr::map(1:n,~X[.,])
+	calculateSubspaceCost <- subspaceCostCalculator(X,q)
+	testStat <- purrr::map_dbl(msl:(n-msl),calculateSubspaceCost)
+	return(c(rep(NA,(msl-1)),testStat,rep(NA,msl)))
 }
 
-#' Cost of data for Subspace method
+
+#' Subspace cost calculator
 #' 
-#' Calculates the cost of data assuming a latent subspace of dimension q
+#' Creates a function that takes potential changepoint location and returns the test statistic as defined in Grundy(2020)
 #'
 #' @param X Data matrix of dimension n by p
 #' @param q Dimension of the latent subspace
 
-#' @return Cost of data
-subspaceCost <- function(X,q){
-	n <- dim(X)[1]
-	p <- dim(X)[2]
-	Sigma <- (1/n)*t(X)%*%X
-	cost <- n*sum(eigen(Sigma,only.values=TRUE,symmetric=TRUE)$values[(q+1):p])
-	return(cost)
+#' @return A function used to calculate the test statistic
+subspaceCostCalculator <- function(X,q){
+	A <- purrr::map(X,~.%*%t(.))
+	A <- purrr::accumulate(A,`+`)
+	n <- length(X)
+	p <- length(X[[1]])
+	nullCost <- n*sum(eigen((1/n)*A[[n]],only.values=TRUE,symmetric=TRUE)$values[(q+1):p])
+	function(tau){
+		eigs1 <- eigen((1/tau)*A[[tau]],only.values=TRUE,symmetric=TRUE)$values
+		eigs2 <- eigen((1/(n-tau))*(A[[n]]-A[[tau]]),only.values=TRUE,symmetric=TRUE)$values
+		altCost <- tau*sum(eigs1[(q+1):p])+(n-tau)*sum(eigs2[(q+1):p]) 
+		return(nullCost-altCost)
+	}
 }
 

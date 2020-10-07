@@ -8,11 +8,10 @@ cptSubspace(
   X,
   q,
   threshold = "PermTest",
-  noCpts = "AMOC",
+  numCpts = "AMOC",
   thresholdValue = 0.05,
-  msl = dim(X)[2],
+  msl = ncol(X),
   nperm = 200,
-  m = NA,
   Class = TRUE
 )
 }
@@ -27,7 +26,7 @@ cptSubspace(
 \item "Manual" - A user chosen threshold is used which is contained in the thresholdValue parameter.
 }}
 
-\item{noCpts}{Number of changepoints in the data. Choices include:
+\item{numCpts}{Number of changepoints in the data. Choices include:
 \itemize{
 \item "AMOC" - At Most One Changepoint; test to see if the data contains a single changepoint or not.
 \item "BinSeg"- Binary segmentation is performed to detect multiple changepoints.
@@ -39,8 +38,6 @@ cptSubspace(
 \item{msl}{Minimum segment length allowed between the changepoints. NOTE this should be greater than or equal to p, the dimension of the time series.}
 
 \item{nperm}{Only required for threshold="PermTest". Number of permutations to use in the permutation test.}
-
-\item{m}{Only required for noCpts="Set". Known number of changepoints in the data.}
 
 \item{Class}{Logical. If TRUE then an S4 class is returned. Else just the estimated changepoints are returned.}
 }

@@ -17,6 +17,8 @@
 #' 	\item changeSize Scalar or vector of change sizes
 #' 	\item subspace List of the bases of the subspace for each segment
 #' }
+#'
+#' @importFrom stats rnorm 
 subspaceDataGeneration <- function(n,p,q,tau=c(1,n),nvar=0.05,svar=1,changeSize=0.5*sqrt(q)){
 	if(tau[1]!=1){
 		tau <- c(1,tau)
@@ -94,6 +96,8 @@ subspaceDataGeneration <- function(n,p,q,tau=c(1,n),nvar=0.05,svar=1,changeSize=
 #' 	\item cpts Location of the changepoints
 #'	\item Sigma List of covariance matrices of each segment
 #' }
+#'
+#' @importFrom stats rWishart 
 wishartDataGeneration <- function(n,p,tau=c(1,n),Sigma=list(NA),shape=5,scale=1/5){
 	if(tau[length(tau)]!=n){
 		tau <- c(tau,n)
@@ -107,7 +111,7 @@ wishartDataGeneration <- function(n,p,tau=c(1,n),Sigma=list(NA),shape=5,scale=1/
 		Sigma[[1]] <- (1/p)*rWishart(1,p,diag(p))[,,1]
 		if(m>0){
 			transMatrix <- append(Sigma,purrr::map(1:m,~generateTransMatrix(p,shape,scale)))
-			Sigma <- purrr:::accumulate(transMatrix,function(X,Y){B=pracma::sqrtm(Y)$B;return(B%*%Y%*%B)})
+			Sigma <- purrr::accumulate(transMatrix,function(X,Y){B=pracma::sqrtm(Y)$B;return(B%*%Y%*%B)})
 		}
 	}
 	if(m>0){
@@ -127,6 +131,8 @@ wishartDataGeneration <- function(n,p,tau=c(1,n),Sigma=list(NA),shape=5,scale=1/
 #' @inheritParams wishartDataGeneration
 #'
 #' @return A p by p transition matrix
+#'
+#' @importFrom stats prcomp rWishart rgamma
 generateTransMatrix <- function(p,shape=5,scale=1/5){
 	A <- prcomp(rWishart(1,p,diag(p))[,,1])[[2]]
 	eigs <- rgamma(n=p,shape=shape,scale=scale)

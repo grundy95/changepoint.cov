@@ -14,14 +14,8 @@ subspaceTestStat(X, q, msl = dim(X)[2])
 \item{msl}{Minimum segment length between changepoints. NOTE this should be greater than or equal to p}
 }
 \value{
-A list with slots:
-\itemize{
-\item T - Test statistic
-\item cpt - Most likely changepoint position
-\item nullCost - Cost of data with no changes
-\item altCost - List with cost of data with a changepoint at the slot location
-}
+A numeric vector containing the test statistic at each potential changepoint location
 }
 \description{
-Calculates the test statistic, most likely changepoint location and the null and alternative costs for the Subspace Covariance changepoint method.
+Calculates the Subspace test statistic for all potential changepoint locations within the time series.
 }

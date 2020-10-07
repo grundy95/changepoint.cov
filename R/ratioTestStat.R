@@ -1,4 +1,4 @@
-#' Test statistic for Fisher method
+#' Test statistic for Ratio method
 #'
 #' Calculates the test statistic for all potential changepoint locations within the time series.
 #'
@@ -6,12 +6,14 @@
 #' @param msl A numeric giving the minimum segment length between changepoints. NOTE this should be greater than or equal to p.
 #'
 #' @return A numeric vector containing the test statistic at each potential changepoint location.
-fisherTestStat <- function(X,msl){
+#'
+#' @importFrom rlang !!!
+ratioTestStat <- function(X,msl){
 	n <- nrow(X)
 	p <- ncol(X)
 	X <- purrr::map(1:n,~X[.,])
-	calculateFisherDistance <- fisherDistanceCalculator(X)	
-	T <- purrr::map_dbl(msl:(n-msl),calculateFisherDistance)
+	calculateRatioDistance <- ratioDistanceCalculator(X)	
+	T <- purrr::map_dbl(msl:(n-msl),calculateRatioDistance)
 	gammas <- purrr::map(msl:(n-msl),~c(p/.,p/(n-.)))
 	trace <- purrr::map(gammas,~rlang::exec(calculateExpectedTrace,!!!.))
 	trace <- purrr::map_dbl(trace,~.[[1]])
@@ -21,14 +23,14 @@ fisherTestStat <- function(X,msl){
 	return(c(rep(NA,(msl-1)),testStat,rep(NA,msl)))
 }
 
-#' Fisher distance calculator
+#' Ratio distance calculator
 #'
 #' Creates a function that takes a potential changepoint location and returns the un-normalized test statistic defined in Ryan (2020).
 #'
 #' @param X List of data where each slot is a time point
 #'
 #' @return A function used to calculate un-normalized test statistic
-fisherDistanceCalculator <- function(X){
+ratioDistanceCalculator <- function(X){
 	A <- purrr::map(X,~.%*%t(.))
 	A <- purrr::accumulate(A,`+`)
 	n <- length(X)
@@ -49,6 +51,9 @@ fisherDistanceCalculator <- function(X){
 #' @param gamma2 p/n2 where n2 is the number of time points after potential changepoint
 #'
 #' @return A list where the first element is the integral and second element is the error.
+#'
+#' @importFrom stats integrate
+#' @importFrom rlang !!!
 calculateExpectedTrace <- function(gamma1,gamma2){
 	asymptoticPdf <- fisherESD(gamma1,gamma2)
 	integrand <- functionProduct(function(x){(1-x)^2+(1-1/x)^2},asymptoticPdf)
@@ -101,9 +106,9 @@ functionProduct <- function(f1,f2){
 	return(function(x){return(f1(x)*f2(x))})
 }
 
-#' Asymptotic Bias of Fisher Test Staistic
+#' Asymptotic Bias of Ratio Test Staistic
 #'
-#' Calculates the asymptotic bias of the Fisher test statistic used to generate the normalized test statistic
+#' Calculates the asymptotic bias of the Ratio test statistic used to generate the normalized test statistic
 #'
 #' @inheritParams calculateExpectedTrace
 #'
@@ -117,9 +122,9 @@ asymptoticBias <- function(gamma1,gamma2){
 	return(2*K31*(1-(gamma2^2)/(h^2))+(2*K21*gamma2)/(h)+2*K32*(1-(gamma1^2)/(h^2))+(2*K22*gamma1)/h)
 }
 
-#' Asymptotic Variance of Fisher Test Statistic
+#' Asymptotic Variance of Ratio Test Statistic
 #'
-#' Calculates the asymptotic variance of the Fisher test statistic used to generate the normalized test statistic
+#' Calculates the asymptotic variance of the Ratio test statistic used to generate the normalized test statistic
 #'
 #' @inheritParams calculateExpectedTrace
 #'
