@@ -1,4 +1,8 @@
 language: r
+sudo: required
+cache: packages
+warnings_are_errors: true
+r_check_revdep: false
 r:
         - oldrel
         - release
@@ -8,5 +12,5 @@ r_packages:
         - covr
 
 after_success:
-        - Rscript -e 'covr::codecov()'
+        - Rscript -e 'library(covr); codecov()'
                
