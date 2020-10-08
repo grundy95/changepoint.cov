@@ -4,7 +4,7 @@
 \alias{subspaceTestStat}
 \title{Test statistic for Subspace method}
 \usage{
-subspaceTestStat(X, q, msl = dim(X)[2])
+subspaceTestStat(X, q, msl)
 }
 \arguments{
 \item{X}{Data matrix of dimension n by p}
@@ -18,4 +18,11 @@ A numeric vector containing the test statistic at each potential changepoint loc
 }
 \description{
 Calculates the Subspace test statistic for all potential changepoint locations within the time series.
+}
+\examples{
+set.seed(1)
+data <- subspaceDataGeneration(n=100,p=20,q=5,tau=50,changeSize=0.5*sqrt(5))$data
+ans <- subspaceTestStat(X=data,q=5,msl=30)
+which.max(ans)
+
 }

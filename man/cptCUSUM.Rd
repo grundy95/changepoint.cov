@@ -47,3 +47,15 @@ An object of S4 class \code{\link{cptCovariance-class}} is returned. If Class="F
 \description{
 Implements the Aue method for detecting covariance changes in multivariate time series. This method is aimed at low-dimensional time series that can have temporal dependence.
 }
+\examples{
+set.seed(1)
+dataAMOC <- wishartDataGeneration(n=100,p=2,tau=50)$data
+
+ansCUSUM <- cptCov(X=dataAMOC)
+show(ansCUSUM)
+
+ansCUSUM2 <- cptCov(X=dataAMOC,threshold='Manual',numCpts='AMOC',
+		msl=15,thresholdValue=15,LRCov='Empirical')
+summary(ansCUSUM2)
+
+}

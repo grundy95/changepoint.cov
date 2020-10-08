@@ -32,6 +32,7 @@ test_that("Data is correct format",{
 		  expect_is(cptCUSUM(dataAMOC),"cptCovariance")
 		  expect_is(cptCUSUM(dataAMOCdataFrame),"cptCovariance")
 		  expect_error(cptCUSUM(dataAMOCunivariate),"Data should be a matrix")
+		  expect_error(cptCUSUM(as.matrix(dataAMOCunivariate,ncol=1)),"Univariate time series analysis not supported")
 		  expect_error(cptCUSUM(dataAMOCcharacter),"Data must be numeric")
 		  expect_error(cptCUSUM(dataAMOCna),"Missing value: NA is not allowed in the data")
 })
@@ -40,6 +41,7 @@ test_that("Threshold type is correct",{
 		  expect_is(cptCUSUM(dataAMOC,threshold='Asymptotic'),"cptCovariance")
 		  expect_is(cptCUSUM(dataAMOC,threshold='Manual'),"cptCovariance")
 		  expect_error(cptCUSUM(dataAMOC,threshold='man'),"Threshold not identified: see ?cptCov for valid entries to threshold. NOTE thresholds should be character strings",fixed=TRUE)
+		  expect_error(cptCUSUM(dataAMOC,threshold=1),"Threshold not identified: see ?cptCov for valid entries to threshold. NOTE thresholds should be character strings",fixed=TRUE)
 		  expect_error(cptCUSUM(dataAMOC,threshold='Normal'),"Threshold not identified: see ?cptCov for valid entries to threshold. NOTE thresholds should be character strings",fixed=TRUE)
 		  expect_error(cptCUSUM(dataAMOC,threshold=Normal))
 })
@@ -48,6 +50,7 @@ test_that("Number of changepoints is correct",{
 		  expect_is(cptCUSUM(dataAMOC,numCpts='AMOC'),"cptCovariance")
 
 		  expect_error(cptCUSUM(dataAMOC,numCpts='AMC'),"numCpts not identified: see ?cptCov for valid entries to numCpts. NOTE numCpts should be character strings",fixed=TRUE)
+		  expect_error(cptCUSUM(dataAMOC,numCpts=TRUE),"numCpts not identified: see ?cptCov for valid entries to numCpts. NOTE numCpts should be character strings",fixed=TRUE)
 		  expect_error(cptCUSUM(dataAMOC,numCpts=amoc))
 })
 
@@ -76,6 +79,7 @@ test_that("LRCov argument is appropriate",{
 		  expect_is(cptCUSUM(dataAMOC,LRCov='Empirical'),"cptCovariance")
 		  
 		  expect_error(cptCUSUM(dataAMOC,LRCov='Normal'),"LRCov not identified: see ?cptCov for valid entries to LRCov. NOTE LRCov should be a character string",fixed=TRUE)
+		  expect_error(cptCUSUM(dataAMOC,LRCov=TRUE),"LRCov not identified: see ?cptCov for valid entries to LRCov. NOTE LRCov should be a character string",fixed=TRUE)
 		  expect_error(cptCUSUM(dataAMOC,LRCov=bartlett))
 })
 

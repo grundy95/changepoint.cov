@@ -8,7 +8,13 @@
 #'
 #' @return A numeric vector containing the test statistic at each potential changepoint location.
 #'
+#' @examples
+#' data <- wishartDataGeneration(n=100,p=3,tau=50)$data
+#' ans <- cusumTestStat(X=data,LRCov='Empirical',msl=20)
+#' which.max(ans)
+#'
 #' @importFrom stats cov
+#' @export
 cusumTestStat <- function(X,LRCov,msl){
 	n <- nrow(X)
 	p <- ncol(X)

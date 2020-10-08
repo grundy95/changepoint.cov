@@ -15,6 +15,18 @@
 #' @slot date Creation date of the object
 #' @slot version Version of the cpt.covariance used
 #'
+#' @examples
+#' ans <- new('cptCovariance',data=matrix(rnorm(300),ncol=3),
+#'			cpts=c(50,100),
+#'			method='Ratio',
+#'			numCpts='AMOC',
+#'			testStat=100.4,
+#'			threshold='Manual',
+#'			thresholdValue=30,
+#'			msl=20)
+#' summary(ans)
+#' show(ans)
+#'
 #' @export
 setClass("cptCovariance",slots=list(data='matrix',cpts='numeric',method='character',msl='numeric',numCpts='character',threshold='character',thresholdValue='numeric',testStat='numeric',q='numeric',nperm='numeric',LRCov='character',statType='character',date='character',version='character'),prototype=list(q=0,nperm=0,LRCov='NA',statType='NA',version=as(packageVersion("changepoint.cov"),'character'),date=date(),method=NULL))
 

@@ -21,8 +21,27 @@
 #' @param Class Logical. If TRUE then an S4 class is returned. Else just the estimated changepoints are returned.
 #'
 #' @return An object of S4 class \code{\link{cptCovariance-class}} is returned. If Class="FALSE", just the vector of changepoints are returned.
+#'
+#' @examples
+#' set.seed(1)
+#' dataAMOC <- wishartDataGeneration(n=100,p=3,tau=50)$data
+#'
+#' ansRatio <- cptCov(X=dataAMOC,method="Ratio")
+#' summary(ansRatio)
+#' 
+#' ansCUSUM <- cptCov(X=dataAMOC,method='CUSUM')
+#' show(ansCUSUM)
+#'
+#' ansRatio2 <- cptCov(X=dataAMOC,method='Ratio',threshold='Manual',numCpts='AMOC',
+#'			msl=10,thresholdValue=20)
+#' summary(ansRatio2)
+#'
+#' ansCUSUM2 <- cptCov(X=dataAMOC,method='CUSUM',threshold='Manual',numCpts='AMOC',
+#'			msl=15,thresholdValue=15,LRCov='Empirical')
+#' summary(ansCUSUM2)
+#'
 #' @export
-cptCov <- function(X,method=c("Ratio","CUSUM"),threshold="Asymptotic",numCpts='AMOC',msl=2*ncol(X),LRCov='Bartlett',thresholdValue=0.05,Class=TRUE){
+cptCov <- function(X,method=c("Ratio","CUSUM"),threshold="Asymptotic",numCpts='AMOC',msl=2*ncol(X),thresholdValue=0.05,LRCov='Bartlett',Class=TRUE){
 	if(!is.character(method)){
 		stop("method not recognized: Please choose between 'Ratio' and 'CUSUM'")
 	}

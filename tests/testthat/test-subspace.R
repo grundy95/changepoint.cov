@@ -4,12 +4,14 @@ library(changepoint.cov)
 ##{{{ Data Creation
 set.seed(1)
 dataAMOC <- subspaceDataGeneration(n=100,p=20,q=5,tau=50,changeSize=0.5*sqrt(5),nvar=0.05,svar=1)$data
+dataNull <- subspaceDataGeneration(n=100,p=20,q=5,tau=100,changeSize=0)$data
 
 ##}}}
 
 ##{{{ Basic Functionality 
 test_that("Default arguments produce no errors",{
 		  expect_is(cptSubspace(X=dataAMOC,q=5),"cptCovariance")
+		  expect_is(cptSubspace(X=dataNull,q=5),"cptCovariance")
 })
 
 test_that("subspaceTestStat output is correct",{
@@ -44,6 +46,7 @@ test_that("Data is correct format",{
 		  expect_is(cptSubspace(dataAMOC,q=5),"cptCovariance")
 		  expect_is(cptSubspace(dataAMOCdataFrame,q=5),"cptCovariance")
 		  expect_error(cptSubspace(dataAMOCunivariate,q=5),"Data should be a matrix")
+		  expect_error(cptSubspace(as.matrix(dataAMOCunivariate,ncol=1),q=5),"Univariate time series analysis not supported")
 		  expect_error(cptSubspace(dataAMOCcharacter,q=5),"Data must be numeric")
 		  expect_error(cptSubspace(dataAMOCna,q=5),"Missing value: NA is not allowed in the data")
 })
@@ -60,6 +63,7 @@ test_that("Threshold type is correct",{
 		  expect_is(cptSubspace(dataAMOC,q=5,threshold='Manual'),"cptCovariance")
 
 		  expect_error(cptSubspace(dataAMOC,q=5,threshold='man'),"Threshold not identified: see ?cptSubspace for valid entries to threshold. NOTE thresholds should be character strings",fixed=TRUE)
+		  expect_error(cptSubspace(dataAMOC,q=5,threshold=1),"Threshold not identified: see ?cptSubspace for valid entries to threshold. NOTE thresholds should be character strings",fixed=TRUE)
 		  expect_error(cptSubspace(dataAMOC,q=5,threshold=PermTest))
 })
 
@@ -67,6 +71,7 @@ test_that("Number of changepoints is correct",{
 		  expect_is(cptSubspace(dataAMOC,q=5,numCpts='AMOC'),"cptCovariance")
 
 		  expect_error(cptSubspace(dataAMOC,q=5,numCpts='AMC'),"numCpts not identified: see ?cptSubspace for valid entries to numCpts. NOTE numCpts should be character strings",fixed=TRUE)
+		  expect_error(cptSubspace(dataAMOC,q=5,numCpts=1),"numCpts not identified: see ?cptSubspace for valid entries to numCpts. NOTE numCpts should be character strings",fixed=TRUE)
 		  expect_error(cptSubspace(dataAMOC,q=5,numCpts=amoc))
 })
 
@@ -95,6 +100,7 @@ test_that("Number of permutations is appropriate",{
 
 		  expect_warning(cptSubspace(dataAMOC,q=5,threshold='PermTest',thresholdValue=0.05,nperm=20),"Number of permutations is small - threshold may be unreliable")
 		  expect_warning(cptSubspace(dataAMOC,q=5,threshold='PermTest',thresholdValue=0.05,nperm=2000),"Number of permutations is large - method may take substantial time to run")
+		  expect_warning(cptSubspace(dataAMOC,q=5,threshold='Manual',nperm=100),"nperm is only used with threshold='PermTest'",fixed=TRUE)
 		  expect_error(cptSubspace(dataAMOC,q=5,threshold='PermTest',thresholdValue=0.05,nperm=NA),"Number of permutations should be a single positive integer")
 		  expect_error(cptSubspace(dataAMOC,q=5,threshold='PermTest',thresholdValue=0.05,nperm='high'),"Number of permutations should be a single positive integer")
 		  expect_error(cptSubspace(dataAMOC,q=5,threshold='PermTest',thresholdValue=0.05,nperm=c(100,200)),"Number of permutations should be a single positive integer")
@@ -102,6 +108,7 @@ test_that("Number of permutations is appropriate",{
 
 test_that("Class argument is logical",{
 		  expect_is(cptSubspace(dataAMOC,q=5,Class=TRUE),"cptCovariance")
+		  expect_is(cptSubspace(dataAMOC,q=5,Class=FALSE),"list")
 
 		  expect_error(cptSubspace(dataAMOC,q=5,Class='S4'),"Class should be logical, TRUE or FALSE")
 		  expect_error(cptSubspace(dataAMOC,q=5,Class='TRUE'),"Class should be logical, TRUE or FALSE")

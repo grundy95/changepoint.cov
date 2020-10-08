@@ -60,3 +60,16 @@ Shows the cptCovariance object and all the slots it contains. Also displays the 
 \item{\code{version}}{Version of the cpt.covariance used}
 }}
 
+\examples{
+ans <- new('cptCovariance',data=matrix(rnorm(300),ncol=3),
+		cpts=c(50,100),
+		method='Ratio',
+		numCpts='AMOC',
+		testStat=100.4,
+		threshold='Manual',
+		thresholdValue=30,
+		msl=20)
+summary(ans)
+show(ans)
+
+}

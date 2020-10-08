@@ -23,3 +23,10 @@ Numeric containing the threshold value
 \description{
 Calculates a threshold for the Subspace Method via a permutation test.
 }
+\examples{
+set.seed(1)
+data <- subspaceDataGeneration(n=100,p=20,q=5,tau=50)$data
+ans <- permutationTest(X=data,q=5,msl=20,nperm=100)
+ans
+
+}

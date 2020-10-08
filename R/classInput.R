@@ -8,6 +8,7 @@
 #' @param cpts Vector of changepoint locations
 #'
 #' @return S4 class of type \code{\link{cptCovariance-class}}
+#'
 #' @importFrom methods new
 classInput <- function(X,cpts,method,numCpts,testStat,threshold,thresholdValue,msl,q=0,nperm=0,LRCov='NA'){
 	if(method=='Subspace'){

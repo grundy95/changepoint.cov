@@ -17,3 +17,10 @@ A numeric vector containing the test statistic at each potential changepoint loc
 \description{
 Calculates the test statistic for all potential changepoint locations within the time series.
 }
+\examples{
+set.seed(1)
+data <- wishartDataGeneration(n=100,p=3,tau=50)$data
+ans <- ratioTestStat(X=data,msl=20)
+which.max(ans)
+
+}

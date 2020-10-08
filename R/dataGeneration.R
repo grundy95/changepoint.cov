@@ -18,7 +18,16 @@
 #' 	\item subspace List of the bases of the subspace for each segment
 #' }
 #'
+#' @examples
+#' set.seed(1)
+#' dataObject <- subspaceDataGeneration(n=100,p=4,q=2,tau=40)
+#' dim(dataObject$data)
+#' dataObject$cpts
+#' dataObject$changeSize
+#' dataObject$subspace
+#'
 #' @importFrom stats rnorm 
+#' @export
 subspaceDataGeneration <- function(n,p,q,tau=c(1,n),nvar=0.05,svar=1,changeSize=0.5*sqrt(q)){
 	if(tau[1]!=1){
 		tau <- c(1,tau)
@@ -97,7 +106,15 @@ subspaceDataGeneration <- function(n,p,q,tau=c(1,n),nvar=0.05,svar=1,changeSize=
 #'	\item Sigma List of covariance matrices of each segment
 #' }
 #'
+#' @examples
+#' set.seed(1)
+#' dataObject <- wishartDataGeneration(n=100,p=4,tau=40)
+#' dim(dataObject$data)
+#' dataObject$cpts
+#' dataObject$Sigma
+#'
 #' @importFrom stats rWishart 
+#' @export
 wishartDataGeneration <- function(n,p,tau=c(1,n),Sigma=list(NA),shape=5,scale=1/5){
 	if(tau[length(tau)]!=n){
 		tau <- c(tau,n)
@@ -106,7 +123,7 @@ wishartDataGeneration <- function(n,p,tau=c(1,n),Sigma=list(NA),shape=5,scale=1/
 		tau <- c(1,tau)
 	}
 	m <- length(tau)-2
-	if((length(Sigma)-1!=m)&&(!(is.na(Sigma[[1]])))){stop("Need 1 covariance matrix per segment")}
+	if(((length(Sigma)-1)!=m)&&((any(!is.na(Sigma[[1]]))))){stop("Need 1 covariance matrix per segment")}
 	if(is.na(Sigma[[1]])){
 		Sigma[[1]] <- (1/p)*rWishart(1,p,diag(p))[,,1]
 		if(m>0){

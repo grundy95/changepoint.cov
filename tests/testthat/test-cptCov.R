@@ -25,8 +25,11 @@ test_that("Method argument is correct",{
 		  expect_warning(cptCov(X=dataAMOC2),"no method was chosen. As p>20 the Ratio method will be implemented")
 
 		  expect_error(cptCov(X=dataAMOC,method=c('subspace','Ratio')),"only one method can be implemented at once",fixed=TRUE)
+		  expect_error(cptCov(X=dataAMOC,method=1),"method not recognized: Please choose between 'Ratio' and 'CUSUM'",fixed=TRUE)
+		  expect_error(cptCov(X=dataAMOC,method='Fisher'),"method not recognized: Please choose between 'Ratio' and 'CUSUM'",fixed=TRUE)
 		  expect_error(cptCov(X=dataAMOC,method='Subspace'),'For subspace changepoint detection use the function cptSubspace. See ?cptSubspace for details',fixed=TRUE)
 		  expect_error(cptCov(X=dataAMOC,method='Grundy'),'For subspace changepoint detection use the function cptSubspace. See ?cptSubspace for details',fixed=TRUE)
+		  expect_warning(cptCov(X=dataAMOC,method='Ratio',LRCov='Empirical'),'Long run covariance estimator is not used in Ratio method',fixed=TRUE)
 		  expect_error(cptCov(X=dataAMOC,method=aue))
 })
 

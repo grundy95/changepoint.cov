@@ -19,6 +19,18 @@
 #' @param msl Minimum segment length allowed between the changepoints. NOTE this should be greater than or equal to p, the dimension of the time series.
 #' @param nperm Only required for threshold="PermTest". Number of permutations to use in the permutation test.
 #' @param Class Logical. If TRUE then an S4 class is returned. Else just the estimated changepoints are returned.
+#'
+#' @examples
+#' set.seed(1)
+#' dataAMOC <- subspaceDataGeneration(n=100,p=20,q=5,tau=50,changeSize=0.5*sqrt(5))$data
+#' 
+#' set.seed(1)
+#' ansSubspace <- cptSubspace(X=dataAMOC,q=5,nperm=100)
+#' summary(ansSubspace)
+#' 
+#' ansSubspace2 <- cptSubspace(X=dataAMOC,q=5,threshold='Manual',numCpts='AMOC',
+#'				thresholdValue=30,msl=30)
+#' summary(ansSubspace2)
 
 #' @return An object of S4 class "cptCovSubspace" is returned. If Class="FALSE", just the vector of changepoints are returned.
 #' @export

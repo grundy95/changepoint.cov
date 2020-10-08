@@ -44,3 +44,14 @@ An object of S4 class \code{\link{cptCovariance-class}} is returned. If Class="F
 \description{
 Implements the Ryan method for detecting covariance changes in multivariate time series. This method is aimed at independent high-dimensional time series.
 }
+\examples{
+set.seed(1)
+dataAMOC <- wishartDataGeneration(n=100,p=5,tau=50)$data
+
+ansRatio <- cptRatio(X=dataAMOC)
+summary(ansRatio)
+
+ansRatio2 <- cptCov(X=dataAMOC,threshold='Manual',numCpts='AMOC',msl=10,thresholdValue=20)
+summary(ansRatio2)
+
+}
