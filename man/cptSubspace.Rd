@@ -47,3 +47,15 @@ An object of S4 class "cptCovSubspace" is returned. If Class="FALSE", just the v
 \description{
 This method allows the detection of subspace changes in multivariate time series data.
 }
+\examples{
+set.seed(1)
+dataAMOC <- subspaceDataGeneration(n=100,p=20,q=5,tau=50,changeSize=0.5*sqrt(5))$data
+
+set.seed(1)
+ansSubspace <- cptSubspace(X=dataAMOC,q=5,nperm=100)
+summary(ansSubspace)
+
+ansSubspace2 <- cptSubspace(X=dataAMOC,q=5,threshold='Manual',numCpts='AMOC',
+			thresholdValue=30,msl=30)
+summary(ansSubspace2)
+}

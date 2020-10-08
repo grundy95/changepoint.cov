@@ -19,3 +19,9 @@ A numeric vector containing the test statistic at each potential changepoint loc
 \description{
 Calculates the test statistic for all potential changepoint locations within the time series.
 }
+\examples{
+data <- wishartDataGeneration(n=100,p=3,tau=50)$data
+ans <- cusumTestStat(X=data,LRCov='Empirical',msl=20)
+which.max(ans)
+
+}

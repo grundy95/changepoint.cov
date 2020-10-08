@@ -41,3 +41,12 @@ List with elements:
 \description{
 Allows for easy generation of data that lies in a latent subspace with changepoints in the subspace.
 }
+\examples{
+set.seed(1)
+dataObject <- subspaceDataGeneration(n=100,p=4,q=2,tau=40)
+dim(dataObject$data)
+dataObject$cpts
+dataObject$changeSize
+dataObject$subspace
+
+}

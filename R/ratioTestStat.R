@@ -7,7 +7,14 @@
 #'
 #' @return A numeric vector containing the test statistic at each potential changepoint location.
 #'
+#' @examples
+#' set.seed(1)
+#' data <- wishartDataGeneration(n=100,p=3,tau=50)$data
+#' ans <- ratioTestStat(X=data,msl=20)
+#' which.max(ans)
+#'
 #' @importFrom rlang !!!
+#' @export
 ratioTestStat <- function(X,msl){
 	n <- nrow(X)
 	p <- ncol(X)

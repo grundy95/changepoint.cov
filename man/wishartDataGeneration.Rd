@@ -37,3 +37,11 @@ List with elements:
 \description{
 Allows for easy data generation of data containing covariance changepoints as described in Ryan(2020)
 }
+\examples{
+set.seed(1)
+dataObject <- wishartDataGeneration(n=100,p=4,tau=40)
+dim(dataObject$data)
+dataObject$cpts
+dataObject$Sigma
+
+}

@@ -15,7 +15,7 @@ ratioErrorChecks <- function(X,threshold,numCpts,thresholdValue,msl,Class){
 		stop("Data should be a matrix")
 	}
 	if(ncol(X)==1){
-		stop("Univariate time series analysis not support")
+		stop("Univariate time series analysis not supported")
 	}
 
 	#threshold checks
@@ -75,7 +75,7 @@ cusumErrorChecks <- function(X,threshold,numCpts,LRCov,thresholdValue,msl,Class)
 		stop("Data should be a matrix")
 	}
 	if(ncol(X)==1){
-		stop("Univariate time series analysis not support")
+		stop("Univariate time series analysis not supported")
 	}
 
 	#threshold checks
@@ -144,7 +144,7 @@ subspaceErrorChecks <- function(X,q,threshold,numCpts,thresholdValue,msl,nperm,C
 		stop("Data should be a matrix")
 	}
 	if(ncol(X)==1){
-		stop("Univariate time series analysis not support")
+		stop("Univariate time series analysis not supported")
 	}
 
 	#q checks

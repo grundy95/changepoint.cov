@@ -10,8 +10,8 @@ cptCov(
   threshold = "Asymptotic",
   numCpts = "AMOC",
   msl = 2 * ncol(X),
-  LRCov = "Bartlett",
   thresholdValue = 0.05,
+  LRCov = "Bartlett",
   Class = TRUE
 )
 }
@@ -35,9 +35,9 @@ cptCov(
 
 \item{msl}{Minimum segment length allowed between the changepoints. NOTE this should be greater than or equal to p, the dimension of the time series.}
 
-\item{LRCov}{The long-run covariance estimator to be used for CUSUM method. Currently, only "Bartlett" and "Empirical" are supported.}
-
 \item{thresholdValue}{Either the manual threshold value when threshold="Manual" or the (1-thresholdValue)-quantile of asymptotic distribution of the CUSUM test statistic when method="CUSUM" and threshold="Asymptotic"}
+
+\item{LRCov}{The long-run covariance estimator to be used for CUSUM method. Currently, only "Bartlett" and "Empirical" are supported.}
 
 \item{Class}{Logical. If TRUE then an S4 class is returned. Else just the estimated changepoints are returned.}
 }
@@ -46,4 +46,23 @@ An object of S4 class \code{\link{cptCovariance-class}} is returned. If Class="F
 }
 \description{
 Finds covariance changepoints within multivariate time series data using the Ratio method of Ryan (2020) or the CUSUM method of Aue(2009)
+}
+\examples{
+set.seed(1)
+dataAMOC <- wishartDataGeneration(n=100,p=3,tau=50)$data
+
+ansRatio <- cptCov(X=dataAMOC,method="Ratio")
+summary(ansRatio)
+
+ansCUSUM <- cptCov(X=dataAMOC,method='CUSUM')
+show(ansCUSUM)
+
+ansRatio2 <- cptCov(X=dataAMOC,method='Ratio',threshold='Manual',numCpts='AMOC',
+		msl=10,thresholdValue=20)
+summary(ansRatio2)
+
+ansCUSUM2 <- cptCov(X=dataAMOC,method='CUSUM',threshold='Manual',numCpts='AMOC',
+		msl=15,thresholdValue=15,LRCov='Empirical')
+summary(ansCUSUM2)
+
 }
