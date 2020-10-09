@@ -28,12 +28,18 @@ ratioErrorChecks <- function(X,threshold,numCpts,thresholdValue,msl,Class){
 	}
 
 	#numCpts checks
-	if(!is.character(numCpts)){
-		stop("numCpts not identified: see ?cptCov for valid entries to numCpts. NOTE numCpts should be character strings")
+	if(!(is.character(numCpts)||is.numeric(numCpts))){
+		stop("numCpts not identified: see ?cptCov for valid entries to numCpts")
 	}
-	numCpts <- toupper(numCpts)
-	if((numCpts!="AMOC")){
-		stop("numCpts not identified: see ?cptCov for valid entries to numCpts. NOTE numCpts should be character strings")
+	if(is.numeric(numCpts)){
+		if((length(numCpts)!=1)||(numCpts%%1!=0)||(numCpts<1)){
+			stop("numCpts not identified: see?cptCov for valid entries to numCpts")
+		}
+	}else{
+		numCpts <- toupper(numCpts)
+		if(!((numCpts=="AMOC")||(numCpts=='BINSEG'))){
+			stop("numCpts not identified: see ?cptCov for valid entries to numCpts")
+		}
 	}
 
 	#thresholdValue checks
@@ -88,12 +94,18 @@ cusumErrorChecks <- function(X,threshold,numCpts,LRCov,thresholdValue,msl,Class)
 	}
 
 	#numCpts checks
-	if(!is.character(numCpts)){
-		stop("numCpts not identified: see ?cptCov for valid entries to numCpts. NOTE numCpts should be character strings")
+	if(!(is.character(numCpts)||is.numeric(numCpts))){
+		stop("numCpts not identified: see ?cptCov for valid entries to numCpts")
 	}
-	numCpts <- toupper(numCpts)
-	if((numCpts!="AMOC")){
-		stop("numCpts not identified: see ?cptCov for valid entries to numCpts. NOTE numCpts should be character strings")
+	if(is.numeric(numCpts)){
+		if((length(numCpts)!=1)||(numCpts%%1!=0)||(numCpts<1)){
+			stop("numCpts not identified: see?cptCov for valid entries to numCpts")
+		}
+	}else{
+		numCpts <- toupper(numCpts)
+		if(!((numCpts=="AMOC")||(numCpts=='BINSEG'))){
+			stop("numCpts not identified: see ?cptCov for valid entries to numCpts")
+		}
 	}
 
 	#LRCov checks
@@ -168,12 +180,18 @@ subspaceErrorChecks <- function(X,q,threshold,numCpts,thresholdValue,msl,nperm,C
 	}
 
 	#numCpts checks
-	if(!is.character(numCpts)){
-		stop("numCpts not identified: see ?cptSubspace for valid entries to numCpts. NOTE numCpts should be character strings")
+	if(!(is.character(numCpts)||is.numeric(numCpts))){
+		stop("numCpts not identified: see ?cptSubspace for valid entries to numCpts")
 	}
-	numCpts <- toupper(numCpts)
-	if((numCpts!="AMOC")){
-		stop("numCpts not identified: see ?cptSubspace for valid entries to numCpts. NOTE numCpts should be character strings")
+	if(is.numeric(numCpts)){
+		if((length(numCpts)!=1)||(numCpts%%1!=0)||(numCpts<1)){
+			stop("numCpts not identified: see ?cptSubspace for valid entries to numCpts")
+		}
+	}else{
+		numCpts <- toupper(numCpts)
+		if(!((numCpts=="AMOC")||(numCpts=='BINSEG'))){
+			stop("numCpts not identified: see ?cptSubspace for valid entries to numCpts")
+		}
 	}
 
 	#thresholdValue checks

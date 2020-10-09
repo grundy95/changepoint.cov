@@ -23,14 +23,15 @@ cptSubspace(
 \item{threshold}{Threshold choice for determining significance of changepoints. Choices include:
 \itemize{
 \item "PermTest" - Permutation test is performed using the number of permutations and significance level contained in the nperm and thresholdValue parameters respectively
-\item "Manual" - A user chosen threshold is used which is contained in the thresholdValue parameter.
-}}
+\item "Manual" - A user chosen threshold is used which is contained in the thresholdValue argument.
+}
+If numCpts is numeric then the threshold is not used as the number of changepoints is known.}
 
 \item{numCpts}{Number of changepoints in the data. Choices include:
 \itemize{
 \item "AMOC" - At Most One Changepoint; test to see if the data contains a single changepoint or not.
 \item "BinSeg"- Binary segmentation is performed to detect multiple changepoints.
-\item "Set" - Number of changepoints in the data is known and is contained in the m parameter. The method returns the m most significant changepoints via a Binary Segmentation framework.
+\item Numeric - User specified number of changepoints.
 }}
 
 \item{thresholdValue}{Either the significance level of the permutation test when using threshold="PermTest" or the user defined threshold when using threshold="Manual".}
@@ -42,7 +43,7 @@ cptSubspace(
 \item{Class}{Logical. If TRUE then an S4 class is returned. Else just the estimated changepoints are returned.}
 }
 \value{
-An object of S4 class "cptCovSubspace" is returned. If Class="FALSE", just the vector of changepoints are returned.
+An object of S4 class \code{\link{cptCovariance-class}} is returned. If Class="FALSE", just the vector of changepoints are returned.
 }
 \description{
 This method allows the detection of subspace changes in multivariate time series data.
@@ -50,12 +51,18 @@ This method allows the detection of subspace changes in multivariate time series
 \examples{
 set.seed(1)
 dataAMOC <- subspaceDataGeneration(n=100,p=20,q=5,tau=50,changeSize=0.5*sqrt(5))$data
+dataMultipleCpts <- subspaceDataGeneration(n=200,p=20,q=5,tau=c(50,100,150),
+					changeSize=0.4*sqrt(5))$data
 
 set.seed(1)
 ansSubspace <- cptSubspace(X=dataAMOC,q=5,nperm=100)
 summary(ansSubspace)
 
-ansSubspace2 <- cptSubspace(X=dataAMOC,q=5,threshold='Manual',numCpts='AMOC',
+ansSubspace2 <- cptSubspace(X=dataMultipleCpts,q=5,threshold='Manual',numCpts='BinSeg',
 			thresholdValue=30,msl=30)
 summary(ansSubspace2)
+
+ansSubspace3 <- cptSubspace(X=dataMultipleCpts,q=5,numCpts=3,msl=30)
+summary(ansSubspace3)
+
 }

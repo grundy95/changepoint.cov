@@ -30,29 +30,40 @@ cptRatio <- function(X,threshold='Asymptotic',numCpts='AMOC',msl=2*ncol(X),thres
 		ratioErrorChecks(X=X,threshold=threshold,numCpts=numCpts,thresholdValue=thresholdValue,msl=msl,Class=Class)
 	}
 	threshold <- toupper(threshold)
-	numCpts <- toupper(numCpts)
+	if(is.character(numCpts)){
+		numCpts <- toupper(numCpts)
+	}
 
 
 	n <- nrow(X)
 	p <- ncol(X)
+	if(threshold=="ASYMPTOTIC"){
+		thresholdValue <- log(n)
+	}
 	if(numCpts=='AMOC'){
 		testStat <- ratioTestStat(X,msl)
 		T <- max(testStat,na.rm=TRUE)
-		if(threshold=="ASYMPTOTIC"){
-			thresh <- log(n)
-		}else if(threshold=="MANUAL"){
-			thresh <- thresholdValue
-		}
-		if(T>thresh){
+		if(T>thresholdValue){
 			cpts <- c(which.max(testStat),n)
+			cptsSig <- data.frame('cpts'=cpts[1],'T'=T,'thresholdValue'=thresholdValue)
 		}else{
 			cpts <- c(n)
+			cptsSig <- data.frame('cpts'=which.max(testStat),'T'=T,'thresholdValue'=thresholdValue)
 		}
+	}else{
+		if(is.numeric(numCpts)){
+			thresholdValue <- 0
+			cptsSig <- binSeg(X,method='RATIO',msl=msl,threshold=threshold,thresholdValue=thresholdValue,m=numCpts)
+		}else{
+			cptsSig <- binSeg(X,method='RATIO',msl=msl,threshold=threshold,thresholdValue=thresholdValue,m=-1)
+		}
+		cpts <- c(cptsSig$cpts,n)
+		cpts <- sort(cpts[!is.na(cpts)])
 	}
 	if(Class==FALSE){
-		return(list('cpts'=cpts))
+		return(cpts)
 	}else{
-		return(classInput(X=X,cpts=cpts,method='Ratio',numCpts=numCpts,testStat=T,threshold=threshold,thresholdValue=thresh,msl=msl))
+		return(classInput(X=X,cpts=cpts,method='Ratio',numCpts=numCpts,testStat=cptsSig$T,threshold=threshold,thresholdValue=thresholdValue,msl=msl))
 	}
 }
 

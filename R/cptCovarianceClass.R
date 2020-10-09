@@ -28,7 +28,7 @@
 #' show(ans)
 #'
 #' @export
-setClass("cptCovariance",slots=list(data='matrix',cpts='numeric',method='character',msl='numeric',numCpts='character',threshold='character',thresholdValue='numeric',testStat='numeric',q='numeric',nperm='numeric',LRCov='character',statType='character',date='character',version='character'),prototype=list(q=0,nperm=0,LRCov='NA',statType='NA',version=as(packageVersion("changepoint.cov"),'character'),date=date(),method=NULL))
+setClass("cptCovariance",slots=list(data='matrix',cpts='numeric',method='character',msl='numeric',numCpts='ANY',threshold='character',thresholdValue='numeric',testStat='numeric',q='numeric',nperm='numeric',LRCov='character',statType='character',date='character',version='character'),prototype=list(q=0,nperm=0,LRCov='NA',statType='NA',version=as(packageVersion("changepoint.cov"),'character'),date=date(),method=NULL))
 
 #' @describeIn cptCovariance Summarises the cptCovariance object
 #'
