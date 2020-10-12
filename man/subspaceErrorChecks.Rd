@@ -23,14 +23,15 @@ subspaceErrorChecks(
 \item{threshold}{Threshold choice for determining significance of changepoints. Choices include:
 \itemize{
 \item "PermTest" - Permutation test is performed using the number of permutations and significance level contained in the nperm and thresholdValue parameters respectively
-\item "Manual" - A user chosen threshold is used which is contained in the thresholdValue parameter.
-}}
+\item "Manual" - A user chosen threshold is used which is contained in the thresholdValue argument.
+}
+If numCpts is numeric then the threshold is not used as the number of changepoints is known.}
 
 \item{numCpts}{Number of changepoints in the data. Choices include:
 \itemize{
 \item "AMOC" - At Most One Changepoint; test to see if the data contains a single changepoint or not.
 \item "BinSeg"- Binary segmentation is performed to detect multiple changepoints.
-\item "Set" - Number of changepoints in the data is known and is contained in the m parameter. The method returns the m most significant changepoints via a Binary Segmentation framework.
+\item Numeric - User specified number of changepoints.
 }}
 
 \item{thresholdValue}{Either the significance level of the permutation test when using threshold="PermTest" or the user defined threshold when using threshold="Manual".}

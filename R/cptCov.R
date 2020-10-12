@@ -1,30 +1,32 @@
 #' Covariance changepoint detection
 #'
-#' Finds covariance changepoints within multivariate time series data using the Ratio method of Ryan (2020) or the CUSUM method of Aue(2009)
+#' Finds covariance changepoints within multivariate time series data using either the Ratio method of Ryan (2020) or the CUSUM method of Aue(2009)
 #'
-#' @param X Data matrix of dimension n by p
+#' @param X Data matrix of dimension n by p.
 #' @param method Covariance changepoint method to be used. Choice of "Ratio" or "CUSUM".
 #' @param threshold Threshold choice for determining significance of changepoints. Choices include:
 #' \itemize{
-#'	\item "Asymptotic" - Uses the asymptotic threshold derived for each method. For method="Ratio" the threshold is log(n). For method="CUSUM" the threshold is the specified quantile of the standard normal distribution. The quantile is set by the argument thresholdValue.
-#'	\item "Manual"- A user chosen threshold which is contained in the thresholdValue argument. NOTE the normalized test statistics will be compared to the set thresholds.
+#'	\item "Asymptotic" - Uses the asymptotic threshold derived for each method. For method="Ratio" the threshold is log(n). For method="CUSUM" the threshold is the specified quantile of the standard Normal distribution. The quantile is set by the argument thresholdValue.
+#'	\item "Manual"- A user chosen threshold which is contained in the thresholdValue argument. NOTE the normalized test statistics will be compared to the set thresholds - see details for more information.
 #'}
+#' If numCpts is numeric then the threshold is not used as the number of changepoints is known.
 #' @param numCpts Number of changepoints in the data. Choices include: 
 #' \itemize{
 #' 	\item "AMOC" - At Most One Changepoint; test to see if the data contains a single changepoint or not.
 #'	\item "BinSeg"- Binary segmentation is performed to detect multiple changepoints.
-#'	\item "Set" - Number of changepoints in the data is known and is contained in the m parameter. The method returns the m most significant changepoints via a Binary Segmentation framework.
+#'	\item Numeric - User specified number of changepoints.
 #' }
 #' @param msl Minimum segment length allowed between the changepoints. NOTE this should be greater than or equal to p, the dimension of the time series.
 #' @param LRCov The long-run covariance estimator to be used for CUSUM method. Currently, only "Bartlett" and "Empirical" are supported.
-#' @param thresholdValue Either the manual threshold value when threshold="Manual" or the (1-thresholdValue)-quantile of asymptotic distribution of the CUSUM test statistic when method="CUSUM" and threshold="Asymptotic" 
-#' @param Class Logical. If TRUE then an S4 class is returned. Else just the estimated changepoints are returned.
+#' @param thresholdValue Either the manual threshold value when threshold="Manual" or the (1-thresholdValue)-quantile of asymptotic distribution of the CUSUM test statistic when method="CUSUM" and threshold="Asymptotic". 
+#' @param Class Logical. If TRUE then an S4 class is returned. If FALSE the estimated changepoints are returned.
 #'
 #' @return An object of S4 class \code{\link{cptCovariance-class}} is returned. If Class="FALSE", just the vector of changepoints are returned.
 #'
 #' @examples
 #' set.seed(1)
 #' dataAMOC <- wishartDataGeneration(n=100,p=3,tau=50)$data
+#' dataMultipleCpts <- wishartDataGeneration(n=200,p=3,tau=c(50,100,150))$data
 #'
 #' ansRatio <- cptCov(X=dataAMOC,method="Ratio")
 #' summary(ansRatio)
@@ -32,12 +34,12 @@
 #' ansCUSUM <- cptCov(X=dataAMOC,method='CUSUM')
 #' show(ansCUSUM)
 #'
-#' ansRatio2 <- cptCov(X=dataAMOC,method='Ratio',threshold='Manual',numCpts='AMOC',
+#' ansRatio2 <- cptCov(X=dataMultipleCpts,method='Ratio',threshold='Manual',numCpts='BinSeg',
 #'			msl=10,thresholdValue=20)
 #' summary(ansRatio2)
 #'
-#' ansCUSUM2 <- cptCov(X=dataAMOC,method='CUSUM',threshold='Manual',numCpts='AMOC',
-#'			msl=15,thresholdValue=15,LRCov='Empirical')
+#' ansCUSUM2 <- cptCov(X=dataAMOC,method='CUSUM',numCpts=3,
+#'			msl=15,LRCov='Empirical')
 #' summary(ansCUSUM2)
 #'
 #' @export

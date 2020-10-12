@@ -4,14 +4,13 @@
 #' @slot cpts A numeric vector containing the identified changepoints
 #' @slot method Character containing covariance changepoint method used
 #' @slot numCpts Either 'AMOC' for at most one changepoint; 'BinSeg' for a binary segmentation approach to dect multiple changepoints; or a positive integer specifying the number of changes
-#' @slot testStat Numeric containing the test statistic for each changepoint
+#' @slot cptsSig Data frame containing the changepoint locations along with their associated test statistic; threshold; and whether or not they were deemed significant
 #' @slot threshold Character containing the method used for generating the threshold
 #' @slot thresholdValue Numeric value of threshold
 #' @slot msl Numeric containing the minimum segment length between changepoints
 #' @slot q Numeric value of subspace dimension. Only used for Subspace method
 #' @slot nperm Numeric value of number of permutations used in permutation test. Only used for subspace method when threshold is "PermTest"
 #' @slot LRCov Character describing the long-run covariance estimator used. Only used for Aue method.
-#' @slot statType Character describing which of the two test statistics were used. Only used for Aue method.
 #' @slot date Creation date of the object
 #' @slot version Version of the cpt.covariance used
 #'
@@ -20,7 +19,7 @@
 #'			cpts=c(50,100),
 #'			method='Ratio',
 #'			numCpts='AMOC',
-#'			testStat=100.4,
+#'			cptsSig=data.frame('cpts'=50,'T'=33.3,'thresholdValue'=30,significant=TRUE),
 #'			threshold='Manual',
 #'			thresholdValue=30,
 #'			msl=20)
@@ -28,7 +27,7 @@
 #' show(ans)
 #'
 #' @export
-setClass("cptCovariance",slots=list(data='matrix',cpts='numeric',method='character',msl='numeric',numCpts='character',threshold='character',thresholdValue='numeric',testStat='numeric',q='numeric',nperm='numeric',LRCov='character',statType='character',date='character',version='character'),prototype=list(q=0,nperm=0,LRCov='NA',statType='NA',version=as(packageVersion("changepoint.cov"),'character'),date=date(),method=NULL))
+setClass("cptCovariance",slots=list(data='matrix',cpts='numeric',method='character',msl='numeric',numCpts='ANY',threshold='character',thresholdValue='numeric',cptsSig='data.frame',q='numeric',nperm='numeric',LRCov='character',date='character',version='character'),prototype=list(q=0,nperm=0,LRCov='NA',version=as(packageVersion("changepoint.cov"),'character'),date=date(),method=NULL))
 
 #' @describeIn cptCovariance Summarises the cptCovariance object
 #'

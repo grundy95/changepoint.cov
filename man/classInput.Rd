@@ -9,7 +9,7 @@ classInput(
   cpts,
   method,
   numCpts,
-  testStat,
+  cptsSig,
   threshold,
   thresholdValue,
   msl,
@@ -19,7 +19,7 @@ classInput(
 )
 }
 \arguments{
-\item{X}{Data matrix of dimension n by p}
+\item{X}{Data matrix of dimension n by p.}
 
 \item{cpts}{Vector of changepoint locations}
 
@@ -29,18 +29,19 @@ classInput(
 \itemize{
 \item "AMOC" - At Most One Changepoint; test to see if the data contains a single changepoint or not.
 \item "BinSeg"- Binary segmentation is performed to detect multiple changepoints.
-\item "Set" - Number of changepoints in the data is known and is contained in the m parameter. The method returns the m most significant changepoints via a Binary Segmentation framework.
+\item Numeric - User specified number of changepoints.
 }}
 
-\item{testStat}{Maximum test statistic of the method}
+\item{cptsSig}{Data frame containing the changepoint locations along with their associated test statistics; threshold; and whether or not they were deemed significant}
 
 \item{threshold}{Threshold choice for determining significance of changepoints. Choices include:
 \itemize{
-\item "Asymptotic" - Uses the asymptotic threshold derived for each method. For method="Ratio" the threshold is log(n). For method="CUSUM" the threshold is the specified quantile of the standard normal distribution. The quantile is set by the argument thresholdValue.
-\item "Manual"- A user chosen threshold which is contained in the thresholdValue argument. NOTE the normalized test statistics will be compared to the set thresholds.
-}}
+\item "Asymptotic" - Uses the asymptotic threshold derived for each method. For method="Ratio" the threshold is log(n). For method="CUSUM" the threshold is the specified quantile of the standard Normal distribution. The quantile is set by the argument thresholdValue.
+\item "Manual"- A user chosen threshold which is contained in the thresholdValue argument. NOTE the normalized test statistics will be compared to the set thresholds - see details for more information.
+}
+If numCpts is numeric then the threshold is not used as the number of changepoints is known.}
 
-\item{thresholdValue}{Either the manual threshold value when threshold="Manual" or the (1-thresholdValue)-quantile of asymptotic distribution of the CUSUM test statistic when method="CUSUM" and threshold="Asymptotic"}
+\item{thresholdValue}{Either the manual threshold value when threshold="Manual" or the (1-thresholdValue)-quantile of asymptotic distribution of the CUSUM test statistic when method="CUSUM" and threshold="Asymptotic".}
 
 \item{msl}{Minimum segment length allowed between the changepoints. NOTE this should be greater than or equal to p, the dimension of the time series.}
 

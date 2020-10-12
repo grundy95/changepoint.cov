@@ -4,8 +4,8 @@ library(changepoint.cov)
 ##{{{ Data Creation
 set.seed(1)
 dataAMOC <- wishartDataGeneration(n=200,p=5,tau=50)$data
-set.seed(1)
 dataNull <- matrix(rnorm(100*3),ncol=3)
+data2Change <- wishartDataGeneration(n=300,p=30,tau=c(100,200))$data
 ##}}}
 
 ##{{{ Basic Functionality
@@ -50,9 +50,12 @@ test_that("Threshold type is correct",{
 
 test_that("Number of changepoints is correct",{
 		  expect_is(cptRatio(dataAMOC,numCpts='AMOC'),"cptCovariance")
+		  expect_is(cptRatio(data2Change,numCpts='BinSeg'),"cptCovariance")
+		  expect_is(cptRatio(data2Change,numCpts=2),"cptCovariance")
 
-		  expect_error(cptRatio(dataAMOC,numCpts='AMC'),"numCpts not identified: see ?cptCov for valid entries to numCpts. NOTE numCpts should be character strings",fixed=TRUE)
-		  expect_error(cptRatio(dataAMOC,numCpts=TRUE),"numCpts not identified: see ?cptCov for valid entries to numCpts. NOTE numCpts should be character strings",fixed=TRUE)
+		  expect_error(cptRatio(dataAMOC,numCpts='AMC'),"numCpts not identified: see ?cptCov for valid entries to numCpts",fixed=TRUE)
+		  expect_error(cptRatio(dataAMOC,numCpts=TRUE),"numCpts not identified: see ?cptCov for valid entries to numCpts",fixed=TRUE)
+		  expect_error(cptRatio(dataAMOC,numCpts=c(4,5)),"numCpts not identified: see?cptCov for valid entries to numCpts",fixed=TRUE)
 		  expect_error(cptRatio(dataAMOC,numCpts=amoc))
 })
 
@@ -85,7 +88,7 @@ test_that("errorCheck is logical",{
 
 test_that("Class argument is logical",{
 		  expect_is(cptRatio(dataAMOC,Class=TRUE),"cptCovariance")
-		  expect_is(cptRatio(dataAMOC,Class=FALSE),"list")
+		  expect_is(cptRatio(dataAMOC,Class=FALSE),"integer")
 
 		  expect_error(cptRatio(dataAMOC,Class='S4'),"Class should be logical, TRUE or FALSE")
 		  expect_error(cptRatio(dataAMOC,Class='TRUE'),"Class should be logical, TRUE or FALSE")

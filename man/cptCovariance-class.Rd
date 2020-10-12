@@ -39,7 +39,7 @@ Shows the cptCovariance object and all the slots it contains. Also displays the 
 
 \item{\code{numCpts}}{Either 'AMOC' for at most one changepoint; 'BinSeg' for a binary segmentation approach to dect multiple changepoints; or a positive integer specifying the number of changes}
 
-\item{\code{testStat}}{Numeric containing the test statistic for each changepoint}
+\item{\code{cptsSig}}{Data frame containing the changepoint locations along with their associated test statistic; threshold; and whether or not they were deemed significant}
 
 \item{\code{threshold}}{Character containing the method used for generating the threshold}
 
@@ -53,8 +53,6 @@ Shows the cptCovariance object and all the slots it contains. Also displays the 
 
 \item{\code{LRCov}}{Character describing the long-run covariance estimator used. Only used for Aue method.}
 
-\item{\code{statType}}{Character describing which of the two test statistics were used. Only used for Aue method.}
-
 \item{\code{date}}{Creation date of the object}
 
 \item{\code{version}}{Version of the cpt.covariance used}
@@ -65,7 +63,7 @@ ans <- new('cptCovariance',data=matrix(rnorm(300),ncol=3),
 		cpts=c(50,100),
 		method='Ratio',
 		numCpts='AMOC',
-		testStat=100.4,
+		cptsSig=data.frame('cpts'=50,'T'=33.3,'thresholdValue'=30,significant=TRUE),
 		threshold='Manual',
 		thresholdValue=30,
 		msl=20)

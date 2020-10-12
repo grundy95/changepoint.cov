@@ -18,6 +18,7 @@
 cusumTestStat <- function(X,LRCov,msl){
 	n <- nrow(X)
 	p <- ncol(X)
+	delta <- (p*(p+1))/2
 	LRCov <- toupper(LRCov)
 	X <- purrr::map(1:n,~X[.,])
 	Xvech <- cusumVech(X)
@@ -30,7 +31,7 @@ cusumTestStat <- function(X,LRCov,msl){
 	calculateCusum <- CusumCalculator(X)
 	Cusum <- purrr::map(msl:(n-msl),calculateCusum)
 	cusumStat <- purrr::map_dbl(Cusum,~.%*%solve(cusumCov,.))
-	return(c(rep(NA,(msl-1)),cusumStat,rep(NA,msl)))
+	return(c(rep(NA,(msl-1)),(cusumStat-delta/6)/(sqrt(delta/45)),rep(NA,msl)))
 }
 
 #' CUSUM Calculator

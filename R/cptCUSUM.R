@@ -32,31 +32,39 @@ cptCUSUM <- function(X,threshold='Asymptotic',numCpts='AMOC',msl=2*ncol(X),LRCov
 		cusumErrorChecks(X=X,threshold=threshold,numCpts=numCpts,LRCov=LRCov,thresholdValue=thresholdValue,msl=msl,Class=Class)
 	}
 	threshold <- toupper(threshold)
-	numCpts <- toupper(numCpts)
+	if(is.character(numCpts)){
+		numCpts <- toupper(numCpts)
+	}
 	LRCov <- toupper(LRCov)
-
 
 	n <- nrow(X)
 	p <- ncol(X)
-	delta <- p*(p+1)/2
+	if(threshold=='ASYMPTOTIC'){
+		thresholdValue <- qnorm(1-thresholdValue)
+	}
 	if(numCpts=='AMOC'){
 		testStat <- cusumTestStat(X,LRCov,msl)
-		T <- (mean(testStat,na.rm=TRUE)-delta/6)/sqrt(delta/45)
-		if(threshold=='ASYMPTOTIC'){
-			thresh <- qnorm(1-thresholdValue)
-		}else if(threshold=='MANUAL'){
-			thresh <- thresholdValue
-		}
-		if(T>thresh){
+		T <- mean(testStat,na.rm=TRUE)
+		if(T>thresholdValue){
 			cpts <- c(which.max(testStat),n)
+			cptsSig <- data.frame('cpts'=cpts[1],'T'=T,'thresholdValue'=thresholdValue,'significant'=TRUE)
 		}else{
 			cpts <- c(n)
+			cptsSig <- data.frame('cpts'=which.max(testStat),'T'=T,'thresholdValue'=thresholdValue,'significant'=FALSE)
 		}
+	}else{
+		if(is.numeric(numCpts)){
+			thresholdValue <- 0
+			cptsSig <- binSeg(X,method='CUSUM',msl=msl,threshold=threshold,thresholdValue=thresholdValue,m=numCpts,LRCov=LRCov)
+		}else{
+			cptsSig <- binSeg(X,method='CUSUM',msl=msl,threshold=threshold,thresholdValue=thresholdValue,m=-1,LRCov=LRCov)
+		}
+		cpts <- c(cptsSig$cpts[cptsSig$significant],n)
 	}
 	if(Class==FALSE){
-		return(list('cpts'=cpts))
+		return(cpts)
 	}else{
-		return(classInput(X=X,cpts=cpts,method='CUSUM',numCpts=numCpts,testStat=T,threshold=threshold,thresholdValue=thresh,msl=msl,LRCov=LRCov))
+		return(classInput(X=X,cpts=cpts,method='CUSUM',numCpts=numCpts,cptsSig=cptsSig,threshold=threshold,thresholdValue=thresholdValue,msl=msl,LRCov=LRCov))
 	}
 }
 
