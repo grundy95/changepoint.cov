@@ -64,7 +64,7 @@ cptCUSUM <- function(X,threshold='Asymptotic',numCpts='AMOC',msl=2*ncol(X),LRCov
 	if(Class==FALSE){
 		return(cpts)
 	}else{
-		return(classInput(X=X,cpts=cpts,method='CUSUM',numCpts=numCpts,testStat=cptsSig$T,threshold=threshold,thresholdValue=thresholdValue,msl=msl,LRCov=LRCov))
+		return(classInput(X=X,cpts=cpts,method='CUSUM',numCpts=numCpts,cptsSig=cptsSig,threshold=threshold,thresholdValue=thresholdValue,msl=msl,LRCov=LRCov))
 	}
 }
 

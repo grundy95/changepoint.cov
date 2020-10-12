@@ -77,6 +77,7 @@ test_that("Threshold type is correct",{
 test_that("Number of changepoints is correct",{
 		  expect_is(cptSubspace(dataAMOC,q=5,numCpts='AMOC',threshold='Manual',thresholdValue=10),"cptCovariance")
 		  expect_is(cptSubspace(data2Change,q=5,numCpts='BinSeg',threshold='Manual',thresholdValue=10),"cptCovariance")
+		  expect_is(cptSubspace(data2Change,q=5,numCpts='BinSeg',threshold='PermTest',thresholdValue=0.05),"cptCovariance")
 		  expect_is(cptSubspace(data2Change,q=5,numCpts=2,threshold='Manual',thresholdValue=10),"cptCovariance")
 
 		  expect_error(cptSubspace(dataAMOC,q=5,numCpts='AMC'),"numCpts not identified: see ?cptSubspace for valid entries to numCpts",fixed=TRUE)

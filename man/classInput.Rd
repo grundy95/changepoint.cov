@@ -9,7 +9,7 @@ classInput(
   cpts,
   method,
   numCpts,
-  testStat,
+  cptsSig,
   threshold,
   thresholdValue,
   msl,
@@ -32,7 +32,7 @@ classInput(
 \item Numeric - User specified number of changepoints.
 }}
 
-\item{testStat}{Maximum test statistic of the method}
+\item{cptsSig}{Data frame containing the changepoint locations along with their associated test statistics; threshold; and whether or not they were deemed significant}
 
 \item{threshold}{Threshold choice for determining significance of changepoints. Choices include:
 \itemize{

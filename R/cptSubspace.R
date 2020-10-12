@@ -83,7 +83,7 @@ cptSubspace <- function(X,q,threshold='PermTest',numCpts='AMOC',thresholdValue=0
 	if(Class==FALSE){
 		return(cpts)
 	}else{
-		return(classInput(X=X,cpts=cpts,method='Subspace',numCpts=numCpts,testStat=cptsSig$T,threshold=threshold,thresholdValue=cptsSig$thresholdValue,msl=msl,q=q,nperm=nperm))
+		return(classInput(X=X,cpts=cpts,method='Subspace',numCpts=numCpts,cptsSig=cptsSig,threshold=threshold,thresholdValue=cptsSig$thresholdValue,msl=msl,q=q,nperm=nperm))
 	}
 }
 
