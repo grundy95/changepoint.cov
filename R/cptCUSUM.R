@@ -47,10 +47,10 @@ cptCUSUM <- function(X,threshold='Asymptotic',numCpts='AMOC',msl=2*ncol(X),LRCov
 		T <- mean(testStat,na.rm=TRUE)
 		if(T>thresholdValue){
 			cpts <- c(which.max(testStat),n)
-			cptsSig <- data.frame('cpts'=cpts[1],'T'=T,'thresholdValue'=thresholdValue)
+			cptsSig <- data.frame('cpts'=cpts[1],'T'=T,'thresholdValue'=thresholdValue,'significant'=TRUE)
 		}else{
 			cpts <- c(n)
-			cptsSig <- data.frame('cpts'=which.max(testStat),'T'=T,'thresholdValue'=thresholdValue)
+			cptsSig <- data.frame('cpts'=which.max(testStat),'T'=T,'thresholdValue'=thresholdValue,'significant'=FALSE)
 		}
 	}else{
 		if(is.numeric(numCpts)){
@@ -59,8 +59,7 @@ cptCUSUM <- function(X,threshold='Asymptotic',numCpts='AMOC',msl=2*ncol(X),LRCov
 		}else{
 			cptsSig <- binSeg(X,method='CUSUM',msl=msl,threshold=threshold,thresholdValue=thresholdValue,m=-1,LRCov=LRCov)
 		}
-		cpts <- c(cptsSig$cpts,n)
-		cpts <- sort(cpts[!is.na(cpts)])
+		cpts <- c(cptsSig$cpts[cptsSig$significant],n)
 	}
 	if(Class==FALSE){
 		return(cpts)

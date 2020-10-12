@@ -8,8 +8,8 @@ binSeg(
   X,
   method,
   msl,
-  threshold,
-  thresholdValue,
+  threshold = "Manual",
+  thresholdValue = 0,
   m = -1,
   LRCov = "Bartlett",
   q = 1,
@@ -42,5 +42,5 @@ binSeg(
 A data frame containing the identified changepoints along with their test statistic and threshold they exceeded.
 }
 \description{
-This function estimates multiple covariance changepoints. NOTE no error checking is performed. This function is for developer use only.
+This function estimates multiple covariance changepoints. NOTE no argument type error checking is performed. This function is for developer use only.
 }

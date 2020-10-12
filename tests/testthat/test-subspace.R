@@ -5,6 +5,7 @@ library(changepoint.cov)
 set.seed(1)
 dataAMOC <- subspaceDataGeneration(n=100,p=20,q=5,tau=50,changeSize=0.5*sqrt(5),nvar=0.05,svar=1)$data
 dataNull <- subspaceDataGeneration(n=100,p=20,q=5,tau=100,changeSize=0)$data
+data2Change <- subspaceDataGeneration(n=100,p=10,q=3,tau=c(30,60))$data
 
 ##}}}
 
@@ -75,8 +76,8 @@ test_that("Threshold type is correct",{
 
 test_that("Number of changepoints is correct",{
 		  expect_is(cptSubspace(dataAMOC,q=5,numCpts='AMOC',threshold='Manual',thresholdValue=10),"cptCovariance")
-		  expect_is(cptSubspace(dataAMOC,q=5,numCpts='BinSeg',threshold='Manual',thresholdValue=10),"cptCovariance")
-		  expect_is(cptSubspace(dataAMOC,q=5,numCpts=1,threshold='Manual',thresholdValue=10),"cptCovariance")
+		  expect_is(cptSubspace(data2Change,q=5,numCpts='BinSeg',threshold='Manual',thresholdValue=10),"cptCovariance")
+		  expect_is(cptSubspace(data2Change,q=5,numCpts=2,threshold='Manual',thresholdValue=10),"cptCovariance")
 
 		  expect_error(cptSubspace(dataAMOC,q=5,numCpts='AMC'),"numCpts not identified: see ?cptSubspace for valid entries to numCpts",fixed=TRUE)
 		  expect_error(cptSubspace(dataAMOC,q=5,numCpts=TRUE),"numCpts not identified: see ?cptSubspace for valid entries to numCpts",fixed=TRUE)
