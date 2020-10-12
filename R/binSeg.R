@@ -1,6 +1,6 @@
 #' Binary Segmentation Implementation
 #' 
-#' This function estimates multiple covariance changepoints. NOTE no error checking is performed. This function is for developer use only.
+#' This function estimates multiple covariance changepoints. NOTE no argument type error checking is performed. This function is for developer use only.
 #'
 #' @param X Data matrix of dimension n by p.
 #' @param method Choice of "Ratio", "CUSUM" or "Subspace".
@@ -16,17 +16,20 @@
 #' @return A data frame containing the identified changepoints along with their test statistic and threshold they exceeded.
 
 
-binSeg <- function(X,method,msl,threshold,thresholdValue,m=-1,LRCov='Bartlett',q=1,nperm=200,alpha=0.05){
+binSeg <- function(X,method,msl,threshold='Manual',thresholdValue=0,m=-1,LRCov='Bartlett',q=1,nperm=200,alpha=0.05){
 	threshold <- toupper(threshold)
 	method <- toupper(method)
 	n <- nrow(X)
+	if(msl>(n/2)){
+		stop("Minimum segment length should be a single integer between p and n/2")
+	}
 	if(m<0){
 		k <- n
 	}else{
 		k <- m
 	}
 	cptsSeg <- matrix(c(0,0,0,0),ncol=4)
-	cptsSig <- data.frame('cpts'=NaN,'T'=NaN,'thresholdValue'=NaN)
+	cptsSig <- data.frame('cpts'=NaN,'T'=NaN,'thresholdValue'=NaN,'significant'=FALSE)
 	cpts <- c(0,n)
 	while(k>0){
 		cpts <- sort(cpts)
@@ -50,28 +53,31 @@ binSeg <- function(X,method,msl,threshold,thresholdValue,m=-1,LRCov='Bartlett',q
 				}
 			}
 		}
-		if(bestSeg[3]<0){break}
+		if(bestSeg[3]<0){
+			if(m>=0){
+				warning(paste0("Cannot allocate ",m," changepoints due to minimum segment length restrictions"))
+			}
+			break
+		}
 		if(m>=0){
 			cpts <- c(cpts,bestSeg[3])
-			cptsSig <- rbind(cptsSig,c(bestSeg[3:4],NaN))
+			cptsSig <- rbind(cptsSig,c(bestSeg[3:4],NaN,TRUE))
 			k <- k-1
 		}else{
 		       	if(method=='SUBSPACE'&&threshold=='PERMTEST'){
 				thresholdValue <- permutationTest(X[bestSeg[1]:bestSeg[2],],q=q,msl=msl,alpha=alpha,nperm=nperm)
 			}
 			if(bestSeg[4]<thresholdValue){
+				cptsSig <- rbind(cptsSig,data.frame('cpts'=bestSeg[3],'T'=bestSeg[4],'thresholdValue'=thresholdValue,'significant'=FALSE))
 				break
 			}else{
 				cpts <- c(cpts,bestSeg[3])
-				cptsSig <- rbind(cptsSig,c(bestSeg[3:4],thresholdValue))
+				cptsSig <- rbind(cptsSig,data.frame('cpts'=bestSeg[3],'T'=bestSeg[4],'thresholdValue'=thresholdValue,'significant'=TRUE))
 				k <- k-1
 			}
 		}
 	}
-	if(!(k==n)){
-		cptsSig <- cptsSig[-1,]
-	}
-	return(cptsSig)
+	return(cptsSig[-1,])
 }
 
 

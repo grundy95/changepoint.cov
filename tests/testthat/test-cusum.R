@@ -4,6 +4,7 @@ library(changepoint.cov)
 ##{{{ Data Creation
 set.seed(1)
 dataAMOC <- wishartDataGeneration(n=100,p=3,tau=50)$data
+data2Change <- wishartDataGeneration(n=200,p=3,tau=c(60,120))$data
 ##}}}
 
 ##{{{ Basic Functionality
@@ -48,8 +49,8 @@ test_that("Threshold type is correct",{
 
 test_that("Number of changepoints is correct",{
 		  expect_is(cptCUSUM(dataAMOC,numCpts='AMOC'),"cptCovariance")
-		  expect_is(cptCUSUM(dataAMOC,numCpts='BinSeg'),"cptCovariance")
-		  expect_is(cptCUSUM(dataAMOC,numCpts=1),"cptCovariance")
+		  expect_is(cptCUSUM(data2Change,numCpts='BinSeg'),"cptCovariance")
+		  expect_is(cptCUSUM(data2Change,numCpts=2),"cptCovariance")
 
 		  expect_error(cptCUSUM(dataAMOC,numCpts='AMC'),"numCpts not identified: see ?cptCov for valid entries to numCpts",fixed=TRUE)
 		  expect_error(cptCUSUM(dataAMOC,numCpts=TRUE),"numCpts not identified: see ?cptCov for valid entries to numCpts",fixed=TRUE)
