@@ -5,6 +5,7 @@ library(changepoint.cov)
 set.seed(1)
 dataAMOC <- wishartDataGeneration(n=100,p=3,tau=50)$data
 data2Change <- wishartDataGeneration(n=200,p=3,tau=c(60,120))$data
+dataHighP <- wishartDataGeneration(n=100,p=20,tau=50)$data
 ##}}}
 
 ##{{{ Basic Functionality
@@ -20,6 +21,14 @@ test_that("cusumTestStat output is correct",{
 		  expect_equal(length(ans),n)
 		  expect_equal(sum(is.na(ans)),2*msl-1)
 })
+
+test_that("Large p datasets output is correct",{
+		  n <- 100
+		  msl <- 20
+		  expect_condition(cusumTestStat(dataHighP,LRCov='Bartlett',msl=msl))
+		  expect_error(cusumTestStat(dataHighP,LRCov='Empirical',msl=msl),"Long run covariance estimator is not invertible. This is most likely due to the dimension of the data being too large. Please try the Ratio method")
+})
+
 ##}}}
 
 ##{{{ Error catching tests
@@ -30,12 +39,14 @@ test_that("Data is correct format",{
 		  dataAMOCcharacter <- matrix(rep('test',200*20),ncol=20)
 		  dataAMOCna <- dataAMOC
 		  dataAMOCna[1,1] <- NA
+		  dataHighDim <- matrix(rnorm(100*75),ncol=75)
 		  expect_is(cptCUSUM(dataAMOC),"cptCovariance")
 		  expect_is(cptCUSUM(dataAMOCdataFrame),"cptCovariance")
 		  expect_error(cptCUSUM(dataAMOCunivariate),"Data should be a matrix")
 		  expect_error(cptCUSUM(as.matrix(dataAMOCunivariate,ncol=1)),"Univariate time series analysis not supported")
 		  expect_error(cptCUSUM(dataAMOCcharacter),"Data must be numeric")
 		  expect_error(cptCUSUM(dataAMOCna),"Missing value: NA is not allowed in the data")
+		  expect_error(cptCUSUM(dataHighDim),"Dimension of data is too high to allow covariance changepoint detection using available methods. Dimension of data needs to be at most n/2")
 })
 
 test_that("Threshold type is correct",{
@@ -54,7 +65,7 @@ test_that("Number of changepoints is correct",{
 
 		  expect_error(cptCUSUM(dataAMOC,numCpts='AMC'),"numCpts not identified: see ?cptCov for valid entries to numCpts",fixed=TRUE)
 		  expect_error(cptCUSUM(dataAMOC,numCpts=TRUE),"numCpts not identified: see ?cptCov for valid entries to numCpts",fixed=TRUE)
-		  expect_error(cptCUSUM(dataAMOC,numCpts=c(4,5)),"numCpts not identified: see?cptCov for valid entries to numCpts",fixed=TRUE)
+		  expect_error(cptCUSUM(dataAMOC,numCpts=c(4,5)),"numCpts not identified: see ?cptCov for valid entries to numCpts",fixed=TRUE)
 		  expect_error(cptCUSUM(dataAMOC,numCpts=amoc))
 })
 
@@ -63,7 +74,7 @@ test_that("Threshold value is correct",{
 		  expect_is(cptCUSUM(dataAMOC,threshold='Manual',thresholdValue=30),"cptCovariance")
 
 		  expect_error(cptCUSUM(dataAMOC,thresholdValue=-1),"thresholdValue must be a single numeric and positive if threshold='Manual' or between 0 and 1 if threshold='Asymptotic'")
-		  expect_error(cptCUSUM(dataAMOC,threshold='Asymptotic',thresholdValue=2),"When using threshold='Asymptotic', the thresholdValue is the (1-thresholdValue)-quantile of the standard Normal distribution. Please enter a value between 0 and 1",fixed=TRUE)
+		  expect_error(cptCUSUM(dataAMOC,threshold='Asymptotic',thresholdValue=2),"thresholdValue must be a single numeric and positive if threshold='Manual' or between 0 and 1 if threshold='Asymptotic'")
 		  expect_error(cptCUSUM(dataAMOC,thresholdValue="two"),"thresholdValue must be a single numeric and positive if threshold='Manual' or between 0 and 1 if threshold='Asymptotic'")
 		  expect_error(cptCUSUM(dataAMOC,thresholdValue=c(0.05,0.1)),"thresholdValue must be a single numeric and positive if threshold='Manual' or between 0 and 1 if threshold='Asymptotic'")
 })

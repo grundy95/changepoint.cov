@@ -12,7 +12,7 @@ binSeg(
   thresholdValue = 0,
   m = -1,
   LRCov = "Bartlett",
-  q = 1,
+  subspaceDim = 1,
   nperm = 200,
   alpha = 0.05
 )
@@ -32,7 +32,7 @@ binSeg(
 
 \item{LRCov}{The long-run covariance estimator to be used for CUSUM method. Currently, only "Bartlett" and "Empirical" are supported.}
 
-\item{q}{Dimension of the latent subspace for Subspace method.}
+\item{subspaceDim}{Dimension of the latent subspace for Subspace method.}
 
 \item{nperm}{Only required for Subspace method when threshold="PermTest". Number of permutations to use in the permutation test.}
 

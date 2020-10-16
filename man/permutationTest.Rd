@@ -4,12 +4,12 @@
 \alias{permutationTest}
 \title{Permutation Test for Subspace Method}
 \usage{
-permutationTest(X, q, msl = dim(X)[2], alpha = 0.05, nperm = 200)
+permutationTest(X, subspaceDim, msl = dim(X)[2], alpha = 0.05, nperm = 200)
 }
 \arguments{
 \item{X}{Data matrix of dimension n by p}
 
-\item{q}{Dimension of the latent subspace}
+\item{subspaceDim}{Dimension of the latent subspace}
 
 \item{msl}{Minimum segment length between changepoints. Note this should be greater than or equal to p}
 
@@ -25,8 +25,8 @@ Calculates a threshold for the Subspace Method via a permutation test.
 }
 \examples{
 set.seed(1)
-data <- subspaceDataGeneration(n=100,p=20,q=5,tau=50)$data
-ans <- permutationTest(X=data,q=5,msl=20,nperm=100)
+data <- subspaceDataGeneration(n=100,p=20,subspaceDim=5,tau=50)$data
+ans <- permutationTest(X=data,subspaceDim=5,msl=20,nperm=100)
 ans
 
 }

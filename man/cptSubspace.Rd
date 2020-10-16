@@ -6,7 +6,7 @@
 \usage{
 cptSubspace(
   X,
-  q,
+  subspaceDim,
   threshold = "PermTest",
   numCpts = "AMOC",
   thresholdValue = 0.05,
@@ -18,7 +18,7 @@ cptSubspace(
 \arguments{
 \item{X}{Data matrix of dimension n by p}
 
-\item{q}{Dimension of the latent subspace}
+\item{subspaceDim}{Dimension of the latent subspace}
 
 \item{threshold}{Threshold choice for determining significance of changepoints. Choices include:
 \itemize{
@@ -50,19 +50,19 @@ This method allows the detection of subspace changes in multivariate time series
 }
 \examples{
 set.seed(1)
-dataAMOC <- subspaceDataGeneration(n=100,p=20,q=5,tau=50,changeSize=0.5*sqrt(5))$data
-dataMultipleCpts <- subspaceDataGeneration(n=200,p=20,q=5,tau=c(50,100,150),
+dataAMOC <- subspaceDataGeneration(n=100,p=20,subspaceDim=5,tau=50,changeSize=0.5*sqrt(5))$data
+dataMultipleCpts <- subspaceDataGeneration(n=200,p=20,subspaceDim=5,tau=c(50,100,150),
 					changeSize=0.4*sqrt(5))$data
 
 set.seed(1)
-ansSubspace <- cptSubspace(X=dataAMOC,q=5,nperm=100)
+ansSubspace <- cptSubspace(X=dataAMOC,subspaceDim=5,nperm=100)
 summary(ansSubspace)
 
-ansSubspace2 <- cptSubspace(X=dataMultipleCpts,q=5,threshold='Manual',numCpts='BinSeg',
+ansSubspace2 <- cptSubspace(X=dataMultipleCpts,subspaceDim=5,threshold='Manual',numCpts='BinSeg',
 			thresholdValue=30,msl=30)
 summary(ansSubspace2)
 
-ansSubspace3 <- cptSubspace(X=dataMultipleCpts,q=5,numCpts=3,msl=30)
+ansSubspace3 <- cptSubspace(X=dataMultipleCpts,subspaceDim=5,numCpts=3,msl=30)
 summary(ansSubspace3)
 
 }

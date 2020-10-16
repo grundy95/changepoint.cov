@@ -4,12 +4,12 @@
 \alias{subspaceCostCalculator}
 \title{Subspace cost calculator}
 \usage{
-subspaceCostCalculator(X, q)
+subspaceCostCalculator(X, subspaceDim)
 }
 \arguments{
 \item{X}{Data matrix of dimension n by p}
 
-\item{q}{Dimension of the latent subspace}
+\item{subspaceDim}{Dimension of the latent subspace}
 }
 \value{
 A function used to calculate the test statistic

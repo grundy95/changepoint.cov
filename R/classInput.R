@@ -10,7 +10,10 @@
 #' @return S4 class of type \code{\link{cptCovariance-class}}
 #'
 #' @importFrom methods new
-classInput <- function(X,cpts,method,numCpts,cptsSig,threshold,thresholdValue,msl,q=0,nperm=0,LRCov='NA'){
+classInput <- function(X,cpts,method,numCpts,cptsSig,threshold,thresholdValue,msl,subspaceDim=0,nperm=0,LRCov='NA'){
+	if(is.numeric(numCpts)){
+		threshold <- "Manual"
+	}
 	if(method=='Subspace'){
 		ans <- new('cptCovariance',data=X,
                            cpts=cpts,
@@ -20,7 +23,7 @@ classInput <- function(X,cpts,method,numCpts,cptsSig,threshold,thresholdValue,ms
 			   threshold=threshold,
 			   thresholdValue=thresholdValue,
 			   msl=as.integer(msl),
-			   q=q,
+			   subspaceDim=subspaceDim,
 			   nperm=nperm)
 	}else if(method=='CUSUM'){
 		ans <- new('cptCovariance',data=X,

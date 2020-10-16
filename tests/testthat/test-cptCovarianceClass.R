@@ -2,8 +2,10 @@ context('cptCovariance class structure tests')
 library(changepoint.cov)
 
 set.seed(1)
-dataAMOC <- subspaceDataGeneration(n=100,p=20,q=5,tau=50,changeSize=0.5*sqrt(5))$data
-ansSubspace <- cptSubspace(X=dataAMOC,q=5,msl=20)
+dataAMOC <- subspaceDataGeneration(n=100,p=20,subspaceDim=5,tau=50,changeSize=0.5*sqrt(5))$data
+ansSubspace <- cptSubspace(X=dataAMOC,subspaceDim=5,msl=20)
+ansSubspaceMan <- cptSubspace(X=dataAMOC,numCpts=1,subspaceDim=5,msl=20)
+
 set.seed(1)
 dataAMOC <- wishartDataGeneration(n=100,p=3,tau=50)$data
 ansCUSUM <- cptCUSUM(X=dataAMOC)
@@ -19,7 +21,7 @@ test_that("Object is of correct class",{
 	  expect_is(ansCovRatio,"cptCovariance")
 })
 
-test_that("Methods are working",{
+test_that("Methods show and summary are working",{
 		  expect_is(invisible(capture.output(summary(ansSubspace))),'character')
 		  expect_is(invisible(capture.output(show(ansSubspace))),'character')
 
@@ -45,7 +47,7 @@ test_that("Slots are correct",{
 		  expect_is(ansSubspace@threshold,"character")
 		  expect_is(ansSubspace@thresholdValue,"numeric")
 		  expect_is(ansSubspace@cptsSig,"data.frame")
-		  expect_is(ansSubspace@q,"numeric")
+		  expect_is(ansSubspace@subspaceDim,"numeric")
 		  expect_is(ansSubspace@nperm,"numeric")
 		  expect_is(ansSubspace@LRCov,"character")
 		  expect_is(ansSubspace@date,"character")
@@ -59,7 +61,7 @@ test_that("Slots are correct",{
 		  expect_is(ansCUSUM@threshold,"character")
 		  expect_is(ansCUSUM@thresholdValue,"numeric")
 		  expect_is(ansCUSUM@cptsSig,"data.frame")
-		  expect_is(ansCUSUM@q,"numeric")
+		  expect_is(ansCUSUM@subspaceDim,"numeric")
 		  expect_is(ansCUSUM@nperm,"numeric")
 		  expect_is(ansCUSUM@LRCov,"character")
 		  expect_is(ansCUSUM@date,"character")
@@ -73,7 +75,7 @@ test_that("Slots are correct",{
 		  expect_is(ansRatio@threshold,"character")
 		  expect_is(ansRatio@thresholdValue,"numeric")
 		  expect_is(ansRatio@cptsSig,"data.frame")
-		  expect_is(ansRatio@q,"numeric")
+		  expect_is(ansRatio@subspaceDim,"numeric")
 		  expect_is(ansRatio@nperm,"numeric")
 		  expect_is(ansRatio@LRCov,"character")
 		  expect_is(ansRatio@date,"character")
@@ -87,7 +89,7 @@ test_that("Slots are correct",{
 		  expect_is(ansCovCUSUM@threshold,"character")
 		  expect_is(ansCovCUSUM@thresholdValue,"numeric")
 		  expect_is(ansCovCUSUM@cptsSig,"data.frame")
-		  expect_is(ansCovCUSUM@q,"numeric")
+		  expect_is(ansCovCUSUM@subspaceDim,"numeric")
 		  expect_is(ansCovCUSUM@nperm,"numeric")
 		  expect_is(ansCovCUSUM@LRCov,"character")
 		  expect_is(ansCovCUSUM@date,"character")
@@ -101,11 +103,34 @@ test_that("Slots are correct",{
 		  expect_is(ansCovRatio@threshold,"character")
 		  expect_is(ansCovRatio@thresholdValue,"numeric")
 		  expect_is(ansCovRatio@cptsSig,"data.frame")
-		  expect_is(ansCovRatio@q,"numeric")
+		  expect_is(ansCovRatio@subspaceDim,"numeric")
 		  expect_is(ansCovRatio@nperm,"numeric")
 		  expect_is(ansCovRatio@LRCov,"character")
 		  expect_is(ansCovRatio@date,"character")
 		  expect_is(ansCovRatio@version,"character")
 })
 
+test_that("Slot retrival functions are working",{
+		  expect_is(data(ansSubspace),"matrix")
+		  expect_is(cpts(ansSubspace),"integer")
+		  expect_is(method(ansSubspace),"character")
+		  expect_is(msl(ansSubspace),"integer")
+		  expect_is(numCpts(ansSubspace),"character")
+		  expect_is(threshold(ansSubspace),"character")
+		  expect_is(thresholdValue(ansSubspace),"numeric")
+		  expect_is(cptsSig(ansSubspace),"data.frame")
+		  expect_is(subspaceDim(ansSubspace),"numeric")
+		  expect_is(nperm(ansSubspace),"numeric")
+
+		  expect_is(LRCov(ansCUSUM),'character')
+
+		  expect_is(numCpts(ansSubspaceMan),'character')
+
+		  expect_error(subspaceDim(ansRatio),"subspaceDim is only a valid slot for method='Subspace'",fixed=TRUE)
+		  expect_error(nperm(ansRatio),"nperm is only a valid slot when using the permutation test within method='Subspace'",fixed=TRUE)
+		  expect_error(nperm(ansSubspaceMan),"nperm is only a valid slot when using the permutation test within method='Subspace'",fixed=TRUE)
+		  expect_error(LRCov(ansSubspace),"LRCov is only a valid slot for method='CUSUM'")
+})
+
+			
 

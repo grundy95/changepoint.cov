@@ -24,13 +24,22 @@ cusumTestStat <- function(X,LRCov,msl){
 	Xvech <- cusumVech(X)
 	if(LRCov=='BARTLETT'){
 		#Should we be multiplying by n or n-delta?
-		cusumCov <- sandwich::lrvar(Xvech,kernel='Bartlett')*n
+		cusumCov <- tryCatch({
+			sandwich::lrvar(Xvech,kernel='Bartlett')*n
+		},error=function(cond){
+			stop("Long run covariance estimation not possible, try a different long run covariance estimator or the Ratio method")
+		})
 	}else if(LRCov=='EMPIRICAL'){
 		cusumCov <- cov(Xvech)
 	}
 	calculateCusum <- CusumCalculator(X)
 	Cusum <- purrr::map(msl:(n-msl),calculateCusum)
-	cusumStat <- purrr::map_dbl(Cusum,~.%*%solve(cusumCov,.))
+	cusumStat <- tryCatch({
+		purrr::map_dbl(Cusum,~.%*%solve(cusumCov,.))},
+		error=function(cond){
+			stop("Long run covariance estimator is not invertible. This is most likely due to the dimension of the data being too large. Please try the Ratio method")
+		}
+		)
 	return(c(rep(NA,(msl-1)),(cusumStat-delta/6)/(sqrt(delta/45)),rep(NA,msl)))
 }
 

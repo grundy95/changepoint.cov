@@ -20,14 +20,26 @@ ratioTestStat <- function(X,msl){
 	p <- ncol(X)
 	X <- purrr::map(1:n,~X[.,])
 	calculateRatioDistance <- ratioDistanceCalculator(X)	
-	T <- purrr::map_dbl(msl:(n-msl),calculateRatioDistance)
+	T <- purrr::map(msl:(n-msl),calculateRatioDistance)
 	gammas <- purrr::map(msl:(n-msl),~c(p/.,p/(n-.)))
 	trace <- purrr::map(gammas,~rlang::exec(calculateExpectedTrace,!!!.))
-	trace <- purrr::map_dbl(trace,~.[[1]])
-	bias <- purrr::map_dbl(gammas,~rlang::exec(asymptoticBias,!!!.))
-	variance <- purrr::map_dbl(gammas,~rlang::exec(asymptoticVariance,!!!.))
+	bias <- purrr::map(gammas,~rlang::exec(asymptoticBias,!!!.))
+	variance <- purrr::map(gammas,~rlang::exec(asymptoticVariance,!!!.))
+
+	traceErrors <- purrr::map_lgl(trace,is.null)
+	biasErrors <- purrr::map_lgl(bias,is.na)
+	varianceErrors <- purrr::map_lgl(variance,is.na)
+	testErrors <- purrr::pmap_lgl(list(traceErrors,biasErrors,varianceErrors),~(..1||..2||..3))
+	if(any(testErrors==TRUE)){
+		warning('msl is too short making the test statistic incalculable for certain boundary changepoint locations. Method has continued with the exclusion of the incalculable potential changepoint locations.')
+	}	
+
+	trace <- purrr::map_if(trace,testErrors,~NA_real_)
+	trace <- purrr::map(trace,~.[[1]])
+	bias <- purrr::map_if(bias,testErrors,~NA_real_)
+	variance <- purrr::map_if(variance,testErrors,~NA_real_)
 	testStat <- purrr::pmap_dbl(list(T,trace,bias,variance),~(..4^(-0.25))*(..1-p*..2-..3))
-	return(c(rep(NA,(msl-1)),testStat,rep(NA,msl)))
+	return(c(rep(NA_real_,(msl-1)),testStat,rep(NA_real_,msl)))
 }
 
 #' Ratio distance calculator
@@ -65,7 +77,8 @@ calculateExpectedTrace <- function(gamma1,gamma2){
 	asymptoticPdf <- fisherESD(gamma1,gamma2)
 	integrand <- functionProduct(function(x){(1-x)^2+(1-1/x)^2},asymptoticPdf)
 	asymptoticSupport <- fisherSupport(gamma1,gamma2)
-	integral <- rlang::exec(integrate,integrand,`!!!`(asymptoticSupport))
+	safeIntegral <- purrr::safely(integrate)
+	integral <- rlang::exec(safeIntegral,integrand,`!!!`(asymptoticSupport))[[1]]
 	return(integral)
 }
 
@@ -80,9 +93,10 @@ fisherESD <- function(gamma1,gamma2){
 	h <- sqrt(gamma1+gamma2-gamma1*gamma2)
 	a <- ((1-h)^2)/((1-gamma2)^2)
 	b <- ((1+h)^2)/((1-gamma2)^2)
+	safeSqrt <- purrr::quietly(sqrt)
 	function(x){
 		result <- rep(0,length(x))
-		result[x>a&x<b] <- ((1-gamma2)/(2*pi*x*(gamma1+gamma2*x)))*sqrt((b-x)*(x-a))
+		result[x>a&x<b] <- ((1-gamma2)/(2*pi*x*(gamma1+gamma2*x)))*safeSqrt((b-x)*(x-a))[[1]]
 		return(result)
 	}
 }

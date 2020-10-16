@@ -22,6 +22,12 @@ test_that("ratioTestStat output is correct",{
 		  expect_equal(length(ans),n)
 		  expect_equal(sum(is.na(ans)),2*msl-1)
 })
+
+test_that("ratioTestStat works for small msl",{
+		  n <- nrow(dataAMOC)
+		  msl <- ncol(dataAMOC)
+		  expect_warning(ratioTestStat(dataAMOC,msl),'msl is too short making the test statistic incalculable for certain boundary changepoint locations. Method has continued with the exclusion of the incalculable potential changepoint locations.')
+})
 ##}}}
 
 ##{{{ Error catching tests
@@ -55,7 +61,7 @@ test_that("Number of changepoints is correct",{
 
 		  expect_error(cptRatio(dataAMOC,numCpts='AMC'),"numCpts not identified: see ?cptCov for valid entries to numCpts",fixed=TRUE)
 		  expect_error(cptRatio(dataAMOC,numCpts=TRUE),"numCpts not identified: see ?cptCov for valid entries to numCpts",fixed=TRUE)
-		  expect_error(cptRatio(dataAMOC,numCpts=c(4,5)),"numCpts not identified: see?cptCov for valid entries to numCpts",fixed=TRUE)
+		  expect_error(cptRatio(dataAMOC,numCpts=c(4,5)),"numCpts not identified: see ?cptCov for valid entries to numCpts",fixed=TRUE)
 		  expect_error(cptRatio(dataAMOC,numCpts=amoc))
 })
 
@@ -63,10 +69,9 @@ test_that("Threshold value is correct",{
 		  expect_is(cptRatio(dataAMOC,threshold='Asymptotic'),"cptCovariance")
 		  expect_is(cptRatio(dataAMOC,threshold='Manual',thresholdValue=30),"cptCovariance")
 
-		  expect_warning(cptRatio(dataAMOC,threshold='Asymptotic',thresholdValue=0.95),"thresholdValue is not used when using threshold='Asymptotic'")
-		  expect_error(cptRatio(dataAMOC,thresholdValue=-1),"thresholdValue must be a single numeric and positive if threshold='Manual'")
-		  expect_error(cptRatio(dataAMOC,thresholdValue="two"),"thresholdValue must be a single numeric and positive if threshold='Manual'")
-		  expect_error(cptRatio(dataAMOC,thresholdValue=c(0.05,0.1)),"thresholdValue must be a single numeric and positive if threshold='Manual'")
+		  expect_error(cptRatio(dataAMOC,thresholdValue=-1),"thresholdValue must be a single numeric and positive if threshold='Manual' or between 0 and 1 if threshold='Asymptotic'",fixed=TRUE)
+		  expect_error(cptRatio(dataAMOC,thresholdValue="two"),"thresholdValue must be a single numeric and positive if threshold='Manual' or between 0 and 1 if threshold='Asymptotic'",fixed=TRUE)
+		  expect_error(cptRatio(dataAMOC,thresholdValue=c(0.05,0.1)),"thresholdValue must be a single numeric and positive if threshold='Manual' or between 0 and 1 if threshold='Asymptotic'",fixed=TRUE)
 })
 
 test_that("Minimum segment length is appropriate",{
