@@ -48,12 +48,12 @@ cptCov <- function(X,method=c("Ratio","CUSUM"),threshold="Asymptotic",numCpts='A
 		stop("method not recognized: Please choose between 'Ratio' and 'CUSUM'")
 	}
 	if((length(method)>1)&&(method[1]=="Ratio")&&(method[2]=="CUSUM")){
-		if(ncol(X)>20){
+		if(ncol(X)>10){
 			method <- "Ratio"
-			warning("no method was chosen. As p>20 the Ratio method will be implemented")
+			warning("no method was chosen. As p>10 the Ratio method will be implemented")
 		}else{
 			method <- "CUSUM"
-			warning("no method was chosen. As p<=20 the CUSUM method will be implemented")
+			warning("no method was chosen. As p<=10 the CUSUM method will be implemented")
 		}
 	}	
 	if(length(method)!=1){

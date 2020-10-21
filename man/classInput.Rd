@@ -13,7 +13,7 @@ classInput(
   threshold,
   thresholdValue,
   msl,
-  q = 0,
+  subspaceDim = 0,
   nperm = 0,
   LRCov = "NA"
 )
@@ -45,7 +45,7 @@ If numCpts is numeric then the threshold is not used as the number of changepoin
 
 \item{msl}{Minimum segment length allowed between the changepoints. NOTE this should be greater than or equal to p, the dimension of the time series.}
 
-\item{q}{Dimension of the latent subspace}
+\item{subspaceDim}{Dimension of the latent subspace}
 
 \item{nperm}{Only required for threshold="PermTest". Number of permutations to use in the permutation test.}
 

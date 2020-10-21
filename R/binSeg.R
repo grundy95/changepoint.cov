@@ -9,14 +9,14 @@
 #' @param thresholdValue The threshold value that needs determines if a changepoint is significant
 #' @param m User specified number of changepoints. Default is m=-1 meaning the thresholdValue is used as a stopping criteria
 #' @param LRCov The long-run covariance estimator to be used for CUSUM method. Currently, only "Bartlett" and "Empirical" are supported.
-#' @param q Dimension of the latent subspace for Subspace method.
+#' @param subspaceDim Dimension of the latent subspace for Subspace method.
 #' @param nperm Only required for Subspace method when threshold="PermTest". Number of permutations to use in the permutation test.
 #' @param alpha Only required for Subspace method when threshold="PermTest". Significance level of the permutation test.
 #'
 #' @return A data frame containing the identified changepoints along with their test statistic and threshold they exceeded.
 
 
-binSeg <- function(X,method,msl,threshold='Manual',thresholdValue=0,m=-1,LRCov='Bartlett',q=1,nperm=200,alpha=0.05){
+binSeg <- function(X,method,msl,threshold='Manual',thresholdValue=0,m=-1,LRCov='Bartlett',subspaceDim=1,nperm=200,alpha=0.05){
 	threshold <- toupper(threshold)
 	method <- toupper(method)
 	n <- nrow(X)
@@ -29,7 +29,7 @@ binSeg <- function(X,method,msl,threshold='Manual',thresholdValue=0,m=-1,LRCov='
 		k <- m
 	}
 	cptsSeg <- matrix(c(0,0,0,0),ncol=4)
-	cptsSig <- data.frame('cpts'=NaN,'T'=NaN,'thresholdValue'=NaN,'significant'=FALSE)
+	cptsSig <- data.frame('cpts'=NA_integer_,'T'=NA_real_,'thresholdValue'=NA_real_,'significant'=FALSE)
 	cpts <- c(0,n)
 	while(k>0){
 		cpts <- sort(cpts)
@@ -44,7 +44,7 @@ binSeg <- function(X,method,msl,threshold='Manual',thresholdValue=0,m=-1,LRCov='
 						testStat <- cusumTestStat(X[(cpts[i]+1):cpts[i+1],],msl=msl,LRCov=toupper(LRCov))
 						cptsSeg <- rbind(cptsSeg,c(cpts[i]+1,cpts[i+1],which.max(testStat)+cpts[i],max(testStat,na.rm=TRUE)))
 					}else if(method=='SUBSPACE'){
-						 testStat <- subspaceTestStat(X[(cpts[i]+1):cpts[i+1],],msl=msl,q=q)
+						 testStat <- subspaceTestStat(X[(cpts[i]+1):cpts[i+1],],msl=msl,subspaceDim=subspaceDim)
        						 cptsSeg <- rbind(cptsSeg,c(cpts[i]+1,cpts[i+1],which.max(testStat)+cpts[i],mean(testStat,na.rm=TRUE)))
 					}
 				}
@@ -61,11 +61,11 @@ binSeg <- function(X,method,msl,threshold='Manual',thresholdValue=0,m=-1,LRCov='
 		}
 		if(m>=0){
 			cpts <- c(cpts,bestSeg[3])
-			cptsSig <- rbind(cptsSig,c(bestSeg[3:4],NaN,TRUE))
+			cptsSig <- rbind(cptsSig,data.frame('cpts'=bestSeg[3],'T'=bestSeg[4],'thresholdValue'=NA_real_,'significant'=TRUE))
 			k <- k-1
 		}else{
 		       	if(method=='SUBSPACE'&&threshold=='PERMTEST'){
-				thresholdValue <- permutationTest(X[bestSeg[1]:bestSeg[2],],q=q,msl=msl,alpha=alpha,nperm=nperm)
+				thresholdValue <- permutationTest(X[bestSeg[1]:bestSeg[2],],subspaceDim=subspaceDim,msl=msl,alpha=alpha,nperm=nperm)
 			}
 			if(bestSeg[4]<thresholdValue){
 				cptsSig <- rbind(cptsSig,data.frame('cpts'=bestSeg[3],'T'=bestSeg[4],'thresholdValue'=thresholdValue,'significant'=FALSE))

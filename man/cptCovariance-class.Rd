@@ -5,11 +5,44 @@
 \alias{cptCovariance-class}
 \alias{summary,cptCovariance-method}
 \alias{show,cptCovariance-method}
+\alias{data,cptCovariance-method}
+\alias{cpts,cptCovariance-method}
+\alias{method,cptCovariance-method}
+\alias{msl,cptCovariance-method}
+\alias{numCpts,cptCovariance-method}
+\alias{threshold,cptCovariance-method}
+\alias{thresholdValue,cptCovariance-method}
+\alias{cptsSig,cptCovariance-method}
+\alias{subspaceDim,cptCovariance-method}
+\alias{nperm,cptCovariance-method}
+\alias{LRCov,cptCovariance-method}
 \title{An S4 class for a covariance changepoint object}
 \usage{
 \S4method{summary}{cptCovariance}(object)
 
 \S4method{show}{cptCovariance}(object)
+
+\S4method{data}{cptCovariance}(object)
+
+\S4method{cpts}{cptCovariance}(object)
+
+\S4method{method}{cptCovariance}(object)
+
+\S4method{msl}{cptCovariance}(object)
+
+\S4method{numCpts}{cptCovariance}(object)
+
+\S4method{threshold}{cptCovariance}(object)
+
+\S4method{thresholdValue}{cptCovariance}(object)
+
+\S4method{cptsSig}{cptCovariance}(object)
+
+\S4method{subspaceDim}{cptCovariance}(object)
+
+\S4method{nperm}{cptCovariance}(object)
+
+\S4method{LRCov}{cptCovariance}(object)
 }
 \arguments{
 \item{object}{An object of S4 class \code{\link{cptCovariance-class}}}
@@ -21,11 +54,29 @@ An S4 class for a covariance changepoint object
 \itemize{
 \item \code{summary}: Summarises the cptCovariance object
 
-Summaries the results of the covariance changepoint analysis contained in the cptCovariance object.
-
 \item \code{show}: Shows the cptCovariance object
 
-Shows the cptCovariance object and all the slots it contains. Also displays the summary of the object.
+\item \code{data}: Retrieves the data slot
+
+\item \code{cpts}: Retrieves the cpts slot
+
+\item \code{method}: Retrieves the method slot
+
+\item \code{msl}: Retrieves the msl slot
+
+\item \code{numCpts}: Retrieves the numCpts slot
+
+\item \code{threshold}: Retrieves the threshold slot
+
+\item \code{thresholdValue}: Retrieves the thresholdValue slot
+
+\item \code{cptsSig}: Retrieves the cptsSig slot
+
+\item \code{subspaceDim}: Retrieves the subspaceDim slot
+
+\item \code{nperm}: Retrieves the nperm slot
+
+\item \code{LRCov}: Retrieves the LRCov slot
 }}
 
 \section{Slots}{
@@ -43,11 +94,11 @@ Shows the cptCovariance object and all the slots it contains. Also displays the 
 
 \item{\code{threshold}}{Character containing the method used for generating the threshold}
 
-\item{\code{thresholdValue}}{Numeric value of threshold}
+\item{\code{thresholdValue}}{Threshold value used to determine significant changepoints. If permutation test within subspace method is used then a vector of threshold values is returned.}
 
 \item{\code{msl}}{Numeric containing the minimum segment length between changepoints}
 
-\item{\code{q}}{Numeric value of subspace dimension. Only used for Subspace method}
+\item{\code{subspaceDim}}{Numeric value of subspace dimension. Only used for Subspace method}
 
 \item{\code{nperm}}{Numeric value of number of permutations used in permutation test. Only used for subspace method when threshold is "PermTest"}
 

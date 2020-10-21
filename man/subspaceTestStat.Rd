@@ -4,12 +4,12 @@
 \alias{subspaceTestStat}
 \title{Test statistic for Subspace method}
 \usage{
-subspaceTestStat(X, q, msl)
+subspaceTestStat(X, subspaceDim, msl)
 }
 \arguments{
 \item{X}{Data matrix of dimension n by p}
 
-\item{q}{Dimension of the latent subspace}
+\item{subspaceDim}{Dimension of the latent subspace}
 
 \item{msl}{Minimum segment length between changepoints. NOTE this should be greater than or equal to p}
 }
@@ -21,8 +21,8 @@ Calculates the Subspace test statistic for all potential changepoint locations w
 }
 \examples{
 set.seed(1)
-data <- subspaceDataGeneration(n=100,p=20,q=5,tau=50,changeSize=0.5*sqrt(5))$data
-ans <- subspaceTestStat(X=data,q=5,msl=30)
+data <- subspaceDataGeneration(n=100,p=20,subspaceDim=5,tau=50,changeSize=0.5*sqrt(5))$data
+ans <- subspaceTestStat(X=data,subspaceDim=5,msl=30)
 which.max(ans)
 
 }

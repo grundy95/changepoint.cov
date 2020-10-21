@@ -7,11 +7,11 @@
 subspaceDataGeneration(
   n,
   p,
-  q,
+  subspaceDim,
   tau = c(1, n),
   nvar = 0.05,
   svar = 1,
-  changeSize = 0.5 * sqrt(q)
+  changeSize = 0.5 * sqrt(subspaceDim)
 )
 }
 \arguments{
@@ -19,7 +19,7 @@ subspaceDataGeneration(
 
 \item{p}{Dimension of the time series}
 
-\item{q}{Dimension of the latent subspace}
+\item{subspaceDim}{Dimension of the latent subspace}
 
 \item{tau}{Vector of changepoint locations}
 
@@ -27,7 +27,7 @@ subspaceDataGeneration(
 
 \item{svar}{Variance within the subspace i.e. the variance of points in directions of the basis of the subspace (assumed to be Normal)}
 
-\item{changeSize}{Either scalar for change size of all the changepoints or a vector of equal length to the number of changepoints indicating the change size for each changepoint. All change sizes must be between 0 and sqrt(q).}
+\item{changeSize}{Either scalar for change size of all the changepoints or a vector of equal length to the number of changepoints indicating the change size for each changepoint. All change sizes must be between 0 and sqrt(subspaceDim).}
 }
 \value{
 List with elements:
@@ -43,7 +43,7 @@ Allows for easy generation of data that lies in a latent subspace with changepoi
 }
 \examples{
 set.seed(1)
-dataObject <- subspaceDataGeneration(n=100,p=4,q=2,tau=40)
+dataObject <- subspaceDataGeneration(n=100,p=4,subspaceDim=2,tau=40)
 dim(dataObject$data)
 dataObject$cpts
 dataObject$changeSize

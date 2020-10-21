@@ -21,8 +21,8 @@ test_that("Method argument is correct",{
 		  expect_is(cptCov(X=dataAMOC,method="Ryan"),"cptCovariance")
 		  expect_is(cptCov(X=dataAMOC,method="Aue"),"cptCovariance")
 
-		  expect_warning(cptCov(X=dataAMOC),"no method was chosen. As p<=20 the CUSUM method will be implemented")
-		  expect_warning(cptCov(X=dataAMOC2),"no method was chosen. As p>20 the Ratio method will be implemented")
+		  expect_warning(cptCov(X=dataAMOC),"no method was chosen. As p<=10 the CUSUM method will be implemented")
+		  expect_warning(cptCov(X=dataAMOC2),"no method was chosen. As p>10 the Ratio method will be implemented")
 
 		  expect_error(cptCov(X=dataAMOC,method=c('subspace','Ratio')),"only one method can be implemented at once",fixed=TRUE)
 		  expect_error(cptCov(X=dataAMOC,method=1),"method not recognized: Please choose between 'Ratio' and 'CUSUM'",fixed=TRUE)

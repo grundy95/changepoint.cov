@@ -62,7 +62,7 @@ cptRatio <- function(X,threshold='Asymptotic',numCpts='AMOC',msl=2*ncol(X),thres
 	if(Class==FALSE){
 		return(cpts)
 	}else{
-		return(classInput(X=X,cpts=cpts,method='Ratio',numCpts=numCpts,cptsSig=cptsSig,threshold=threshold,thresholdValue=thresholdValue,msl=msl))
+		return(classInput(X=X,cpts=cpts,method='Ratio',numCpts=numCpts,cptsSig=cptsSig,threshold=threshold,thresholdValue=unique(cptsSig$thresholdValue),msl=msl))
 	}
 }
 
