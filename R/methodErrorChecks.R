@@ -25,12 +25,19 @@ cusumErrorChecks <- function(X,threshold,numCpts,LRCov,thresholdValue,msl,Class)
 	classErrorChecks(Class)
 
 	#LRCov checks
-	if(!is.character(LRCov)){
-		stop("LRCov not identified: see ?cptCov for valid entries to LRCov. NOTE LRCov should be a character string")
+	p <- ncol(X)
+	delta <- (p*(p+1))/2
+	if(!(is.character(LRCov)||is.matrix(LRCov))){
+		stop("LRCov not identified: see ?cptCov for valid entries to LRCov")
 	}
-	LRCov <- toupper(LRCov)
-	if((LRCov!="BARTLETT")&&(LRCov!="EMPIRICAL")){
-		stop("LRCov not identified: see ?cptCov for valid entries to LRCov. NOTE LRCov should be a character string")
+	if((is.matrix(LRCov))&&(!((ncol(LRCov)==delta)&&nrow(LRCov==delta)))){
+		stop("Dimension of manual LRCov is not compatible with data")
+	}	
+	if(is.character(LRCov)){
+		LRCov <- toupper(LRCov)
+		if((LRCov!="BARTLETT")&&(LRCov!="EMPIRICAL")){
+			stop("LRCov not identified: see ?cptCov for valid entries to LRCov")
+		}
 	}
 }
 

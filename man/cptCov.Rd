@@ -38,7 +38,7 @@ If numCpts is numeric then the threshold is not used as the number of changepoin
 
 \item{thresholdValue}{Either the manual threshold value when threshold="Manual" or the (1-thresholdValue)-quantile of asymptotic distribution of the CUSUM test statistic when method="CUSUM" and threshold="Asymptotic".}
 
-\item{LRCov}{The long-run covariance estimator to be used for CUSUM method. Currently, only "Bartlett" and "Empirical" are supported.}
+\item{LRCov}{The long-run covariance estimator to be used for CUSUM method. Currently, only "Bartlett"and "Empirical" are supported. Alternatively, a matrix containing the long-run covariance estimate can be inputted.}
 
 \item{Class}{Logical. If TRUE then an S4 class is returned. If FALSE the estimated changepoints are returned.}
 }

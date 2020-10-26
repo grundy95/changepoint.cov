@@ -34,7 +34,7 @@ If numCpts is numeric then the threshold is not used as the number of changepoin
 
 \item{msl}{Minimum segment length allowed between the changepoints. NOTE this should be greater than or equal to p, the dimension of the time series.}
 
-\item{LRCov}{The long-run covariance estimator to be used for CUSUM method. Currently, only "Bartlett" and "Empirical" are supported.}
+\item{LRCov}{The long-run covariance estimator to be used for CUSUM method. Currently, only "Bartlett"and "Empirical" are supported. Alternatively, a matrix containing the long-run covariance estimate can be inputted.}
 
 \item{thresholdValue}{Either the manual threshold value when threshold="Manual" or the (1-thresholdValue)-quantile of asymptotic distribution of the CUSUM test statistic when method="CUSUM" and threshold="Asymptotic".}
 

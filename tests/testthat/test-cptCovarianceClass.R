@@ -121,12 +121,15 @@ test_that("Slot retrival functions are working",{
 		  expect_is(cptsSig(ansSubspace),"data.frame")
 		  expect_is(subspaceDim(ansSubspace),"numeric")
 		  expect_is(nperm(ansSubspace),"numeric")
+		  expect_is(covEst(ansSubspace),"list")
+		  expect_is(subspaceEst(ansSubspace),"list")
 
 		  expect_is(LRCov(ansCUSUM),'character')
 
 		  expect_is(numCpts(ansSubspaceMan),'character')
 
 		  expect_error(subspaceDim(ansRatio),"subspaceDim is only a valid slot for method='Subspace'",fixed=TRUE)
+		  expect_error(subspaceEst(ansRatio),"Subspace estimation only possible for method='Subspace'",fixed=TRUE)
 		  expect_error(nperm(ansRatio),"nperm is only a valid slot when using the permutation test within method='Subspace'",fixed=TRUE)
 		  expect_error(nperm(ansSubspaceMan),"nperm is only a valid slot when using the permutation test within method='Subspace'",fixed=TRUE)
 		  expect_error(LRCov(ansSubspace),"LRCov is only a valid slot for method='CUSUM'")

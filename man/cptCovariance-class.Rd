@@ -5,6 +5,9 @@
 \alias{cptCovariance-class}
 \alias{summary,cptCovariance-method}
 \alias{show,cptCovariance-method}
+\alias{plot,cptCovariance-method}
+\alias{covEst,cptCovariance-method}
+\alias{subspaceEst,cptCovariance-method}
 \alias{data,cptCovariance-method}
 \alias{cpts,cptCovariance-method}
 \alias{method,cptCovariance-method}
@@ -22,39 +25,53 @@
 
 \S4method{show}{cptCovariance}(object)
 
-\S4method{data}{cptCovariance}(object)
+\S4method{plot}{cptCovariance}(x)
 
-\S4method{cpts}{cptCovariance}(object)
+\S4method{covEst}{cptCovariance}(x)
 
-\S4method{method}{cptCovariance}(object)
+\S4method{subspaceEst}{cptCovariance}(x)
 
-\S4method{msl}{cptCovariance}(object)
+\S4method{data}{cptCovariance}(x)
 
-\S4method{numCpts}{cptCovariance}(object)
+\S4method{cpts}{cptCovariance}(x)
 
-\S4method{threshold}{cptCovariance}(object)
+\S4method{method}{cptCovariance}(x)
 
-\S4method{thresholdValue}{cptCovariance}(object)
+\S4method{msl}{cptCovariance}(x)
 
-\S4method{cptsSig}{cptCovariance}(object)
+\S4method{numCpts}{cptCovariance}(x)
 
-\S4method{subspaceDim}{cptCovariance}(object)
+\S4method{threshold}{cptCovariance}(x)
 
-\S4method{nperm}{cptCovariance}(object)
+\S4method{thresholdValue}{cptCovariance}(x)
 
-\S4method{LRCov}{cptCovariance}(object)
+\S4method{cptsSig}{cptCovariance}(x)
+
+\S4method{subspaceDim}{cptCovariance}(x)
+
+\S4method{nperm}{cptCovariance}(x)
+
+\S4method{LRCov}{cptCovariance}(x)
 }
 \arguments{
-\item{object}{An object of S4 class \code{\link{cptCovariance-class}}}
+\item{object}{An object of S4 class \code{\linkS4class{cptCovariance}}}
+
+\item{x}{An object of S4 class \code{\linkS4class{cptCovariance}}}
 }
 \description{
-An S4 class for a covariance changepoint object
+List of all the retrieval functions, basic methods and slots
 }
 \section{Methods (by generic)}{
 \itemize{
 \item \code{summary}: Summarises the cptCovariance object
 
 \item \code{show}: Shows the cptCovariance object
+
+\item \code{plot}: Plotting method for cptCovariance object. Returns a \code{\link[ggplot2]{ggplot}} object which can be manipulated as required
+
+\item \code{covEst}: Returns covariance estimates for each segment
+
+\item \code{subspaceEst}: Returns a basis of the subspace estimates for each segment
 
 \item \code{data}: Retrieves the data slot
 
@@ -102,7 +119,11 @@ An S4 class for a covariance changepoint object
 
 \item{\code{nperm}}{Numeric value of number of permutations used in permutation test. Only used for subspace method when threshold is "PermTest"}
 
-\item{\code{LRCov}}{Character describing the long-run covariance estimator used. Only used for Aue method.}
+\item{\code{LRCov}}{Character describing the long-run covariance estimator used or a matrix containing the long-run covariance estimate. Only used for CUSUM method.}
+
+\item{\code{covEst}}{List containing the sample covariance for each segment}
+
+\item{\code{subspaceEst}}{List containing a basis of the subspace for each segment. Only used for Subspace method.}
 
 \item{\code{date}}{Creation date of the object}
 

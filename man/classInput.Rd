@@ -49,7 +49,7 @@ If numCpts is numeric then the threshold is not used as the number of changepoin
 
 \item{nperm}{Only required for threshold="PermTest". Number of permutations to use in the permutation test.}
 
-\item{LRCov}{The long-run covariance estimator to be used for CUSUM method. Currently, only "Bartlett" and "Empirical" are supported.}
+\item{LRCov}{The long-run covariance estimator to be used for CUSUM method. Currently, only "Bartlett"and "Empirical" are supported. Alternatively, a matrix containing the long-run covariance estimate can be inputted.}
 }
 \value{
 S4 class of type \code{\link{cptCovariance-class}}

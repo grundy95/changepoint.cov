@@ -19,18 +19,27 @@ cusumTestStat <- function(X,LRCov,msl){
 	n <- nrow(X)
 	p <- ncol(X)
 	delta <- (p*(p+1))/2
-	LRCov <- toupper(LRCov)
+	if((is.matrix(LRCov))&&(!((ncol(LRCov)==delta)&&(nrow(LRCov)==delta)))){
+		stop("Dimension of manual LRCov is not compatible with data")
+	}	
+	if(is.character(LRCov)){
+		LRCov <- toupper(LRCov)
+	}
 	X <- purrr::map(1:n,~X[.,])
 	Xvech <- cusumVech(X)
-	if(LRCov=='BARTLETT'){
+	if((is.character(LRCov))&&(LRCov=='BARTLETT')){
 		#Should we be multiplying by n or n-delta?
 		cusumCov <- tryCatch({
 			sandwich::lrvar(Xvech,kernel='Bartlett')*n
 		},error=function(cond){
 			stop("Long run covariance estimation not possible, try a different long run covariance estimator or the Ratio method")
-		})
-	}else if(LRCov=='EMPIRICAL'){
+		},warning=function(cond){
+			stop("Long run covariance estimation not possible, try a different long run covariance estimator or the Ratio method")
+		},silent=TRUE)
+	}else if((is.character(LRCov))&&(LRCov=='EMPIRICAL')){
 		cusumCov <- cov(Xvech)
+	}else{
+		cusumCov <- LRCov
 	}
 	calculateCusum <- CusumCalculator(X)
 	Cusum <- purrr::map(msl:(n-msl),calculateCusum)

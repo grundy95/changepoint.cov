@@ -35,7 +35,9 @@ cptCUSUM <- function(X,threshold='Asymptotic',numCpts='AMOC',msl=2*ncol(X),LRCov
 	if(is.character(numCpts)){
 		numCpts <- toupper(numCpts)
 	}
-	LRCov <- toupper(LRCov)
+	if(is.character(LRCov)){
+		LRCov <- toupper(LRCov)
+	}
 
 	n <- nrow(X)
 	p <- ncol(X)
