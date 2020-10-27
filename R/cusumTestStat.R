@@ -31,9 +31,8 @@ cusumTestStat <- function(X,LRCov,msl){
 		#Should we be multiplying by n or n-delta?
 		cusumCov <- tryCatch({
 			sandwich::lrvar(Xvech,kernel='Bartlett')*n
-		},error=function(cond){
-			stop("Long run covariance estimation not possible, try a different long run covariance estimator or the Ratio method")
-		},warning=function(cond){
+		},
+		warning=function(cond){
 			stop("Long run covariance estimation not possible, try a different long run covariance estimator or the Ratio method")
 		},silent=TRUE)
 	}else if((is.character(LRCov))&&(LRCov=='EMPIRICAL')){

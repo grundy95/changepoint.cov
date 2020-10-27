@@ -38,6 +38,14 @@ test_that("Methods show and summary are working",{
 		  expect_is(invisible(capture.output(show(ansCovRatio))),'character')
 })
 
+test_that("Plotting is working",{
+		  expect_is(plot(ansSubspace),'ggplot')
+		  expect_is(plot(ansRatio),'ggplot')
+		  expect_is(plot(ansCUSUM),'ggplot')
+		  expect_is(plot(ansCovCUSUM),'ggplot')
+		  expect_is(plot(ansCovRatio),'ggplot')
+})
+
 test_that("Slots are correct",{
 		  expect_is(ansSubspace@data,"matrix")
 		  expect_is(ansSubspace@cpts,"integer")

@@ -97,16 +97,13 @@ if(!isGeneric("covEst")){
 #'
 #' @param x An object of S4 class \code{\linkS4class{cptCovariance}}
 setMethod("covEst","cptCovariance",function(x){
-		  if(is.na(x@covEst)){
-			  X <- x@data
-			  covs <- list()
-			  cpts <- c(0,cpts(x))
-			  for(i in 1:(length(cpts)-1)){
-				  covs[[i]] <- cov(X[(cpts[i]+1):cpts[i+1],])
-			  }
-			  x@covEst <- covs
+		  X <- x@data
+		  covs <- list()
+		  cpts <- c(0,cpts(x))
+		  for(i in 1:(length(cpts)-1)){
+			  covs[[i]] <- cov(X[(cpts[i]+1):cpts[i+1],])
 		  }
-		  return(x@covEst)
+		  return(covs)
 })
 
 if(!isGeneric("subspaceEst")){
@@ -126,17 +123,16 @@ if(!isGeneric("subspaceEst")){
 setMethod("subspaceEst","cptCovariance",function(x){
 		  if(method(x)!='Subspace'){
 			  stop("Subspace estimation only possible for method='Subspace'")
-		  }else if(is.na(x@subspaceEst)){
-				  X <- x@data
-				  q <- subspaceDim(x)
-				  subspace <- list()
-				  cpts <- c(0,cpts(x))
-				  for(i in 1:(length(cpts)-1)){
-					 subspace[[i]] <- eigen(cov(X[(cpts[i]+1):cpts[i+1],]),symmetric=TRUE)$vectors[,1:q]
-				  }
-				  x@subspaceEst <- subspace
+		  }else{
+			  X <- x@data
+			  q <- subspaceDim(x)
+			  subspace <- list()
+			  cpts <- c(0,cpts(x))
+			  for(i in 1:(length(cpts)-1)){
+				 subspace[[i]] <- eigen(cov(X[(cpts[i]+1):cpts[i+1],]),symmetric=TRUE)$vectors[,1:q]
+			  }
 		  }
-		  return(x@subspaceEst)
+		  return(subspace)
 })
 
 if(!isGeneric("data")){

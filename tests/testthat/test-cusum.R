@@ -20,6 +20,7 @@ test_that("cusumTestStat output is correct",{
 		  expect_is(ans,"numeric")
 		  expect_equal(length(ans),n)
 		  expect_equal(sum(is.na(ans)),2*msl-1)
+		  expect_error(cusumTestStat(dataAMOC,LRCov=diag(rep(1,5))),"Dimension of manual LRCov is not compatible with data")
 })
 
 test_that("Large p datasets output is correct",{
@@ -40,6 +41,7 @@ test_that("Data is correct format",{
 		  dataAMOCna <- dataAMOC
 		  dataAMOCna[1,1] <- NA
 		  dataHighDim <- matrix(rnorm(100*75),ncol=75)
+
 		  expect_is(cptCUSUM(dataAMOC),"cptCovariance")
 		  expect_is(cptCUSUM(dataAMOCdataFrame),"cptCovariance")
 		  expect_error(cptCUSUM(dataAMOCunivariate),"Data should be a matrix")
