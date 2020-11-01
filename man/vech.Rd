@@ -13,5 +13,9 @@ vech(X)
 A numeric vector of length p(p+1)/2
 }
 \description{
-Stacks the columns below the diagonal of a symmetric matrix
+Stacks the columns below the diagonal of a symmetric matrix. Used in CUSUM method.
 }
+\seealso{
+\code{\link{cusumTestStat}}
+}
+\keyword{internal}

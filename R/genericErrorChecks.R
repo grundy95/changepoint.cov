@@ -3,6 +3,10 @@
 #' DEVELOPER USE ONLY. This function checks the user input for the data for all methods.
 #'
 #' @inheritParams cptCov
+#'
+#' @seealso \code{\link{cptCov}}, \code{\link{cptSubspace}}
+#'
+#' @keywords internal
 dataErrorChecks <- function(X){
 	if(!is.numeric(X)){
 		stop("Data must be numeric")
@@ -28,6 +32,10 @@ dataErrorChecks <- function(X){
 #' @param threshold Type of threshold to be used
 #' @param thresholdValue Numeric value of threshold or quantile of asymptotic distribution/permutation test
 #' @param method function name for relevant help file
+#'
+#' @seealso \code{\link{cptCov}}, \code{\link{cptSubspace}}
+#'
+#' @keywords internal
 thresholdErrorChecks <- function(threshold,thresholdValue,method){
 	if(method=='cptCov'){
 		if(!is.character(threshold)){
@@ -65,6 +73,10 @@ thresholdErrorChecks <- function(threshold,thresholdValue,method){
 #' DEVELOPER USE ONLY. This function checks the user input for the numCpts argument for all methods.
 #'
 #' @inheritParams cptCov
+#'
+#' @seealso \code{\link{cptCov}}, \code{\link{cptSubspace}}
+#'
+#' @keywords internal
 numCptsErrorChecks <- function(numCpts,method){
 	if(!(is.character(numCpts)||is.numeric(numCpts))){
 		stop(paste0("numCpts not identified: see ?",method," for valid entries to numCpts"))
@@ -86,6 +98,10 @@ numCptsErrorChecks <- function(numCpts,method){
 #' DEVELOPER USE ONLY. This function checks the user input for the msl argument for all methods.
 #'
 #' @inheritParams cptCov
+#'
+#' @seealso \code{\link{cptCov}}, \code{\link{cptSubspace}}
+#'
+#' @keywords internal
 mslErrorChecks <- function(X,msl){
 	if(!is.numeric(msl)){
 		stop("Minimum segment length should be a single integer between p and n/2")
@@ -100,6 +116,10 @@ mslErrorChecks <- function(X,msl){
 #' DEVELOPER USE ONLY. This function checks the user input for the class argument for all methods.
 #'
 #' @inheritParams cptCov
+#'
+#' @seealso \code{\link{cptCov}}, \code{\link{cptSubspace}}
+#'
+#' @keywords internal
 classErrorChecks <- function(Class){
 	if(!is.logical(Class)){
 		stop("Class should be logical, TRUE or FALSE")

@@ -7,9 +7,9 @@
 permutationTest(X, subspaceDim, msl = dim(X)[2], alpha = 0.05, nperm = 200)
 }
 \arguments{
-\item{X}{Data matrix of dimension n by p}
+\item{X}{Data matrix of dimension n by p.}
 
-\item{subspaceDim}{Dimension of the latent subspace}
+\item{subspaceDim}{Dimension of the latent subspace.}
 
 \item{msl}{Minimum segment length between changepoints. Note this should be greater than or equal to p}
 
@@ -21,7 +21,10 @@ permutationTest(X, subspaceDim, msl = dim(X)[2], alpha = 0.05, nperm = 200)
 Numeric containing the threshold value
 }
 \description{
-Calculates a threshold for the Subspace Method via a permutation test.
+Calculates a threshold for the Subspace Method via a permutation test as described in \insertCite{Grundy2020;textual}{changepoint.cov}
+}
+\details{
+This function works by generating the specified number of permutations of the original data set and running the Subspace method on each permutation in order to get samples from the distribution of the test statistic.
 }
 \examples{
 set.seed(1)
@@ -29,4 +32,10 @@ data <- subspaceDataGeneration(n=100,p=20,subspaceDim=5,tau=50)$data
 ans <- permutationTest(X=data,subspaceDim=5,msl=20,nperm=100)
 ans
 
+}
+\references{
+\insertRef{Grundy2020}{changepoint.cov}
+}
+\seealso{
+\code{\link{cptSubspace}}
 }

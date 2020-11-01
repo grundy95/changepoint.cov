@@ -17,3 +17,7 @@ Function which is product of functions
 \description{
 Multiplies outputs of two functions
 }
+\seealso{
+\code{\link{ratioTestStat}}
+}
+\keyword{internal}

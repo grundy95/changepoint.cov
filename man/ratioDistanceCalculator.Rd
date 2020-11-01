@@ -13,5 +13,9 @@ ratioDistanceCalculator(X)
 A function used to calculate un-normalized test statistic
 }
 \description{
-Creates a function that takes a potential changepoint location and returns the un-normalized test statistic defined in Ryan (2020).
+Creates a function that takes a potential changepoint location and returns the un-normalized test statistic defined in \insertCite{Ryan2020;textual}{changepoint.cov}.
 }
+\seealso{
+\code{\link{ratioTestStat}}
+}
+\keyword{internal}

@@ -17,3 +17,7 @@ A numeric of the asymptotic bias
 \description{
 Calculates the asymptotic bias of the Ratio test statistic used to generate the normalized test statistic
 }
+\seealso{
+\code{\link{ratioTestStat}}
+}
+\keyword{internal}

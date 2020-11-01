@@ -38,7 +38,7 @@ If numCpts is numeric then the threshold is not used as the number of changepoin
 
 \item{thresholdValue}{Either the manual threshold value when threshold="Manual" or the (1-thresholdValue)-quantile of asymptotic distribution of the CUSUM test statistic when method="CUSUM" and threshold="Asymptotic".}
 
-\item{LRCov}{The long-run covariance estimator to be used for CUSUM method. Currently, only "Bartlett" and "Empirical" are supported.}
+\item{LRCov}{The long-run covariance estimator to be used for CUSUM method. Currently, only "Bartlett"and "Empirical" are supported. Alternatively, a matrix containing the long-run covariance estimate can be inputted.}
 
 \item{Class}{Logical. If TRUE then an S4 class is returned. If FALSE the estimated changepoints are returned.}
 }
@@ -46,7 +46,10 @@ If numCpts is numeric then the threshold is not used as the number of changepoin
 An object of S4 class \code{\link{cptCovariance-class}} is returned. If Class="FALSE", just the vector of changepoints are returned.
 }
 \description{
-Finds covariance changepoints within multivariate time series data using either the Ratio method of Ryan (2020) or the CUSUM method of Aue(2009)
+Finds covariance changepoints within multivariate time series data using either the Ratio method \insertCite{Ryan2020}{changepoint.cov} or the CUSUM method \insertCite{Aue2009}{changepoint.cov}.
+}
+\details{
+This is a simple wrapper function for the functions \code{\link{cptRatio}} and \code{\link{cptCUSUM}}. If no method is specified then the method used will depend on the dimension of the time series. For p<10, the CUSUM method will be used and for p>=10 the Ratio method will be used.
 }
 \examples{
 set.seed(1)
@@ -55,6 +58,7 @@ dataMultipleCpts <- wishartDataGeneration(n=200,p=3,tau=c(50,100,150))$data
 
 ansRatio <- cptCov(X=dataAMOC,method="Ratio")
 summary(ansRatio)
+plot(ansRatio)
 
 ansCUSUM <- cptCov(X=dataAMOC,method='CUSUM')
 show(ansCUSUM)
@@ -62,9 +66,20 @@ show(ansCUSUM)
 ansRatio2 <- cptCov(X=dataMultipleCpts,method='Ratio',threshold='Manual',numCpts='BinSeg',
 		msl=10,thresholdValue=20)
 summary(ansRatio2)
+cptsSig(ansRatio2)
+plot(ansRatio2)
 
 ansCUSUM2 <- cptCov(X=dataAMOC,method='CUSUM',numCpts=3,
 		msl=15,LRCov='Empirical')
 summary(ansCUSUM2)
+cptsSig(ansCUSUM2)
 
+}
+\references{
+\insertRef{Ryan2020}{changepoint.cov}
+
+\insertRef{Aue2009}{changepoint.cov}
+}
+\seealso{
+\code{\link{cptRatio}}, \code{\link{cptCUSUM}}, \code{\linkS4class{cptCovariance}}, \code{\link{wishartDataGeneration}}
 }

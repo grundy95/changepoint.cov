@@ -5,56 +5,88 @@
 \alias{cptCovariance-class}
 \alias{summary,cptCovariance-method}
 \alias{show,cptCovariance-method}
-\alias{data,cptCovariance-method}
-\alias{cpts,cptCovariance-method}
-\alias{method,cptCovariance-method}
-\alias{msl,cptCovariance-method}
-\alias{numCpts,cptCovariance-method}
-\alias{threshold,cptCovariance-method}
-\alias{thresholdValue,cptCovariance-method}
 \alias{cptsSig,cptCovariance-method}
+\alias{cptsSig}
+\alias{plot,cptCovariance-method}
+\alias{covEst,cptCovariance-method}
+\alias{covEst}
+\alias{subspaceEst,cptCovariance-method}
+\alias{subspaceEst}
+\alias{data,cptCovariance-method}
+\alias{data}
+\alias{cpts,cptCovariance-method}
+\alias{cpts}
+\alias{method,cptCovariance-method}
+\alias{method}
+\alias{msl,cptCovariance-method}
+\alias{msl}
+\alias{numCpts,cptCovariance-method}
+\alias{numCpts}
+\alias{threshold,cptCovariance-method}
+\alias{threshold}
+\alias{thresholdValue,cptCovariance-method}
+\alias{thresholdValue}
 \alias{subspaceDim,cptCovariance-method}
+\alias{subspaceDim}
 \alias{nperm,cptCovariance-method}
+\alias{nperm}
 \alias{LRCov,cptCovariance-method}
+\alias{LRCov}
 \title{An S4 class for a covariance changepoint object}
 \usage{
 \S4method{summary}{cptCovariance}(object)
 
 \S4method{show}{cptCovariance}(object)
 
-\S4method{data}{cptCovariance}(object)
+\S4method{cptsSig}{cptCovariance}(x)
 
-\S4method{cpts}{cptCovariance}(object)
+\S4method{plot}{cptCovariance}(x)
 
-\S4method{method}{cptCovariance}(object)
+\S4method{covEst}{cptCovariance}(x)
 
-\S4method{msl}{cptCovariance}(object)
+\S4method{subspaceEst}{cptCovariance}(x)
 
-\S4method{numCpts}{cptCovariance}(object)
+\S4method{data}{cptCovariance}(x)
 
-\S4method{threshold}{cptCovariance}(object)
+\S4method{cpts}{cptCovariance}(x)
 
-\S4method{thresholdValue}{cptCovariance}(object)
+\S4method{method}{cptCovariance}(x)
 
-\S4method{cptsSig}{cptCovariance}(object)
+\S4method{msl}{cptCovariance}(x)
 
-\S4method{subspaceDim}{cptCovariance}(object)
+\S4method{numCpts}{cptCovariance}(x)
 
-\S4method{nperm}{cptCovariance}(object)
+\S4method{threshold}{cptCovariance}(x)
 
-\S4method{LRCov}{cptCovariance}(object)
+\S4method{thresholdValue}{cptCovariance}(x)
+
+\S4method{subspaceDim}{cptCovariance}(x)
+
+\S4method{nperm}{cptCovariance}(x)
+
+\S4method{LRCov}{cptCovariance}(x)
 }
 \arguments{
-\item{object}{An object of S4 class \code{\link{cptCovariance-class}}}
+\item{object}{An object of S4 class \code{\linkS4class{cptCovariance}}}
+
+\item{x}{An object of S4 class \code{\linkS4class{cptCovariance}}}
 }
 \description{
-An S4 class for a covariance changepoint object
+List of the basic methods, retrieval functions and slots
 }
 \section{Methods (by generic)}{
 \itemize{
 \item \code{summary}: Summarises the cptCovariance object
 
 \item \code{show}: Shows the cptCovariance object
+
+\item \code{cptsSig}: Returns a data frame containing the changepoints, the associated test statistic and threshold.
+
+\item \code{plot}: Plotting method for cptCovariance object. Returns a \code{\link[ggplot2]{ggplot}} object which can be manipulated as required
+
+\item \code{covEst}: Returns covariance estimates for each segment
+
+\item \code{subspaceEst}: Returns a basis of the subspace estimates for each segment
 
 \item \code{data}: Retrieves the data slot
 
@@ -70,8 +102,6 @@ An S4 class for a covariance changepoint object
 
 \item \code{thresholdValue}: Retrieves the thresholdValue slot
 
-\item \code{cptsSig}: Retrieves the cptsSig slot
-
 \item \code{subspaceDim}: Retrieves the subspaceDim slot
 
 \item \code{nperm}: Retrieves the nperm slot
@@ -82,35 +112,39 @@ An S4 class for a covariance changepoint object
 \section{Slots}{
 
 \describe{
-\item{\code{data}}{An n by p matrix of the data}
+\item{\code{data}}{An n by p matrix of the data.}
 
-\item{\code{cpts}}{A numeric vector containing the identified changepoints}
+\item{\code{cpts}}{A numeric vector containing the identified changepoints.}
 
-\item{\code{method}}{Character containing covariance changepoint method used}
+\item{\code{method}}{Character containing covariance changepoint method used.}
 
-\item{\code{numCpts}}{Either 'AMOC' for at most one changepoint; 'BinSeg' for a binary segmentation approach to dect multiple changepoints; or a positive integer specifying the number of changes}
+\item{\code{numCpts}}{Either 'AMOC' for at most one changepoint; 'BinSeg' for a binary segmentation approach to detect multiple changepoints; or a positive integer specifying the number of changepoints.}
 
-\item{\code{cptsSig}}{Data frame containing the changepoint locations along with their associated test statistic; threshold; and whether or not they were deemed significant}
+\item{\code{cptsSig}}{Data frame containing the changepoint locations along with their associated test statistic; threshold; and whether or not they were deemed significant.}
 
-\item{\code{threshold}}{Character containing the method used for generating the threshold}
+\item{\code{threshold}}{Character containing the method used for generating the threshold.}
 
 \item{\code{thresholdValue}}{Threshold value used to determine significant changepoints. If permutation test within subspace method is used then a vector of threshold values is returned.}
 
-\item{\code{msl}}{Numeric containing the minimum segment length between changepoints}
+\item{\code{msl}}{Minimum segment length between changepoints.}
 
-\item{\code{subspaceDim}}{Numeric value of subspace dimension. Only used for Subspace method}
+\item{\code{subspaceDim}}{Assumed subspace dimension. Only used for Subspace method.}
 
-\item{\code{nperm}}{Numeric value of number of permutations used in permutation test. Only used for subspace method when threshold is "PermTest"}
+\item{\code{nperm}}{Numeric value of number of permutations used in permutation test. Only used for subspace method when threshold is "PermTest".}
 
-\item{\code{LRCov}}{Character describing the long-run covariance estimator used. Only used for Aue method.}
+\item{\code{LRCov}}{Character describing the long-run covariance estimator used or a matrix containing the long-run covariance estimate. Only used for CUSUM method.}
 
-\item{\code{date}}{Creation date of the object}
+\item{\code{covEst}}{List containing the sample covariance for each segment.}
 
-\item{\code{version}}{Version of the cpt.covariance used}
+\item{\code{subspaceEst}}{List containing a basis of the subspace for each segment. Only used for Subspace method.}
+
+\item{\code{date}}{Creation date of the object.}
+
+\item{\code{version}}{Version of the cpt.covariance package used.}
 }}
 
 \examples{
-ans <- new('cptCovariance',data=matrix(rnorm(300),ncol=3),
+out <- new('cptCovariance',data=matrix(rnorm(300),ncol=3),
 		cpts=c(50,100),
 		method='Ratio',
 		numCpts='AMOC',
@@ -118,7 +152,10 @@ ans <- new('cptCovariance',data=matrix(rnorm(300),ncol=3),
 		threshold='Manual',
 		thresholdValue=30,
 		msl=20)
-summary(ans)
-show(ans)
+summary(out)
+show(out)
+plot(out)
+cptsSig(out)
+covEst(out)
 
 }

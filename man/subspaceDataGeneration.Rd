@@ -15,31 +15,34 @@ subspaceDataGeneration(
 )
 }
 \arguments{
-\item{n}{Number of time points}
+\item{n}{Number of time points.}
 
-\item{p}{Dimension of the time series}
+\item{p}{Dimension of the time series.}
 
-\item{subspaceDim}{Dimension of the latent subspace}
+\item{subspaceDim}{Dimension of the latent subspace.}
 
-\item{tau}{Vector of changepoint locations}
+\item{tau}{Vector of changepoint locations.}
 
-\item{nvar}{Variance of measurement error (assumed to be Normal)}
+\item{nvar}{Variance of measurement error i.e the variance of the points in the directions of the orthogonal compliment of the subspace (assumed to be Normal).}
 
-\item{svar}{Variance within the subspace i.e. the variance of points in directions of the basis of the subspace (assumed to be Normal)}
+\item{svar}{Variance within the subspace i.e. the variance of points in directions of the basis of the subspace (assumed to be Normal).}
 
-\item{changeSize}{Either scalar for change size of all the changepoints or a vector of equal length to the number of changepoints indicating the change size for each changepoint. All change sizes must be between 0 and sqrt(subspaceDim).}
+\item{changeSize}{Either scalar for change size of all the changepoints or a vector (of equal length to the number of changepoints) indicating the change size for each changepoint. All change sizes must be between 0 and sqrt(subspaceDim).}
 }
 \value{
 List with elements:
 \itemize{
-\item data Matrix of generated data with dimension n by p
-\item cpts Location of the changepoints
-\item changeSize Scalar or vector of change sizes
-\item subspace List of the bases of the subspace for each segment
+\item data Matrix of generated data with dimension n by p.
+\item cpts Location of the changepoints.
+\item changeSize Scalar or vector of change sizes.
+\item subspace List of the bases of the subspace for each segment.
 }
 }
 \description{
 Allows for easy generation of data that lies in a latent subspace with changepoints in the subspace.
+}
+\details{
+This function allows for the creation of a data matrix that contains changes in subspaces as described in \insertCite{Grundy2020;textual}{changepoint.cov}. The creation of the data set starts by generating a random initial basis for the first segment. Subsequent subspace basis are then created that are the required change size from the previous subspace basis. \code{svar} is then the variance of the points in the directions of the subspace bases and \code{nvar} is the variance of the points in the directions orthogonal to these subspace bases. Hence, \code{nvar} must be less then \code{svar} for the subspace to be visible. The change size is defined in terms of the F-distance between subspace bases as described in \insertCite{Grundy2020;textual}{changepoint.cov}.
 }
 \examples{
 set.seed(1)
@@ -49,4 +52,10 @@ dataObject$cpts
 dataObject$changeSize
 dataObject$subspace
 
+}
+\references{
+\insertRef{Grundy2020}{changepoint.cov}
+}
+\seealso{
+\code{\link{cptSubspace}}, \code{\link{wishartDataGeneration}}
 }

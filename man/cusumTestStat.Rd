@@ -7,9 +7,9 @@
 cusumTestStat(X, LRCov, msl)
 }
 \arguments{
-\item{X}{Data matrix of dimension n by p}
+\item{X}{Data matrix of dimension n by p.}
 
-\item{LRCov}{A character describing the Long-run covariance estimator to be used. Currently, only "Bartlett" and "Empirical" are available, see \code{\link{cptCUSUM}} for more details.}
+\item{LRCov}{A character describing the long-run covariance estimator to be used. Currently, only "Bartlett"; "Empirical"; or a manual long-run covariance are available, see \code{\link{cptCUSUM}} for more details.}
 
 \item{msl}{A numeric giving the minimum segment length between changepoints. NOTE this should be greater than or equal to p.}
 }
@@ -17,11 +17,20 @@ cusumTestStat(X, LRCov, msl)
 A numeric vector containing the test statistic at each potential changepoint location.
 }
 \description{
-Calculates the test statistic for all potential changepoint locations within the time series.
+Calculates the CUSUM test statistic for all potential changepoint locations within the time series. See \code{\link{cptCUSUM}} for more details.
+}
+\details{
+See \code{\link{cptCUSUM}}.
 }
 \examples{
 data <- wishartDataGeneration(n=100,p=3,tau=50)$data
 ans <- cusumTestStat(X=data,LRCov='Empirical',msl=20)
 which.max(ans)
 
+}
+\references{
+\insertRef{Aue2009}{changepoint.cov}
+}
+\seealso{
+\code{\link{cptCUSUM}}, \code{\link{cptCov}}
 }

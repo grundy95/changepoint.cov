@@ -34,19 +34,22 @@ If numCpts is numeric then the threshold is not used as the number of changepoin
 
 \item{msl}{Minimum segment length allowed between the changepoints. NOTE this should be greater than or equal to p, the dimension of the time series.}
 
-\item{LRCov}{The long-run covariance estimator to be used for CUSUM method. Currently, only "Bartlett" and "Empirical" are supported.}
+\item{LRCov}{The long-run covariance estimator to be used for CUSUM method. Currently, only "Bartlett"and "Empirical" are supported. Alternatively, a matrix containing the long-run covariance estimate can be inputted.}
 
 \item{thresholdValue}{Either the manual threshold value when threshold="Manual" or the (1-thresholdValue)-quantile of asymptotic distribution of the CUSUM test statistic when method="CUSUM" and threshold="Asymptotic".}
 
-\item{errorCheck}{Logical. If TRUE error checking is performed}
+\item{errorCheck}{Logical. If TRUE error checking is performed.}
 
 \item{Class}{Logical. If TRUE then an S4 class is returned. If FALSE the estimated changepoints are returned.}
 }
 \value{
-An object of S4 class \code{\link{cptCovariance-class}} is returned. If Class="FALSE", just the vector of changepoints are returned.
+An object of S4 class \code{\linkS4class{cptCovariance}} is returned. If Class="FALSE", the vector of changepoints are returned.
 }
 \description{
-Implements the Aue method for detecting covariance changes in multivariate time series. This method is aimed at low-dimensional time series that can have temporal dependence.
+Implements the \insertCite{Aue2009;textual}{changepoint.cov} method for detecting covariance changes in multivariate time series. This method is aimed at low-dimensional time series that can have temporal dependence.
+}
+\details{
+This function calculates the test statistic, T, described in \insertCite{Aue2009;textual}{changepoint.cov}, specifically the sum of the test statistics for all potential changepoint locations; changepoint localization uses the maximum of these test statistics. T is then normalized so that its asymptotic distribution is a standard Normal. This normalised test statistic is then compared to the defined threshold (either the specified quantile of the Normal distribution if the threshold is set as asymptotic or the manual threshold). If multiple changepoints are possible then the Binary Segmentation algorithm is used to detect multiple changes. The long run covariance estimation and its inversion can be unstable if the dimension of the time series is large. In this scenario we recommend using the \code{\link{cptRatio}} function.
 }
 \examples{
 set.seed(1)
@@ -59,4 +62,10 @@ ansCUSUM2 <- cptCov(X=dataAMOC,threshold='Manual',numCpts='AMOC',
 		msl=15,thresholdValue=15,LRCov='Empirical')
 summary(ansCUSUM2)
 
+}
+\references{
+\insertRef{Aue2009}{changepoint.cov}
+}
+\seealso{
+\code{\link{cptCov}}, \code{\linkS4class{cptCovariance}}, \code{\link{wishartDataGeneration}}
 }

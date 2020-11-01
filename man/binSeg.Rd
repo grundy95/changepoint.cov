@@ -22,15 +22,15 @@ binSeg(
 
 \item{method}{Choice of "Ratio", "CUSUM" or "Subspace".}
 
-\item{msl}{Minimum segment length}
+\item{msl}{Minimum segment length. NOTE must be greater than p/2.}
 
 \item{threshold}{Threshold choice. Only relevant for using the permutation test within the Subspace method. If method="Subspace" and threshold="PermTest" then the permutation test is used to generate a threshold at each round of the binary segmentation procedure.}
 
-\item{thresholdValue}{The threshold value that needs determines if a changepoint is significant}
+\item{thresholdValue}{The threshold value that needs determines if a changepoint is significant.}
 
-\item{m}{User specified number of changepoints. Default is m=-1 meaning the thresholdValue is used as a stopping criteria}
+\item{m}{User specified number of changepoints. Default is m=-1 meaning the thresholdValue is used as a stopping criteria.}
 
-\item{LRCov}{The long-run covariance estimator to be used for CUSUM method. Currently, only "Bartlett" and "Empirical" are supported.}
+\item{LRCov}{The long-run covariance estimator to be used for CUSUM method. Currently, only "Bartlett"; "Empirical" or manual long-run covariance estimate are supported. For a manual estimate the matrix containing the estimate should be inputted - no error checks are performed.}
 
 \item{subspaceDim}{Dimension of the latent subspace for Subspace method.}
 
@@ -42,5 +42,9 @@ binSeg(
 A data frame containing the identified changepoints along with their test statistic and threshold they exceeded.
 }
 \description{
-This function estimates multiple covariance changepoints. NOTE no argument type error checking is performed. This function is for developer use only.
+This function estimates multiple covariance changepoints. NOTE no argument error checking is performed. This function is for developer use only.
 }
+\details{
+The function works by storing a matrix with columns corresponding to the start point of segment; end point of segment; most likely changepoint position within segment; and test statistic for the segment. This way as more and more segments are detected then we don't repeat the calculation of the test statistic. The while loop allows for a set number of changepoints to be calculated or if this is unknown then it will keep looping until no more changepoints are possible or the maximum test statistic across the segments doesn't exceed the threshold. For the Permutation Test the Binary Segmentation only performs a Permutation Test on the segment with the maximum test statistic.
+}
+\keyword{internal}

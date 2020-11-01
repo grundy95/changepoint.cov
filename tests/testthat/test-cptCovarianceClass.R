@@ -38,6 +38,14 @@ test_that("Methods show and summary are working",{
 		  expect_is(invisible(capture.output(show(ansCovRatio))),'character')
 })
 
+test_that("Plotting is working",{
+		  expect_is(plot(ansSubspace),'ggplot')
+		  expect_is(plot(ansRatio),'ggplot')
+		  expect_is(plot(ansCUSUM),'ggplot')
+		  expect_is(plot(ansCovCUSUM),'ggplot')
+		  expect_is(plot(ansCovRatio),'ggplot')
+})
+
 test_that("Slots are correct",{
 		  expect_is(ansSubspace@data,"matrix")
 		  expect_is(ansSubspace@cpts,"integer")
@@ -121,12 +129,15 @@ test_that("Slot retrival functions are working",{
 		  expect_is(cptsSig(ansSubspace),"data.frame")
 		  expect_is(subspaceDim(ansSubspace),"numeric")
 		  expect_is(nperm(ansSubspace),"numeric")
+		  expect_is(covEst(ansSubspace),"list")
+		  expect_is(subspaceEst(ansSubspace),"list")
 
 		  expect_is(LRCov(ansCUSUM),'character')
 
 		  expect_is(numCpts(ansSubspaceMan),'character')
 
 		  expect_error(subspaceDim(ansRatio),"subspaceDim is only a valid slot for method='Subspace'",fixed=TRUE)
+		  expect_error(subspaceEst(ansRatio),"Subspace estimation only possible for method='Subspace'",fixed=TRUE)
 		  expect_error(nperm(ansRatio),"nperm is only a valid slot when using the permutation test within method='Subspace'",fixed=TRUE)
 		  expect_error(nperm(ansSubspaceMan),"nperm is only a valid slot when using the permutation test within method='Subspace'",fixed=TRUE)
 		  expect_error(LRCov(ansSubspace),"LRCov is only a valid slot for method='CUSUM'")

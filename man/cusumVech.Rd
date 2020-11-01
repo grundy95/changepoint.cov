@@ -13,5 +13,9 @@ cusumVech(X)
 An n by p(p+1)/2 matrix
 }
 \description{
-Calculates the covariance matrix for each time point and stacks the columns using \code{\link{vech}}
+Calculates the covariance matrix for each time point and stacks the columns using \code{\link{vech}}. Used in CUSUM method.
 }
+\seealso{
+\code{\link{cusumTestStat}}
+}
+\keyword{internal}

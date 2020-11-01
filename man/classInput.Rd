@@ -45,15 +45,19 @@ If numCpts is numeric then the threshold is not used as the number of changepoin
 
 \item{msl}{Minimum segment length allowed between the changepoints. NOTE this should be greater than or equal to p, the dimension of the time series.}
 
-\item{subspaceDim}{Dimension of the latent subspace}
+\item{subspaceDim}{Dimension of the latent subspace.}
 
 \item{nperm}{Only required for threshold="PermTest". Number of permutations to use in the permutation test.}
 
-\item{LRCov}{The long-run covariance estimator to be used for CUSUM method. Currently, only "Bartlett" and "Empirical" are supported.}
+\item{LRCov}{The long-run covariance estimator to be used for CUSUM method. Currently, only "Bartlett"and "Empirical" are supported. Alternatively, a matrix containing the long-run covariance estimate can be inputted.}
 }
 \value{
-S4 class of type \code{\link{cptCovariance-class}}
+S4 class of type \code{\linkS4class{cptCovariance}}
 }
 \description{
-Function for inputting results into the S4 class \code{\link{cptCovariance-class}}.
+Function for inputting results into the S4 class \code{\linkS4class{cptCovariance}}.
 }
+\seealso{
+\code{\linkS4class{cptCovariance}}
+}
+\keyword{internal}

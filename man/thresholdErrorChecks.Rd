@@ -16,3 +16,7 @@ thresholdErrorChecks(threshold, thresholdValue, method)
 \description{
 DEVELOPER USE ONLY. This function checks the user input for the threshold and thresholdValue.
 }
+\seealso{
+\code{\link{cptCov}}, \code{\link{cptSubspace}}
+}
+\keyword{internal}

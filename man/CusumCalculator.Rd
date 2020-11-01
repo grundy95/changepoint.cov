@@ -15,3 +15,7 @@ A function used to calculate the CUSUM statistic
 \description{
 Creates a function that takes a changepoint location as an input and returns the CUSUM statistic assuming a changepoint at the given location.
 }
+\seealso{
+\code{\link{cusumTestStat}}
+}
+\keyword{internal}

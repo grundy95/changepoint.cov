@@ -15,5 +15,9 @@ fisherESD(gamma1, gamma2)
 A function that calculates the ESD of a Fisher matrix for given gammas
 }
 \description{
-Creates a function which returns the ESD of a Fisher matrix with set gammas for some x within the support of the ESD
+Creates a function which returns the ESD of a Fisher matrix with set gammas for some x within the support of the ESD. Used within Ratio method.
 }
+\seealso{
+\code{\link{ratioTestStat}}
+}
+\keyword{internal}

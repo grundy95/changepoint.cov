@@ -7,11 +7,11 @@
 generateTransMatrix(p, shape = 5, scale = 1/5)
 }
 \arguments{
-\item{p}{Dimension of the time series}
+\item{p}{Dimension of the time series.}
 
-\item{shape}{Shape parameter for generation of eigenvalues in transition matrix}
+\item{shape}{Shape parameter for generation of eigenvalues in transition matrix. Only used with automatic generation of segment covariances.}
 
-\item{scale}{Scale parameter for generation of eigenvalues in transition matrix}
+\item{scale}{Scale parameter for generation of eigenvalues in transition matrix. Only used with automatic generation of segment covariances.}
 }
 \value{
 A p by p transition matrix
@@ -19,3 +19,7 @@ A p by p transition matrix
 \description{
 Generates transition matrices for \code{\link{wishartDataGeneration}}
 }
+\seealso{
+\code{\link{wishartDataGeneration}}
+}
+\keyword{internal}

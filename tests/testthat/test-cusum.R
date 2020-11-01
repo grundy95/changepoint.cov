@@ -20,12 +20,13 @@ test_that("cusumTestStat output is correct",{
 		  expect_is(ans,"numeric")
 		  expect_equal(length(ans),n)
 		  expect_equal(sum(is.na(ans)),2*msl-1)
+		  expect_error(cusumTestStat(dataAMOC,LRCov=diag(rep(1,5))),"Dimension of manual LRCov is not compatible with data")
 })
 
 test_that("Large p datasets output is correct",{
 		  n <- 100
 		  msl <- 20
-		  expect_condition(cusumTestStat(dataHighP,LRCov='Bartlett',msl=msl))
+		  expect_error(cusumTestStat(dataHighP,LRCov='Bartlett',msl=msl),"Long run covariance estimation not possible, try a different long run covariance estimator or the Ratio method")
 		  expect_error(cusumTestStat(dataHighP,LRCov='Empirical',msl=msl),"Long run covariance estimator is not invertible. This is most likely due to the dimension of the data being too large. Please try the Ratio method")
 })
 
@@ -40,6 +41,7 @@ test_that("Data is correct format",{
 		  dataAMOCna <- dataAMOC
 		  dataAMOCna[1,1] <- NA
 		  dataHighDim <- matrix(rnorm(100*75),ncol=75)
+
 		  expect_is(cptCUSUM(dataAMOC),"cptCovariance")
 		  expect_is(cptCUSUM(dataAMOCdataFrame),"cptCovariance")
 		  expect_error(cptCUSUM(dataAMOCunivariate),"Data should be a matrix")
@@ -92,10 +94,13 @@ test_that("Minimum segment length is appropriate",{
 test_that("LRCov argument is appropriate",{
 		  expect_is(cptCUSUM(dataAMOC,LRCov='Bartlett'),"cptCovariance")
 		  expect_is(cptCUSUM(dataAMOC,LRCov='Empirical'),"cptCovariance")
+		  expect_is(cptCUSUM(dataAMOC,LRCov=diag(rep(1,6))),"cptCovariance")
 		  
-		  expect_error(cptCUSUM(dataAMOC,LRCov='Normal'),"LRCov not identified: see ?cptCov for valid entries to LRCov. NOTE LRCov should be a character string",fixed=TRUE)
-		  expect_error(cptCUSUM(dataAMOC,LRCov=TRUE),"LRCov not identified: see ?cptCov for valid entries to LRCov. NOTE LRCov should be a character string",fixed=TRUE)
+		  expect_error(cptCUSUM(dataAMOC,LRCov='Normal'),"LRCov not identified: see ?cptCov for valid entries to LRCov",fixed=TRUE)
+		  expect_error(cptCUSUM(dataAMOC,LRCov=TRUE),"LRCov not identified: see ?cptCov for valid entries to LRCov",fixed=TRUE)
 		  expect_error(cptCUSUM(dataAMOC,LRCov=bartlett))
+		  expect_error(cptCUSUM(dataAMOC,LRCov=diag(rep(1,5))),"Dimension of manual LRCov is not compatible with data")
+		  expect_error(cptCUSUM(dataHighP,LRCov='Bartlett'),"Long run covariance estimation not possible, try a different long run covariance estimator or the Ratio method")
 })
 
 test_that("errorCheck argument is logical",{

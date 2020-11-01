@@ -7,17 +7,20 @@
 subspaceTestStat(X, subspaceDim, msl)
 }
 \arguments{
-\item{X}{Data matrix of dimension n by p}
+\item{X}{Data matrix of dimension n by p.}
 
-\item{subspaceDim}{Dimension of the latent subspace}
+\item{subspaceDim}{Dimension of the latent subspace.}
 
-\item{msl}{Minimum segment length between changepoints. NOTE this should be greater than or equal to p}
+\item{msl}{Minimum segment length between changepoints. NOTE this should be greater than or equal to p.}
 }
 \value{
 A numeric vector containing the test statistic at each potential changepoint location
 }
 \description{
-Calculates the Subspace test statistic for all potential changepoint locations within the time series.
+Calculates the Subspace test statistic for all potential changepoint locations within the time series. See \code{\link{cptSubspace}} for more details.
+}
+\details{
+See \code{\link{cptSubspace}}.
 }
 \examples{
 set.seed(1)
@@ -25,4 +28,10 @@ data <- subspaceDataGeneration(n=100,p=20,subspaceDim=5,tau=50,changeSize=0.5*sq
 ans <- subspaceTestStat(X=data,subspaceDim=5,msl=30)
 which.max(ans)
 
+}
+\references{
+\insertRef{Grundy2020}{changepoint.cov}
+}
+\seealso{
+\code{\link{cptSubspace}}
 }
