@@ -15,5 +15,9 @@ subspaceCostCalculator(X, subspaceDim)
 A function used to calculate the test statistic
 }
 \description{
-Creates a function that takes potential changepoint location and returns the test statistic as defined in Grundy(2020)
+Creates a function that takes potential changepoint location and returns the test statistic as defined in \insertCite{Grundy2020;textual}{changepoint.cov}.
 }
+\seealso{
+\code{\link{subspaceTestStat}}
+}
+\keyword{internal}

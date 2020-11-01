@@ -1,13 +1,17 @@
 #' Inputs results into S4 class
 #'
-#' Function for inputting results into the S4 class \code{\link{cptCovariance-class}}. 
+#' Function for inputting results into the S4 class \code{\linkS4class{cptCovariance}}. 
 #'
 #' @inheritParams cptCov
 #' @inheritParams cptSubspace
 #' @param cptsSig Data frame containing the changepoint locations along with their associated test statistics; threshold; and whether or not they were deemed significant  
 #' @param cpts Vector of changepoint locations
 #'
-#' @return S4 class of type \code{\link{cptCovariance-class}}
+#' @return S4 class of type \code{\linkS4class{cptCovariance}}
+#'
+#' @seealso \code{\linkS4class{cptCovariance}}
+#'
+#' @keywords internal
 #'
 #' @importFrom methods new
 classInput <- function(X,cpts,method,numCpts,cptsSig,threshold,thresholdValue,msl,subspaceDim=0,nperm=0,LRCov='NA'){

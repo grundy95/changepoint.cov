@@ -17,3 +17,7 @@ A numeric of the asymptotic variance
 \description{
 Calculates the asymptotic variance of the Ratio test statistic used to generate the normalized test statistic
 }
+\seealso{
+\code{\link{ratioTestStat}}
+}
+\keyword{internal}

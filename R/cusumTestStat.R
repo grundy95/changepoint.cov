@@ -1,12 +1,19 @@
 #' Test statistic for CUSUM method
 #'
-#' Calculates the test statistic for all potential changepoint locations within the time series.
+#' Calculates the CUSUM test statistic for all potential changepoint locations within the time series. See \code{\link{cptCUSUM}} for more details.
 #'
-#' @param X Data matrix of dimension n by p
-#' @param LRCov A character describing the Long-run covariance estimator to be used. Currently, only "Bartlett" and "Empirical" are available, see \code{\link{cptCUSUM}} for more details.
+#' See \code{\link{cptCUSUM}}.
+#'
+#' @param X Data matrix of dimension n by p.
+#' @param LRCov A character describing the long-run covariance estimator to be used. Currently, only "Bartlett"; "Empirical"; or a manual long-run covariance are available, see \code{\link{cptCUSUM}} for more details.
 #' @param msl A numeric giving the minimum segment length between changepoints. NOTE this should be greater than or equal to p.
 #'
 #' @return A numeric vector containing the test statistic at each potential changepoint location.
+#'
+#' @references 
+#' \insertRef{Aue2009}{changepoint.cov}
+#'
+#' @seealso \code{\link{cptCUSUM}}, \code{\link{cptCov}}
 #'
 #' @examples
 #' data <- wishartDataGeneration(n=100,p=3,tau=50)$data
@@ -58,6 +65,10 @@ cusumTestStat <- function(X,LRCov,msl){
 #' @param X List of data where each slot is a time point
 #'
 #' @return A function used to calculate the CUSUM statistic
+#'
+#' @seealso \code{\link{cusumTestStat}}
+#'
+#' @keywords internal
 CusumCalculator <- function(X){
 	A <- purrr::map(X,~.%*%t(.))
 	A <- purrr::accumulate(A,`+`)
@@ -70,22 +81,30 @@ CusumCalculator <- function(X){
 
 #' Column stacking
 #'
-#' Stacks the columns below the diagonal of a symmetric matrix
+#' Stacks the columns below the diagonal of a symmetric matrix. Used in CUSUM method.
 #'
 #' @param X A data matrix of dimension n by p
 #'
 #' @return A numeric vector of length p(p+1)/2
+#'
+#' @seealso \code{\link{cusumTestStat}}
+#'
+#' @keywords internal
 vech <- function(X){
 	return(as.vector(X[upper.tri(X,diag=TRUE)]))
 }
 
 #' Column stacking of covariance matrix
 #'
-#' Calculates the covariance matrix for each time point and stacks the columns using \code{\link{vech}}
+#' Calculates the covariance matrix for each time point and stacks the columns using \code{\link{vech}}. Used in CUSUM method.
 #'
 #' @param X List of data where each slot is a time point
 #'
 #' @return An n by p(p+1)/2 matrix 
+#'
+#' @seealso \code{\link{cusumTestStat}}
+#'
+#' @keywords internal
 cusumVech <- function(X){
 	A <- purrr::map(X,~.%*%t(.))
 	A <- purrr::map(A,vech)

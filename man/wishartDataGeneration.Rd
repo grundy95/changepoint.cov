@@ -14,28 +14,31 @@ wishartDataGeneration(
 )
 }
 \arguments{
-\item{n}{Number of time points}
+\item{n}{Number of time points.}
 
-\item{p}{Dimension of the time series}
+\item{p}{Dimension of the time series.}
 
-\item{tau}{Vector of changepoint locations}
+\item{tau}{Vector of changepoint locations.}
 
 \item{Sigma}{List of segment covariances. Defaults to automatic generation.}
 
-\item{shape}{Shape parameter for generation of eigenvalues in transition matrix}
+\item{shape}{Shape parameter for generation of eigenvalues in transition matrix. Only used with automatic generation of segment covariances.}
 
-\item{scale}{Scale parameter for generation of eigenvalues in transition matrix}
+\item{scale}{Scale parameter for generation of eigenvalues in transition matrix. Only used with automatic generation of segment covariances.}
 }
 \value{
 List with elements:
 \itemize{
-\item data Matrix of generated data with dimension n by p
-\item cpts Location of the changepoints
-\item Sigma List of covariance matrices of each segment
+\item data Matrix of generated data with dimension n by p.
+\item cpts Location of the changepoints.
+\item Sigma List of covariance matrices of each segment.
 }
 }
 \description{
-Allows for easy data generation of data containing covariance changepoints as described in Ryan(2020)
+Allows for easy generation of data containing covariance changepoints as described in \insertCite{Ryan2020;textual}{changepoint.cov}
+}
+\details{
+This function generates data that contain changes in covariance. If the covariance for each segment, Sigma, is given then data is generated from a $N(0,Sigma)$ for each segment. If the segment covariance aren't given then they are generated via simulating from Wishart distribution.
 }
 \examples{
 set.seed(1)
@@ -44,4 +47,10 @@ dim(dataObject$data)
 dataObject$cpts
 dataObject$Sigma
 
+}
+\references{
+\insertCite{Ryan2020}{changepoint.cov}
+}
+\seealso{
+\code{link{cptCov}}, \code{\link{subspaceDataGeneration}}
 }

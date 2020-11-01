@@ -1,6 +1,6 @@
 Package: changepoint.cov
 Title: Implementation of Covariance Changepoint Methods
-Version: 0.3.3
+Version: 0.4.0
 Authors@R: c(person(given = "Thomas", family = "Grundy", role = c("aut", "cre"), email = "t.grundy1@lancaster.ac.uk", comment = c(ORCID = "0000-0003-1723-3217")),
 	person("Sean", "Ryan", role="aut"),
 	person("Rebecca", "Killick", role="aut"))
@@ -22,7 +22,26 @@ Imports:
     geigen,
     stats,
     ggplot2,
-    viridis
+    viridis,
+    Rdpack
 Suggests: 
     testthat,
     covr
+RdMacros: 
+    Rdpack
+Collate: 
+    'binSeg.R'
+    'changepoint.cov.R'
+    'classInput.R'
+    'cptCovarianceClass.R'
+    'cptCUSUM.R'
+    'cptCov.R'
+    'cptRatio.R'
+    'cptSubspace.R'
+    'cusumTestStat.R'
+    'dataGeneration.R'
+    'genericErrorChecks.R'
+    'methodErrorChecks.R'
+    'permutationTest.R'
+    'ratioTestStat.R'
+    'subspaceTestStatistic.R'

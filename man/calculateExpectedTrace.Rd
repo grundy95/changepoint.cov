@@ -15,5 +15,9 @@ calculateExpectedTrace(gamma1, gamma2)
 A list where the first element is the integral and second element is the error.
 }
 \description{
-Calculates the expected trace used in the test statistic
+Calculates the expected trace used in the Ratio test statistic
 }
+\seealso{
+\code{\link{ratioTestStat}}
+}
+\keyword{internal}

@@ -16,14 +16,14 @@ subspaceErrorChecks(
 )
 }
 \arguments{
-\item{X}{Data matrix of dimension n by p}
+\item{X}{Data matrix of dimension n by p.}
 
-\item{subspaceDim}{Dimension of the latent subspace}
+\item{subspaceDim}{Dimension of the latent subspace.}
 
 \item{threshold}{Threshold choice for determining significance of changepoints. Choices include:
 \itemize{
-\item "PermTest" - Permutation test is performed using the number of permutations and significance level contained in the nperm and thresholdValue parameters respectively
-\item "Manual" - A user chosen threshold is used which is contained in the thresholdValue argument.
+\item "PermTest" - Permutation test is performed using the number of permutations and significance level contained in the nperm and thresholdValue parameters respectively.
+\item "Manual" - A user chosen threshold is used, which is contained in the thresholdValue argument.
 }
 If numCpts is numeric then the threshold is not used as the number of changepoints is known.}
 
@@ -40,8 +40,12 @@ If numCpts is numeric then the threshold is not used as the number of changepoin
 
 \item{nperm}{Only required for threshold="PermTest". Number of permutations to use in the permutation test.}
 
-\item{Class}{Logical. If TRUE then an S4 class is returned. Else just the estimated changepoints are returned.}
+\item{Class}{Logical. If TRUE then an S4 class is returned. Else the estimated changepoints are returned.}
 }
 \description{
 DEVELOPER USE ONLY. This function checks the user inputs to make sure they are all valid
 }
+\seealso{
+\code{\link{cptSubspace}}
+}
+\keyword{internal}

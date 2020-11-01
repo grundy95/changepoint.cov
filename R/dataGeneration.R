@@ -2,21 +2,29 @@
 #'
 #' Allows for easy generation of data that lies in a latent subspace with changepoints in the subspace.
 #'
-#' @param n Number of time points
-#' @param p Dimension of the time series
-#' @param subspaceDim Dimension of the latent subspace
-#' @param tau Vector of changepoint locations
-#' @param nvar Variance of measurement error (assumed to be Normal)
-#' @param svar Variance within the subspace i.e. the variance of points in directions of the basis of the subspace (assumed to be Normal)
-#' @param changeSize Either scalar for change size of all the changepoints or a vector of equal length to the number of changepoints indicating the change size for each changepoint. All change sizes must be between 0 and sqrt(subspaceDim).
+#' This function allows for the creation of a data matrix that contains changes in subspaces as described in \insertCite{Grundy2020;textual}{changepoint.cov}. The creation of the data set starts by generating a random initial basis for the first segment. Subsequent subspace basis are then created that are the required change size from the previous subspace basis. \code{svar} is then the variance of the points in the directions of the subspace bases and \code{nvar} is the variance of the points in the directions orthogonal to these subspace bases. Hence, \code{nvar} must be less then \code{svar} for the subspace to be visible. The change size is defined in terms of the F-distance between subspace bases as described in \insertCite{Grundy2020;textual}{changepoint.cov}.
+#'
+#' @param n Number of time points.
+#' @param p Dimension of the time series.
+#' @param subspaceDim Dimension of the latent subspace.
+#' @param tau Vector of changepoint locations.
+#' @param nvar Variance of measurement error i.e the variance of the points in the directions of the orthogonal compliment of the subspace (assumed to be Normal).
+#' @param svar Variance within the subspace i.e. the variance of points in directions of the basis of the subspace (assumed to be Normal).
+#' @param changeSize Either scalar for change size of all the changepoints or a vector (of equal length to the number of changepoints) indicating the change size for each changepoint. All change sizes must be between 0 and sqrt(subspaceDim).
 #' 
 #' @return List with elements:
 #' \itemize{
-#' 	\item data Matrix of generated data with dimension n by p
-#' 	\item cpts Location of the changepoints
-#' 	\item changeSize Scalar or vector of change sizes
-#' 	\item subspace List of the bases of the subspace for each segment
+#' 	\item data Matrix of generated data with dimension n by p.
+#' 	\item cpts Location of the changepoints.
+#' 	\item changeSize Scalar or vector of change sizes.
+#' 	\item subspace List of the bases of the subspace for each segment.
 #' }
+#'
+#' @references 
+#' \insertRef{Grundy2020}{changepoint.cov}
+#'
+#' @seealso \code{\link{cptSubspace}}, \code{\link{wishartDataGeneration}}
+#'
 #'
 #' @examples
 #' set.seed(1)
@@ -90,21 +98,28 @@ subspaceDataGeneration <- function(n,p,subspaceDim,tau=c(1,n),nvar=0.05,svar=1,c
 
 #' Data Generation - Wishart
 #'
-#' Allows for easy data generation of data containing covariance changepoints as described in Ryan(2020)
+#' Allows for easy generation of data containing covariance changepoints as described in \insertCite{Ryan2020;textual}{changepoint.cov}
 #'
-#' @param n Number of time points
-#' @param p Dimension of the time series
-#' @param tau Vector of changepoint locations
+#' This function generates data that contain changes in covariance. If the covariance for each segment, Sigma, is given then data is generated from a $N(0,Sigma)$ for each segment. If the segment covariance aren't given then they are generated via simulating from Wishart distribution.
+#'
+#' @param n Number of time points.
+#' @param p Dimension of the time series.
+#' @param tau Vector of changepoint locations.
 #' @param Sigma List of segment covariances. Defaults to automatic generation.
-#' @param shape Shape parameter for generation of eigenvalues in transition matrix
-#' @param scale Scale parameter for generation of eigenvalues in transition matrix
+#' @param shape Shape parameter for generation of eigenvalues in transition matrix. Only used with automatic generation of segment covariances.
+#' @param scale Scale parameter for generation of eigenvalues in transition matrix. Only used with automatic generation of segment covariances. 
 
 #' @return List with elements:
 #' \itemize{
-#' 	\item data Matrix of generated data with dimension n by p
-#' 	\item cpts Location of the changepoints
-#'	\item Sigma List of covariance matrices of each segment
+#' 	\item data Matrix of generated data with dimension n by p.
+#' 	\item cpts Location of the changepoints.
+#'	\item Sigma List of covariance matrices of each segment.
 #' }
+#'
+#' @references
+#' \insertCite{Ryan2020}{changepoint.cov}
+#'
+#' @seealso \code{link{cptCov}}, \code{\link{subspaceDataGeneration}}
 #'
 #' @examples
 #' set.seed(1)
@@ -149,7 +164,11 @@ wishartDataGeneration <- function(n,p,tau=c(1,n),Sigma=list(NA),shape=5,scale=1/
 #'
 #' @return A p by p transition matrix
 #'
+#' @seealso \code{\link{wishartDataGeneration}}
+#'
 #' @importFrom stats prcomp rWishart rgamma
+#'
+#' @keywords internal
 generateTransMatrix <- function(p,shape=5,scale=1/5){
 	A <- prcomp(rWishart(1,p,diag(p))[,,1])[[2]]
 	eigs <- rgamma(n=p,shape=shape,scale=scale)

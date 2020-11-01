@@ -3,6 +3,10 @@
 #' DEVELOPER USE ONLY. This function checks the user inputs to make sure they are all valid.
 #'
 #' @inheritParams cptRatio
+#'
+#' @seealso \code{\link{cptRatio}}
+#'
+#' @keywords internal
 ratioErrorChecks <- function(X,threshold,numCpts,thresholdValue,msl,Class){
 	dataErrorChecks(X)
 	thresholdErrorChecks(threshold,thresholdValue,method='cptCov')
@@ -17,6 +21,9 @@ ratioErrorChecks <- function(X,threshold,numCpts,thresholdValue,msl,Class){
 #' DEVELOPER USE ONLY. This function checks the user inputs to make sure they are all valid
 #'
 #' @inheritParams cptCUSUM
+#'
+#' @seealso \code{\link{cptCUSUM}}
+#' @keywords internal
 cusumErrorChecks <- function(X,threshold,numCpts,LRCov,thresholdValue,msl,Class){
 	dataErrorChecks(X)
 	thresholdErrorChecks(threshold,thresholdValue,method='cptCov')
@@ -46,6 +53,10 @@ cusumErrorChecks <- function(X,threshold,numCpts,LRCov,thresholdValue,msl,Class)
 #' DEVELOPER USE ONLY. This function checks the user inputs to make sure they are all valid
 #'
 #' @inheritParams cptSubspace
+#'
+#' @seealso \code{\link{cptSubspace}}
+#'
+#' @keywords internal
 subspaceErrorChecks <- function(X,subspaceDim,threshold,numCpts,thresholdValue,msl,nperm,Class){
 	dataErrorChecks(X)
 	thresholdErrorChecks(threshold,thresholdValue,method='cptSubspace')

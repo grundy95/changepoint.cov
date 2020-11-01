@@ -32,3 +32,7 @@ If numCpts is numeric then the threshold is not used as the number of changepoin
 \description{
 DEVELOPER USE ONLY. This function checks the user inputs to make sure they are all valid.
 }
+\seealso{
+\code{\link{cptRatio}}
+}
+\keyword{internal}

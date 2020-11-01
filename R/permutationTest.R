@@ -1,14 +1,21 @@
 #' Permutation Test for Subspace Method
 #'
-#' Calculates a threshold for the Subspace Method via a permutation test.
+#' Calculates a threshold for the Subspace Method via a permutation test as described in \insertCite{Grundy2020;textual}{changepoint.cov}
 #'
-#' @param X Data matrix of dimension n by p
-#' @param subspaceDim Dimension of the latent subspace
+#' This function works by generating the specified number of permutations of the original data set and running the Subspace method on each permutation in order to get samples from the distribution of the test statistic.
+#'
+#' @param X Data matrix of dimension n by p.
+#' @param subspaceDim Dimension of the latent subspace.
 #' @param msl Minimum segment length between changepoints. Note this should be greater than or equal to p
 #' @param alpha Significance level of test
 #' @param nperm Number of random permutations to be performed
 #'
 #' @return Numeric containing the threshold value
+#'
+#' @references
+#' \insertRef{Grundy2020}{changepoint.cov}
+#'
+#' @seealso \code{\link{cptSubspace}}
 #'
 #' @examples
 #' set.seed(1)

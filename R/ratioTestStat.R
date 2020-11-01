@@ -1,11 +1,18 @@
 #' Test statistic for Ratio method
 #'
-#' Calculates the test statistic for all potential changepoint locations within the time series.
+#' Calculates the Ratio test statistic for all potential changepoint locations within the time series. See \code{\link{cptRatio}} for more details.
 #'
-#' @param X Data matrix of dimension n by p
+#' See \code{\link{cptRatio}}.
+#'
+#' @param X Data matrix of dimension n by p.
 #' @param msl A numeric giving the minimum segment length between changepoints. NOTE this should be greater than or equal to p.
 #'
 #' @return A numeric vector containing the test statistic at each potential changepoint location.
+#'
+#' @references
+#' \insertRef{Ryan2020}{changepoint.cov}
+#'
+#' @seealso \code{\link{cptRatio}}, \code{\link{cptCov}}
 #'
 #' @examples
 #' set.seed(1)
@@ -44,11 +51,15 @@ ratioTestStat <- function(X,msl){
 
 #' Ratio distance calculator
 #'
-#' Creates a function that takes a potential changepoint location and returns the un-normalized test statistic defined in Ryan (2020).
+#' Creates a function that takes a potential changepoint location and returns the un-normalized test statistic defined in \insertCite{Ryan2020;textual}{changepoint.cov}.
 #'
 #' @param X List of data where each slot is a time point
 #'
 #' @return A function used to calculate un-normalized test statistic
+#'
+#' @seealso \code{\link{ratioTestStat}}
+#'
+#' @keywords internal
 ratioDistanceCalculator <- function(X){
 	A <- purrr::map(X,~.%*%t(.))
 	A <- purrr::accumulate(A,`+`)
@@ -63,7 +74,7 @@ ratioDistanceCalculator <- function(X){
 
 #' Expected Trace Calulator
 #' 
-#' Calculates the expected trace used in the test statistic
+#' Calculates the expected trace used in the Ratio test statistic
 #'
 #' @param gamma1 p/n1 where n1 is the number of time points before potential changepoint
 #'
@@ -73,6 +84,10 @@ ratioDistanceCalculator <- function(X){
 #'
 #' @importFrom stats integrate
 #' @importFrom rlang !!!
+#'
+#' @seealso \code{\link{ratioTestStat}}
+#'
+#' @keywords internal
 calculateExpectedTrace <- function(gamma1,gamma2){
 	asymptoticPdf <- fisherESD(gamma1,gamma2)
 	integrand <- functionProduct(function(x){(1-x)^2+(1-1/x)^2},asymptoticPdf)
@@ -84,11 +99,15 @@ calculateExpectedTrace <- function(gamma1,gamma2){
 
 #' Empirical spectral distribution of a Fisher matrix
 #'
-#' Creates a function which returns the ESD of a Fisher matrix with set gammas for some x within the support of the ESD
+#' Creates a function which returns the ESD of a Fisher matrix with set gammas for some x within the support of the ESD. Used within Ratio method.
 #'
 #' @inheritParams calculateExpectedTrace
 #'
 #' @return A function that calculates the ESD of a Fisher matrix for given gammas
+#'
+#' @seealso \code{\link{ratioTestStat}}
+#'
+#' @keywords internal
 fisherESD <- function(gamma1,gamma2){
 	h <- sqrt(gamma1+gamma2-gamma1*gamma2)
 	a <- ((1-h)^2)/((1-gamma2)^2)
@@ -103,11 +122,15 @@ fisherESD <- function(gamma1,gamma2){
 
 #' Calculates Fisher support
 #'
-#' Returns the support for calculating the Fisher ESD
+#' Returns the support for calculating the Fisher ESD within Ratio method.
 #'
 #' @inheritParams calculateExpectedTrace
 #'
 #' @return Support for Fisher ESD
+#'
+#' @seealso \code{\link{ratioTestStat}}
+#'
+#' @keywords internal
 fisherSupport <- function(gamma1,gamma2){
 	h <- sqrt(gamma1+gamma2-gamma1*gamma2)
 	a <- ((1-h)^2)/((1-gamma2)^2)
@@ -123,6 +146,10 @@ fisherSupport <- function(gamma1,gamma2){
 #' @param f2 Function 2
 #'
 #' @return Function which is product of functions
+#'
+#' @seealso \code{\link{ratioTestStat}}
+#'
+#' @keywords internal
 functionProduct <- function(f1,f2){
 	return(function(x){return(f1(x)*f2(x))})
 }
@@ -134,6 +161,10 @@ functionProduct <- function(f1,f2){
 #' @inheritParams calculateExpectedTrace
 #'
 #' @return A numeric of the asymptotic bias
+#'
+#' @seealso \code{\link{ratioTestStat}}
+#'
+#' @keywords internal
 asymptoticBias <- function(gamma1,gamma2){
 	h <- sqrt(gamma1+gamma2-gamma1*gamma2)
 	K31 <- (h^2)/((1-gamma2)^4)
@@ -150,6 +181,10 @@ asymptoticBias <- function(gamma1,gamma2){
 #' @inheritParams calculateExpectedTrace
 #'
 #' @return A numeric of the asymptotic variance
+#'
+#' @seealso \code{\link{ratioTestStat}}
+#'
+#' @keywords internal
 asymptoticVariance <- function(gamma1,gamma2){
 	h <- sqrt(gamma1+gamma2-gamma1*gamma2)
 	K31 <- (h^2)/((1-gamma2)^4)

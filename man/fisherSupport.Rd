@@ -15,5 +15,9 @@ fisherSupport(gamma1, gamma2)
 Support for Fisher ESD
 }
 \description{
-Returns the support for calculating the Fisher ESD
+Returns the support for calculating the Fisher ESD within Ratio method.
 }
+\seealso{
+\code{\link{ratioTestStat}}
+}
+\keyword{internal}

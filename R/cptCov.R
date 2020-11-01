@@ -1,7 +1,9 @@
 #' Covariance changepoint detection
 #'
-#' Finds covariance changepoints within multivariate time series data using either the Ratio method of Ryan (2020) or the CUSUM method of Aue(2009)
+#' Finds covariance changepoints within multivariate time series data using either the Ratio method \insertCite{Ryan2020}{changepoint.cov} or the CUSUM method \insertCite{Aue2009}{changepoint.cov}.
 #'
+#' This is a simple wrapper function for the functions \code{\link{cptRatio}} and \code{\link{cptCUSUM}}. If no method is specified then the method used will depend on the dimension of the time series. For p<10, the CUSUM method will be used and for p>=10 the Ratio method will be used.
+#' 
 #' @param X Data matrix of dimension n by p.
 #' @param method Covariance changepoint method to be used. Choice of "Ratio" or "CUSUM".
 #' @param threshold Threshold choice for determining significance of changepoints. Choices include:
@@ -23,6 +25,13 @@
 #'
 #' @return An object of S4 class \code{\link{cptCovariance-class}} is returned. If Class="FALSE", just the vector of changepoints are returned.
 #'
+#' @references 
+#' \insertRef{Ryan2020}{changepoint.cov}
+#'
+#' \insertRef{Aue2009}{changepoint.cov}
+#'
+#' @seealso \code{\link{cptRatio}}, \code{\link{cptCUSUM}}, \code{\linkS4class{cptCovariance}}, \code{\link{wishartDataGeneration}}
+#'
 #' @examples
 #' set.seed(1)
 #' dataAMOC <- wishartDataGeneration(n=100,p=3,tau=50)$data
@@ -30,6 +39,7 @@
 #'
 #' ansRatio <- cptCov(X=dataAMOC,method="Ratio")
 #' summary(ansRatio)
+#' plot(ansRatio)
 #' 
 #' ansCUSUM <- cptCov(X=dataAMOC,method='CUSUM')
 #' show(ansCUSUM)
@@ -37,10 +47,15 @@
 #' ansRatio2 <- cptCov(X=dataMultipleCpts,method='Ratio',threshold='Manual',numCpts='BinSeg',
 #'			msl=10,thresholdValue=20)
 #' summary(ansRatio2)
+#' cptsSig(ansRatio2)
+#' plot(ansRatio2)
 #'
 #' ansCUSUM2 <- cptCov(X=dataAMOC,method='CUSUM',numCpts=3,
 #'			msl=15,LRCov='Empirical')
 #' summary(ansCUSUM2)
+#' cptsSig(ansCUSUM2)
+#'
+#' @include cptCovarianceClass.R
 #'
 #' @export
 cptCov <- function(X,method=c("Ratio","CUSUM"),threshold="Asymptotic",numCpts='AMOC',msl=2*ncol(X),thresholdValue=0.05,LRCov='Bartlett',Class=TRUE){

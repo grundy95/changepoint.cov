@@ -7,7 +7,7 @@
 ratioTestStat(X, msl)
 }
 \arguments{
-\item{X}{Data matrix of dimension n by p}
+\item{X}{Data matrix of dimension n by p.}
 
 \item{msl}{A numeric giving the minimum segment length between changepoints. NOTE this should be greater than or equal to p.}
 }
@@ -15,7 +15,10 @@ ratioTestStat(X, msl)
 A numeric vector containing the test statistic at each potential changepoint location.
 }
 \description{
-Calculates the test statistic for all potential changepoint locations within the time series.
+Calculates the Ratio test statistic for all potential changepoint locations within the time series. See \code{\link{cptRatio}} for more details.
+}
+\details{
+See \code{\link{cptRatio}}.
 }
 \examples{
 set.seed(1)
@@ -23,4 +26,10 @@ data <- wishartDataGeneration(n=100,p=3,tau=50)$data
 ans <- ratioTestStat(X=data,msl=20)
 which.max(ans)
 
+}
+\references{
+\insertRef{Ryan2020}{changepoint.cov}
+}
+\seealso{
+\code{\link{cptRatio}}, \code{\link{cptCov}}
 }

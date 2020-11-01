@@ -14,3 +14,7 @@ mslErrorChecks(X, msl)
 \description{
 DEVELOPER USE ONLY. This function checks the user input for the msl argument for all methods.
 }
+\seealso{
+\code{\link{cptCov}}, \code{\link{cptSubspace}}
+}
+\keyword{internal}

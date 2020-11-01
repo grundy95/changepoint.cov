@@ -1,12 +1,19 @@
 #' Test statistic for Subspace method
 #'
-#' Calculates the Subspace test statistic for all potential changepoint locations within the time series.
+#' Calculates the Subspace test statistic for all potential changepoint locations within the time series. See \code{\link{cptSubspace}} for more details.
 #'
-#' @param X Data matrix of dimension n by p
-#' @param subspaceDim Dimension of the latent subspace
-#' @param msl Minimum segment length between changepoints. NOTE this should be greater than or equal to p
+#' See \code{\link{cptSubspace}}.
+#'
+#' @param X Data matrix of dimension n by p.
+#' @param subspaceDim Dimension of the latent subspace.
+#' @param msl Minimum segment length between changepoints. NOTE this should be greater than or equal to p.
 #' 
 #' @return A numeric vector containing the test statistic at each potential changepoint location
+#'
+#' @references
+#' \insertRef{Grundy2020}{changepoint.cov}
+#'
+#' @seealso \code{\link{cptSubspace}}
 #'
 #' @examples
 #' set.seed(1)
@@ -27,12 +34,16 @@ subspaceTestStat <- function(X,subspaceDim,msl){
 
 #' Subspace cost calculator
 #' 
-#' Creates a function that takes potential changepoint location and returns the test statistic as defined in Grundy(2020)
+#' Creates a function that takes potential changepoint location and returns the test statistic as defined in \insertCite{Grundy2020;textual}{changepoint.cov}.
 #'
 #' @param X Data matrix of dimension n by p
 #' @param subspaceDim Dimension of the latent subspace
-
+#'
 #' @return A function used to calculate the test statistic
+#'
+#' @seealso \code{\link{subspaceTestStat}}
+#'
+#' @keywords internal
 subspaceCostCalculator <- function(X,subspaceDim){
 	A <- purrr::map(X,~.%*%t(.))
 	A <- purrr::accumulate(A,`+`)
