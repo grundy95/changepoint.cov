@@ -26,7 +26,7 @@
 #' @references 
 #' \insertRef{Grundy2020}{changepoint.cov}
 #'
-#' @seealso \code{\link{cptCov}}, \code{\linkS4class{cptCovariance}}, \code{\link{subspaceDataGeneration}}, \code{\link{permutationTest}}
+#' @seealso \code{\link{cptCov}}, \code{\linkS4class{cptCovariance}}, \code{\link{subspaceDataGeneration}}, \code{\link{permutationTest}},\code{\link{subspaceTestStat}}
 #'
 #'
 #' @examples

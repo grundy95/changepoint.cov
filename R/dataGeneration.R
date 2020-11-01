@@ -117,9 +117,9 @@ subspaceDataGeneration <- function(n,p,subspaceDim,tau=c(1,n),nvar=0.05,svar=1,c
 #' }
 #'
 #' @references
-#' \insertCite{Ryan2020}{changepoint.cov}
+#' \insertRef{Ryan2020}{changepoint.cov}
 #'
-#' @seealso \code{link{cptCov}}, \code{\link{subspaceDataGeneration}}
+#' @seealso \code{\link{cptCov}}, \code{\link{subspaceDataGeneration}}
 #'
 #' @examples
 #' set.seed(1)

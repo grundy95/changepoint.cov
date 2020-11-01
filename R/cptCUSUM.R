@@ -12,7 +12,7 @@
 #'@references
 #' \insertRef{Aue2009}{changepoint.cov}
 #'
-#' @seealso \code{\link{cptCov}}, \code{\linkS4class{cptCovariance}}, \code{\link{wishartDataGeneration}}
+#' @seealso \code{\link{cptCov}}, \code{\linkS4class{cptCovariance}}, \code{\link{wishartDataGeneration}}, \code{\link{cusumTestStat}}
 #'
 #' @examples
 #' set.seed(1)
