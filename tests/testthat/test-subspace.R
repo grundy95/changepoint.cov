@@ -49,6 +49,7 @@ test_that("Data is correct format",{
 		  dataAMOCna <- dataAMOC
 		  dataAMOCna[1,1] <- NA
 		  dataHighDim <- matrix(rnorm(100*75),ncol=75)
+		  dataConstant <- matrix(0,ncol=5,nrow=100)
 		  expect_is(cptSubspace(dataAMOC,subspaceDim=5,threshold='Manual',thresholdValue=10),"cptCovariance")
 		  expect_is(cptSubspace(dataAMOCdataFrame,subspaceDim=5,threshold='Manual',thresholdValue=10),"cptCovariance")
 
@@ -57,6 +58,7 @@ test_that("Data is correct format",{
 		  expect_error(cptSubspace(dataAMOCcharacter,subspaceDim=5),"Data must be numeric")
 		  expect_error(cptSubspace(dataAMOCna,subspaceDim=5),"Missing value: NA is not allowed in the data")
 		  expect_error(cptSubspace(dataHighDim,subspaceDim=10),"Dimension of data is too high to allow covariance changepoint detection using available methods. Dimension of data needs to be at most n/2")
+		  expect_error(cptCUSUM(dataConstant),"Sample covariance of whole data is singular. This is probably due to constant data",fixed=TRUE)
 })
 
 test_that("Subspace dimension is correct format",{
@@ -93,7 +95,7 @@ test_that("Threshold value is correct",{
 		  expect_is(cptSubspace(dataAMOC,subspaceDim=5,threshold='Manual',thresholdValue=30),"cptCovariance")
 
 		  expect_error(cptSubspace(dataAMOC,subspaceDim=5,thresholdValue=-1),"thresholdValue must be a single numeric and positive if threshold='Manual' or between 0 and 1 if threshold='PermTest'")
-		  expect_error(cptSubspace(dataAMOC,subspaceDim=5,threshold='PermTest',thresholdValue=2),"When using threshold='PermTest', the threshold is the significance of the permutation test. Please enter a value between 0 and 1")
+		  expect_error(cptSubspace(dataAMOC,subspaceDim=5,threshold='PermTest',thresholdValue=2),"When using threshold='PermTest', the thresholdValue is the significance level of the permutation test. Please enter a value between 0 and 1")
 		  expect_error(cptSubspace(dataAMOC,subspaceDim=5,thresholdValue="two"),"thresholdValue must be a single numeric and positive if threshold='Manual' or between 0 and 1 if threshold='PermTest'")
 		  expect_error(cptSubspace(dataAMOC,subspaceDim=5,thresholdValue=c(0.05,0.1)),"thresholdValue must be a single numeric and positive if threshold='Manual' or between 0 and 1 if threshold='PermTest'")
 })

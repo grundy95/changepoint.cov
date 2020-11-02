@@ -49,8 +49,8 @@ dataObject$Sigma
 
 }
 \references{
-\insertCite{Ryan2020}{changepoint.cov}
+\insertRef{Ryan2020}{changepoint.cov}
 }
 \seealso{
-\code{link{cptCov}}, \code{\link{subspaceDataGeneration}}
+\code{\link{cptCov}}, \code{\link{subspaceDataGeneration}}
 }

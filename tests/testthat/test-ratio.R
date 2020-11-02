@@ -38,12 +38,14 @@ test_that("Data is correct format",{
 		  dataAMOCcharacter <- matrix(rep('test',200*20),ncol=20)
 		  dataAMOCna <- dataAMOC
 		  dataAMOCna[1,1] <- NA
+		  dataConstant <- matrix(0,ncol=5,nrow=100)
 		  expect_is(cptRatio(dataAMOC),"cptCovariance")
 		  expect_is(cptRatio(dataAMOCdataFrame),"cptCovariance")
 		  expect_error(cptRatio(dataAMOCunivariate),"Data should be a matrix")
 		  expect_error(cptRatio(as.matrix(dataAMOCunivariate,ncol=1)),"Univariate time series analysis not supported")
 		  expect_error(cptRatio(dataAMOCcharacter),"Data must be numeric")
 		  expect_error(cptRatio(dataAMOCna),"Missing value: NA is not allowed in the data")
+		  expect_error(cptCUSUM(dataConstant),"Sample covariance of whole data is singular. This is probably due to constant data",fixed=TRUE)
 })
 
 test_that("Threshold type is correct",{

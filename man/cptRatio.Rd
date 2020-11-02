@@ -46,7 +46,7 @@ An object of S4 class \code{\link{cptCovariance-class}} is returned. If Class="F
 Implements the \insertCite{Ryan2020;textual}{changepoint.cov} method for detecting covariance changes in multivariate time series. This method is aimed at independent high-dimensional time series.
 }
 \details{
-This function calculates the test statistic, $T$, described in \insertCite{Ryan2020;textual}{changepoint.cov}. Using results from Random Matrix Theory the test statistic is normalised by it's asymptotic expectation and variance so that it follows a standard Normal distribution. Following the paper, the threshold \code{log(n)} is used if the threshold is set as asymptotic, else the user defined manual threshold is used. If multiple changepoints are possible then the Binary Segmentation algorithm is used to detect multiple changes. If the minimum segment length is too small then the numerical integration performed in the normalization of the test statistic can be unstable. In this scenario the minimum segment length will be automatically increased. This method is designed for independent time series, if the time series contains temporal dependence we recommend using the \code{\link{cptCUSUM}} function.
+This function calculates the test statistic, T, described in \insertCite{Ryan2020;textual}{changepoint.cov}. Using results from Random Matrix Theory the test statistic is normalised by it's asymptotic expectation and variance so that it follows a standard Normal distribution. Following the paper, the threshold \code{log(n)} is used if the threshold is set as asymptotic, else the user defined manual threshold is used. If multiple changepoints are possible then the Binary Segmentation algorithm is used to detect multiple changes. If the minimum segment length is too small then the numerical integration performed in the normalization of the test statistic can be unstable. In this scenario the minimum segment length will be automatically increased. This method is designed for independent time series, if the time series contains temporal dependence we recommend using the \code{\link{cptCUSUM}} function.
 }
 \examples{
 set.seed(1)
@@ -63,5 +63,5 @@ summary(ansRatio2)
 \insertRef{Ryan2020}{changepoint.cov}
 }
 \seealso{
-\code{\link{cptCov}}, \code{\linkS4class{cptCovariance}}, \code{\link{wishartDataGeneration}}
+\code{\link{cptCov}}, \code{\linkS4class{cptCovariance}}, \code{\link{wishartDataGeneration}}, \code{\link{ratioTestStat}}
 }

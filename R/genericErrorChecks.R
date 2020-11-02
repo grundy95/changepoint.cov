@@ -23,6 +23,8 @@ dataErrorChecks <- function(X){
 	if(ncol(X)>(nrow(X)/2)){
 		   stop("Dimension of data is too high to allow covariance changepoint detection using available methods. Dimension of data needs to be at most n/2")
 	}
+	tryCatch(solve(cov(X)),error=function(cond){
+			 stop("Sample covariance of whole data is singular. This is probably due to constant data")})
 }
 
 #' threshold error checking
@@ -63,7 +65,7 @@ thresholdErrorChecks <- function(threshold,thresholdValue,method){
 			stop("thresholdValue must be a single numeric and positive if threshold='Manual' or between 0 and 1 if threshold='PermTest'")
 		}
 		if((threshold=="PERMTEST")&&(thresholdValue>1)){
-			stop("When using threshold='PermTest', the threshold is the significance of the permutation test. Please enter a value between 0 and 1")
+			stop("When using threshold='PermTest', the thresholdValue is the significance level of the permutation test. Please enter a value between 0 and 1")
 		}
 	}
 }

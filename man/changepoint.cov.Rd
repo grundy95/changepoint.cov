@@ -3,6 +3,7 @@
 \docType{package}
 \name{changepoint.cov}
 \alias{changepoint.cov}
+\alias{changepoint.cov-package}
 \title{changepoint.cov: A package for covariance changepoint detection}
 \description{
 The changepoint.cov package provides 3 methods for covariance changepoint detection.

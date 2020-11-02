@@ -36,3 +36,10 @@ test_that("Method argument is correct",{
 test_that("Data is correct format",{
 		  expect_is(cptCov(X=as.data.frame(dataAMOC),method="Ratio"),"cptCovariance")
 })
+
+test_that("Correct number of changepoints are returned",{
+		  ans <- cptCov(X=dataAMOC,method='Ratio',numCpts=2)
+		  expect_equal(length(cpts(ans)),3)
+		  ans2 <- cptCov(X=dataAMOC,method='CUSUM',numCpts=2)
+		  expect_equal(length(cpts(ans2)),3)
+})

@@ -67,5 +67,5 @@ summary(ansCUSUM2)
 \insertRef{Aue2009}{changepoint.cov}
 }
 \seealso{
-\code{\link{cptCov}}, \code{\linkS4class{cptCovariance}}, \code{\link{wishartDataGeneration}}
+\code{\link{cptCov}}, \code{\linkS4class{cptCovariance}}, \code{\link{wishartDataGeneration}}, \code{\link{cusumTestStat}}
 }

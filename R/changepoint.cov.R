@@ -15,6 +15,7 @@
 #'
 #' @docType package
 #' @name changepoint.cov
+#' @aliases changepoint.cov-package
 #'
 #' @importFrom Rdpack reprompt
 NULL

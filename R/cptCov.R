@@ -97,13 +97,19 @@ cptCov <- function(X,method=c("Ratio","CUSUM"),threshold="Asymptotic",numCpts='A
 			warning("Long run covariance estimator is not used in Ratio method")
 		}
 		threshold <- toupper(threshold)
-		numCpts <- toupper(numCpts)
+		if(is.character(numCpts)){
+			numCpts <- toupper(numCpts)
+		}
 		ans <- cptRatio(X=X,threshold=threshold,numCpts=numCpts,msl=msl,thresholdValue=thresholdValue,errorCheck=FALSE,Class=Class)
 	}else{
 		cusumErrorChecks(X=X,threshold=threshold,numCpts=numCpts,msl=msl,LRCov=LRCov,thresholdValue=thresholdValue,Class=Class)
 		threshold <- toupper(threshold)
-		numCpts <- toupper(numCpts)
-		LRCov <- toupper(LRCov)
+		if(is.character(numCpts)){
+			numCpts <- toupper(numCpts)
+		}
+		if(is.character(LRCov)){
+			LRCov <- toupper(LRCov)
+		}
 		ans <- cptCUSUM(X=X,threshold=threshold,numCpts=numCpts,msl=msl,LRCov=LRCov,thresholdValue=thresholdValue,errorCheck=FALSE,Class=Class)
 	}
 	return(ans)
