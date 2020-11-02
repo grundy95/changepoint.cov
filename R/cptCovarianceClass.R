@@ -106,7 +106,7 @@ setMethod("plot","cptCovariance",function(x){
 		  covPlot <- ggplot(segCovs,aes(x=.data$p1,y=.data$p2,fill=.data$Value))+
 			  geom_tile()+
 			  facet_grid(.~Segment,labeller='label_both')+
-			  scale_fill_viridis()+
+			  scale_fill_viridis(name="Value")+
 			  xlab("p")+ylab("p")
 		  return(covPlot)
 })

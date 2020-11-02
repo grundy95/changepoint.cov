@@ -41,6 +41,7 @@ test_that("Data is correct format",{
 		  dataAMOCna <- dataAMOC
 		  dataAMOCna[1,1] <- NA
 		  dataHighDim <- matrix(rnorm(100*75),ncol=75)
+		  dataConstant <- matrix(0,ncol=5,nrow=100)
 
 		  expect_is(cptCUSUM(dataAMOC),"cptCovariance")
 		  expect_is(cptCUSUM(dataAMOCdataFrame),"cptCovariance")
@@ -49,6 +50,7 @@ test_that("Data is correct format",{
 		  expect_error(cptCUSUM(dataAMOCcharacter),"Data must be numeric")
 		  expect_error(cptCUSUM(dataAMOCna),"Missing value: NA is not allowed in the data")
 		  expect_error(cptCUSUM(dataHighDim),"Dimension of data is too high to allow covariance changepoint detection using available methods. Dimension of data needs to be at most n/2")
+		  expect_error(cptCUSUM(dataConstant),"Sample covariance of whole data is singular. This is probably due to constant data",fixed=TRUE)
 })
 
 test_that("Threshold type is correct",{
