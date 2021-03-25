@@ -5,8 +5,9 @@
 
 <!-- badges: start -->
 
-[![codecov](https://codecov.io/gh/grundy95/changepoint.cov/branch/master/graph/badge.svg?token=8OBZFDTM3E)](https://codecov.io/gh/grundy95/changepoint.cov)
 [![R-CMD-check](https://github.com/grundy95/changepoint.cov/workflows/R-CMD-check/badge.svg)](https://github.com/grundy95/changepoint.cov/actions)
+[![codecov](https://codecov.io/gh/grundy95/changepoint.cov/branch/master/graph/badge.svg?token=8OBZFDTM3E)](https://codecov.io/gh/grundy95/changepoint.cov)
+
 <!-- badges: end -->
 
 The goal of changepoint.cov is to provide methods for detecting
