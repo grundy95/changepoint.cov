@@ -125,7 +125,7 @@ setMethod("summary","cptCovariance",function(object){
 		  cat('Method			    : ',object@method,'\n')
 		  cat('Multiple changepoint method : ',numCpts(object),'\n')
 		  cat('Minimum segment length      : ',object@msl,'\n')
-		  cat('Changepoints		    : ',object@cpts,'\n')
+		  cat('Changepoints		    : ',object@cpts[-length(object@cpts)],'\n')
 })
 
 #' @describeIn cptCovariance-methods Shows the cptCovariance object

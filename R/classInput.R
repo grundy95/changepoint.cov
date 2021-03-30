@@ -19,35 +19,35 @@ classInput <- function(X,cpts,method,numCpts,cptsSig,threshold,thresholdValue,ms
 		threshold <- "Manual"
 	}
 	if(method=='Subspace'){
-		ans <- new('cptCovariance',dataset=X,
-                           cpts=sort(cpts)[-length(cpts)],
-			   method=method,
-	                   numCpts=numCpts,
-	         	   cptsSig=cptsSig,
-			   threshold=threshold,
-			   thresholdValue=thresholdValue,
-			   msl=as.integer(msl),
-			   subspaceDim=subspaceDim,
-			   nperm=nperm)
+	  ans <- new('cptCovariance',dataset=X,
+	             cpts=sort(cpts),
+	             method=method,
+	             numCpts=numCpts,
+	             cptsSig=cptsSig,
+	             threshold=threshold,
+	             thresholdValue=thresholdValue,
+	             msl=as.integer(msl),
+	             subspaceDim=subspaceDim,
+	             nperm=nperm)
 	}else if(method=='CUSUM'){
-		ans <- new('cptCovariance',dataset=X,
-			   cpts=sort(cpts)[-length(cpts)],
-			   method=method,
-			   numCpts=numCpts,
-			   cptsSig=cptsSig,
-			   threshold=threshold,
-			   thresholdValue=thresholdValue,
-			   msl=as.integer(msl),
-			   LRCov=LRCov)
+	  ans <- new('cptCovariance',dataset=X,
+	             cpts=sort(cpts),
+	             method=method,
+	             numCpts=numCpts,
+	             cptsSig=cptsSig,
+	             threshold=threshold,
+	             thresholdValue=thresholdValue,
+	             msl=as.integer(msl),
+	             LRCov=LRCov)
 	}else if(method=='Ratio'){
-		ans <- new('cptCovariance',dataset=X,
-			   cpts=sort(cpts)[-length(cpts)],
-			   method=method,
-			   numCpts=numCpts,
-			   cptsSig=cptsSig,
-			   threshold=threshold,
-			   thresholdValue=thresholdValue,
-			   msl=as.integer(msl))
+	  ans <- new('cptCovariance',dataset=X,
+	             cpts=sort(cpts),
+	             method=method,
+	             numCpts=numCpts,
+	             cptsSig=cptsSig,
+	             threshold=threshold,
+	             thresholdValue=thresholdValue,
+	             msl=as.integer(msl))
 	}
 	return(ans)
 }

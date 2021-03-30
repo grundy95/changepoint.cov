@@ -11,6 +11,7 @@ knitr::opts_chunk$set(
   fig.path = "man/figures/README-",
   out.width = "100%"
 )
+library(changepoint.cov)
 ```
 
 # changepoint.cov
@@ -48,14 +49,12 @@ These basic examples show how to use the 2 main functions: `cptCov` for detectin
 For detecting covariance changepoints in high-dimensional independent time series, we recommend using `method='Ratio'`.
 
 ```{r cptCovRatio}
-library(changepoint.cov)
-## basic example code
 set.seed(1)
-data <- wishartDataGeneration(n=200,p=50,tau=100)$data
+data <- wishartDataGeneration(n=200,p=30,tau=100)$data
 
 ansRatio <- cptCov(X=data, method='Ratio')
 summary(ansRatio)
-covEst(ansRatio)
+plot(ansRatio)
 ```
 
 For detecting covariance changes in low-dimensional, potentially dependent time series we recommend using `method='CUSUM'`.
@@ -63,12 +62,12 @@ For detecting covariance changes in low-dimensional, potentially dependent time 
 ```{r cptCovCUSUM}
 set.seed(1)
 
-data <- wishartDataGeneration(n=200,p=3,tau=c(50,100,150))$data
+data <- wishartDataGeneration(n=200,p=3,tau=c(50,150))$data
 
-ansCUSUM <- cptCov(X=data,method='CUSUM')
+ansCUSUM <- cptCov(X=data, method='CUSUM', numCpts='BinSeg', threshold='Manual', thresholdValue=7)
 show(ansCUSUM)
 cptsSig(ansCUSUM)
-plot(ansCUSUM)
+covEst(ansCUSUM)
 ```
 
 ### `cptSubspace`
