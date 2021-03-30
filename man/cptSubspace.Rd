@@ -82,7 +82,7 @@ summary(ansSubspace)
 subspaceEst(ansSubspace)
 
 ansSubspace2 <- cptSubspace(X=dataMultipleCpts,subspaceDim=5,threshold='Manual',numCpts='BinSeg',
-			thresholdValue=30,msl=30)
+			thresholdValue=10,msl=30)
 summary(ansSubspace2)
 cptsSig(ansSubspace2)
 

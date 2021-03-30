@@ -20,7 +20,7 @@ classInput <- function(X,cpts,method,numCpts,cptsSig,threshold,thresholdValue,ms
 	}
 	if(method=='Subspace'){
 		ans <- new('cptCovariance',dataset=X,
-                           cpts=cpts,
+                           cpts=sort(cpts)[-length(cpts)],
 			   method=method,
 	                   numCpts=numCpts,
 	         	   cptsSig=cptsSig,
@@ -31,7 +31,7 @@ classInput <- function(X,cpts,method,numCpts,cptsSig,threshold,thresholdValue,ms
 			   nperm=nperm)
 	}else if(method=='CUSUM'){
 		ans <- new('cptCovariance',dataset=X,
-			   cpts=cpts,
+			   cpts=sort(cpts)[-length(cpts)],
 			   method=method,
 			   numCpts=numCpts,
 			   cptsSig=cptsSig,
@@ -41,7 +41,7 @@ classInput <- function(X,cpts,method,numCpts,cptsSig,threshold,thresholdValue,ms
 			   LRCov=LRCov)
 	}else if(method=='Ratio'){
 		ans <- new('cptCovariance',dataset=X,
-			   cpts=cpts,
+			   cpts=sort(cpts)[-length(cpts)],
 			   method=method,
 			   numCpts=numCpts,
 			   cptsSig=cptsSig,
