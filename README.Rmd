@@ -22,7 +22,7 @@ knitr::opts_chunk$set(
 
 <!-- badges: end -->
 
-The goal of changepoint.cov is to provide methods for detecting covaraince or subspace changepoints in multivariate time series.
+The goal of changepoint.cov is to provide methods for detecting covariance or subspace changepoints in multivariate time series.
 
 ## Installation
 
@@ -39,15 +39,48 @@ You can install the development version from [GitHub](https://github.com/) with:
 # install.packages("devtools")
 devtools::install_github("grundy95/changepoint.cov")
 ```
-<!-- ## Example -->
 
-<!-- This is a basic example which shows you how to solve a common problem: -->
+## Example
 
-<!-- ```{r example} -->
-<!-- library(changepoint.cov) -->
-<!-- ## basic example code -->
-<!-- ``` -->
+These basic examples show how to use the 2 main functions: `cptCov` for detecting changes in covariance and `cptSubspace` for detecting changes in subspace.
 
+### `cptCov`
+For detecting covariance changepoints in high-dimensional independent time series, we recommend using `method='Ratio'`.
+
+```{r cptCovRatio}
+library(changepoint.cov)
+## basic example code
+set.seed(1)
+data <- wishartDataGeneration(n=200,p=50,tau=100)$data
+
+ansRatio <- cptCov(X=data, method='Ratio')
+summary(ansRatio)
+covEst(ansRatio)
+```
+
+For detecting covariance changes in low-dimensional, potentially dependent time series we recommend using `method='CUSUM'`.
+
+```{r cptCovCUSUM}
+set.seed(1)
+
+data <- wishartDataGeneration(n=200,p=3,tau=c(50,100,150))$data
+
+ansCUSUM <- cptCov(X=data,method='CUSUM')
+show(ansCUSUM)
+cptsSig(ansCUSUM)
+plot(ansCUSUM)
+```
+
+### `cptSubspace`
+For detecting subspace changepoints in high-dimensional data using the `cptSubspace` function.
+
+```{r cptSubspace}
+set.seed(1)
+data <- subspaceDataGeneration(n=100,p=20,subspaceDim=5,tau=50,changeSize=0.5*sqrt(5))$data
+ansSubspace <- cptSubspace(X=data, subspaceDim=5, nperm=100)
+summary(ansSubspace)
+subspaceEst(ansSubspace)
+```
 <!-- What is special about using `README.Rmd` instead of just `README.md`? You can include R chunks like so: -->
 
 <!-- ```{r cars} -->
