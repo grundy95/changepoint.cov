@@ -6,7 +6,7 @@
 <!-- badges: start -->
 
 [![R-CMD-check](https://github.com/grundy95/changepoint.cov/workflows/R-CMD-check/badge.svg)](https://github.com/grundy95/changepoint.cov/actions)
-[![codecov](https://codecov.io/gh/grundy95/changepoint.cov/branch/master/graph/badge.svg?token=8OBZFDTM3E)](https://codecov.io/gh/grundy95/changepoint.cov)
+[![codecov](https://codecov.io/gh/grundy95/changepoint.cov/branch/main/graph/badge.svg?token=8OBZFDTM3E)](https://codecov.io/gh/grundy95/changepoint.cov)
 
 <!-- badges: end -->
 
@@ -47,7 +47,7 @@ data <- wishartDataGeneration(n=200,p=50,tau=100)$data
 
 ansRatio <- cptCov(X=data, method='Ratio')
 summary(ansRatio)
-#> Created using changepoint.cov version 0.4.1 
+#> Created using changepoint.cov version 0.5.0 
 #> Method               :  Ratio 
 #> Multiple changepoint method :  AMOC 
 #> Minimum segment length      :  100 
@@ -580,11 +580,11 @@ show(ansCUSUM)
 #>            : S4 class containing  15  slots with names
 #>                  subspaceDim nperm LRCov covEst subspaceEst version date method dataset cpts msl numCpts threshold thresholdValue cptsSig 
 #> 
-#> Created on      :  Tue Mar 30 14:28:33 2021 
+#> Created on      :  Tue Mar 30 14:44:25 2021 
 #> 
 #> Summary(.)      :
 #> ---------------
-#> Created using changepoint.cov version 0.4.1 
+#> Created using changepoint.cov version 0.5.0 
 #> Method               :  CUSUM 
 #> Multiple changepoint method :  AMOC 
 #> Minimum segment length      :  6 
@@ -607,7 +607,7 @@ set.seed(1)
 data <- subspaceDataGeneration(n=100,p=20,subspaceDim=5,tau=50,changeSize=0.5*sqrt(5))$data
 ansSubspace <- cptSubspace(X=data, subspaceDim=5, nperm=100)
 summary(ansSubspace)
-#> Created using changepoint.cov version 0.4.1 
+#> Created using changepoint.cov version 0.5.0 
 #> Method               :  Subspace 
 #> Multiple changepoint method :  AMOC 
 #> Minimum segment length      :  20 
