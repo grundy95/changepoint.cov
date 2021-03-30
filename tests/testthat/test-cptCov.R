@@ -39,7 +39,7 @@ test_that("Data is correct format",{
 
 test_that("Correct number of changepoints are returned",{
 		  ans <- cptCov(X=dataAMOC,method='Ratio',numCpts=2)
-		  expect_equal(length(cpts(ans)),3)
+		  expect_equal(length(cpts(ans)),2)
 		  ans2 <- cptCov(X=dataAMOC,method='CUSUM',numCpts=2)
-		  expect_equal(length(cpts(ans2)),3)
+		  expect_equal(length(cpts(ans2)),2)
 })

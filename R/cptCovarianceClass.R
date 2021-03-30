@@ -1,7 +1,7 @@
 #' cptCovariance: an \code{S4} class for a covariance changepoint object
 #'
 #' Contains data and information required for further changepoint analysis,
-#' summaries and plotting.
+#' summaries and plotting. For methods see \code{\link{cptCovariance-methods}}.
 #'
 #' @slot dataset An n by p matrix of the data.
 #' @slot cpts A numeric vector containing the identified changepoints.
@@ -20,7 +20,7 @@
 #' @slot version Version of the cpt.covariance package used.
 #'
 #' @examples
-#' # Create new cptCovaraince object
+#' # Create new cptCovariance object
 #' out <- new('cptCovariance',
 #'      dataset=matrix(rnorm(300),ncol=3),
 #'			cpts=c(50,100),
@@ -46,13 +46,79 @@
 #' # Estimate covariance matrices in each segment
 #' covEst(out)
 #'
+#' # Create new cptCovariance object with subspace method
+#' out2 <- new('cptCovariance',
+#'      dataset=matrix(rnorm(300),ncol=3),
+#'			cpts=c(50,100),
+#'			method='Subspace',
+#'			numCpts='AMOC',
+#'			cptsSig=data.frame('cpts'=50,'T'=33.3,'thresholdValue'=30,significant=TRUE),
+#'			threshold='Manual',
+#'			thresholdValue=30,
+#'			msl=20,
+#'			subspaceDim=1)
+#'
+#' # Estimate subspace in each segment
+#' subspaceEst(out2)
 #' @import methods
 #' @export
 setClass("cptCovariance",slots=list(dataset='matrix',cpts='numeric',method='character',msl='numeric',numCpts='ANY',threshold='character',thresholdValue='numeric',cptsSig='data.frame',subspaceDim='numeric',nperm='numeric',LRCov='ANY',covEst='list',subspaceEst='list',date='character',version='character'),prototype=list(subspaceDim=NA_real_,nperm=NA_real_,LRCov=NA_character_,covEst=list(NA_real_),subspaceEst=list(NA_real_),version=as(packageVersion("changepoint.cov"),'character'),date=date(),method=NULL))
 
-#' @describeIn cptCovariance Summarises the cptCovariance object
+#' cptCovariance Methods
+#'
+#' Methods for objects with S4 class \code{\linkS4class{cptCovariance}}
 #'
 #' @param object An object of S4 class \code{\linkS4class{cptCovariance}}
+#' @param x x
+#' @param y y
+#'
+#' @name cptCovariance-methods
+#'
+#' @examples
+#' # Create new cptCovariance object
+#' out <- new('cptCovariance',
+#'      dataset=matrix(rnorm(300),ncol=3),
+#'			cpts=c(50,100),
+#'			method='Ratio',
+#'			numCpts='AMOC',
+#'			cptsSig=data.frame('cpts'=50,'T'=33.3,'thresholdValue'=30,significant=TRUE),
+#'			threshold='Manual',
+#'			thresholdValue=30,
+#'			msl=20)
+#'
+#' # Summarize cptCovariance object
+#' summary(out)
+#'
+#' # Show cptCovariance object
+#' show(out)
+#'
+#' # Plot cptCovariance object
+#' plot(out)
+#'
+#' # Show significant changepoints
+#' cptsSig(out)
+#'
+#' # Estimate covariance matrices in each segment
+#' covEst(out)
+#'
+#' # Create new cptCovariance object with subspace method
+#' out2 <- new('cptCovariance',
+#'      dataset=matrix(rnorm(300),ncol=3),
+#'			cpts=c(50,100),
+#'			method='Subspace',
+#'			numCpts='AMOC',
+#'			cptsSig=data.frame('cpts'=50,'T'=33.3,'thresholdValue'=30,significant=TRUE),
+#'			threshold='Manual',
+#'			thresholdValue=30,
+#'			msl=20,
+#'			subspaceDim=1)
+#'
+#' # Estimate subspace in each segment
+#' subspaceEst(out2)
+NULL
+
+#' @describeIn cptCovariance-methods Summarises the cptCovariance object
+#'
 #' @export
 setMethod("summary","cptCovariance",function(object){
 		  cat('Created using changepoint.cov version',object@version,'\n')
@@ -62,9 +128,8 @@ setMethod("summary","cptCovariance",function(object){
 		  cat('Changepoints		    : ',object@cpts,'\n')
 })
 
-#' @describeIn cptCovariance Shows the cptCovariance object
-#'
-#' @param object An object of S4 class \code{\linkS4class{cptCovariance}}
+#' @describeIn cptCovariance-methods Shows the cptCovariance object
+
 #'
 #' @export
 setMethod("show","cptCovariance",function(object){
@@ -77,11 +142,7 @@ setMethod("show","cptCovariance",function(object){
 })
 
 
-#' @describeIn cptCovariance Plotting method for cptCovariance object. Returns a \code{\link[ggplot2]{ggplot}} object which can be manipulated as required
-#'
-#' @param object An object of S4 class \code{\linkS4class{cptCovariance}}
-#' @param x x
-#' @param y y
+#' @describeIn cptCovariance-methods Plotting method for cptCovariance object. Returns a \code{\link[ggplot2]{ggplot}} object which can be manipulated as required
 #'
 #' @import ggplot2
 #' @importFrom viridis scale_fill_viridis
@@ -110,10 +171,7 @@ setMethod("plot", "cptCovariance", function(object, x=c(), y=c()){
 setGeneric("covEst", function(object){
   standardGeneric("covEst")
 })
-
-#' @describeIn cptCovariance Returns covariance estimates for each segment
-#'
-#' @param object An object of S4 class \code{\linkS4class{cptCovariance}}
+#' @describeIn cptCovariance-methods Returns covariance estimates for each segment
 #'
 #' @aliases covEst
 #'
@@ -132,9 +190,7 @@ setGeneric("subspaceEst", function(object){
   standardGeneric("subspaceEst")
 })
 
-#' @describeIn cptCovariance Returns a basis of the subspace estimates for each segment
-#'
-#' @param object An object of S4 class \code{\linkS4class{cptCovariance}}
+#' @describeIn cptCovariance-methods Returns a basis of the subspace estimates for each segment
 #'
 #' @aliases subspaceEst
 #'

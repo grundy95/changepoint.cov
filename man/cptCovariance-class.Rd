@@ -3,49 +3,11 @@
 \docType{class}
 \name{cptCovariance-class}
 \alias{cptCovariance-class}
-\alias{summary,cptCovariance-method}
-\alias{show,cptCovariance-method}
-\alias{plot,cptCovariance-method}
-\alias{covEst,cptCovariance-method}
-\alias{covEst}
-\alias{subspaceEst,cptCovariance-method}
-\alias{subspaceEst}
 \title{cptCovariance: an \code{S4} class for a covariance changepoint object}
-\usage{
-\S4method{summary}{cptCovariance}(object)
-
-\S4method{show}{cptCovariance}(object)
-
-\S4method{plot}{cptCovariance}(object, x = c(), y = c())
-
-\S4method{covEst}{cptCovariance}(object)
-
-\S4method{subspaceEst}{cptCovariance}(object)
-}
-\arguments{
-\item{object}{An object of S4 class \code{\linkS4class{cptCovariance}}}
-
-\item{x}{x}
-
-\item{y}{y}
-}
 \description{
 Contains data and information required for further changepoint analysis,
-summaries and plotting.
+summaries and plotting. For methods see \code{\link{cptCovariance-methods}}.
 }
-\section{Methods (by generic)}{
-\itemize{
-\item \code{summary}: Summarises the cptCovariance object
-
-\item \code{show}: Shows the cptCovariance object
-
-\item \code{plot}: Plotting method for cptCovariance object. Returns a \code{\link[ggplot2]{ggplot}} object which can be manipulated as required
-
-\item \code{covEst}: Returns covariance estimates for each segment
-
-\item \code{subspaceEst}: Returns a basis of the subspace estimates for each segment
-}}
-
 \section{Slots}{
 
 \describe{
@@ -81,7 +43,7 @@ summaries and plotting.
 }}
 
 \examples{
-##
+# Create new cptCovariance object
 out <- new('cptCovariance',
      dataset=matrix(rnorm(300),ncol=3),
 		cpts=c(50,100),
@@ -91,10 +53,34 @@ out <- new('cptCovariance',
 		threshold='Manual',
 		thresholdValue=30,
 		msl=20)
+
+# Summarize cptCovariance object
 summary(out)
+
+# Show cptCovariance object
 show(out)
+
+# Plot cptCovariance object
 plot(out)
+
+# Show significant changepoints
 cptsSig(out)
+
+# Estimate covariance matrices in each segment
 covEst(out)
 
+# Create new cptCovariance object with subspace method
+out2 <- new('cptCovariance',
+     dataset=matrix(rnorm(300),ncol=3),
+		cpts=c(50,100),
+		method='Subspace',
+		numCpts='AMOC',
+		cptsSig=data.frame('cpts'=50,'T'=33.3,'thresholdValue'=30,significant=TRUE),
+		threshold='Manual',
+		thresholdValue=30,
+		msl=20,
+		subspaceDim=1)
+
+# Estimate subspace in each segment
+subspaceEst(out2)
 }

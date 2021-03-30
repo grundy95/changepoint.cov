@@ -21,7 +21,7 @@
 #' @inheritParams cptCov
 #' @param errorCheck Logical. If TRUE error checking is performed
 #'
-#' @return An object of S4 class \code{\link{cptCovariance-class}} is returned. If Class="FALSE", the vector of changepoints are returned.
+#' @return An object of S4 class \code{\linkS4class{cptCovariance}} is returned. If Class="FALSE", the vector of changepoints are returned.
 #'
 #' @references
 #' \insertRef{Ryan2020}{changepoint.cov}

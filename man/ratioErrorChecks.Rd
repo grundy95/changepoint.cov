@@ -11,7 +11,7 @@ ratioErrorChecks(X, threshold, numCpts, thresholdValue, msl, Class)
 
 \item{threshold}{Threshold choice for determining significance of changepoints. Choices include:
 \itemize{
-\item "Asymptotic" - Uses the asymptotic threshold derived for each method. For method="Ratio" the threshold is log(n). For method="CUSUM" the threshold is the specified quantile of the standard Normal distribution. The quantile is set by the argument thresholdValue.
+\item "Asymptotic" - Uses the asymptotic threshold derived for each method. For Ratio method the threshold is log(n). For CUSUM method the threshold is the specified quantile of the standard Normal distribution. The quantile is set by the argument thresholdValue.
 \item "Manual"- A user chosen threshold which is contained in the thresholdValue argument. NOTE the normalized test statistics will be compared to the set thresholds - see details for more information.
 }
 If numCpts is numeric then the threshold is not used as the number of changepoints is known.}
@@ -23,7 +23,7 @@ If numCpts is numeric then the threshold is not used as the number of changepoin
 \item Numeric - User specified number of changepoints.
 }}
 
-\item{thresholdValue}{Either the manual threshold value when threshold="Manual" or the (1-thresholdValue)-quantile of asymptotic distribution of the CUSUM test statistic when method="CUSUM" and threshold="Asymptotic".}
+\item{thresholdValue}{Either the manual threshold value when threshold="Manual" or the (1-thresholdValue)-quantile of asymptotic distribution of the test statistic when threshold="Asymptotic".}
 
 \item{msl}{Minimum segment length allowed between the changepoints. NOTE this should be greater than or equal to p, the dimension of the time series.}
 
