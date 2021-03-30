@@ -44,4 +44,4 @@ Collate:
     'methodErrorChecks.R'
     'permutationTest.R'
     'ratioTestStat.R'
-    'subspaceTestStatistic.R'
+    'subspaceTestStat.R'

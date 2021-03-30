@@ -47,7 +47,7 @@ test_that("Plotting is working",{
 })
 
 test_that("Slots are correct",{
-		  expect_is(ansSubspace@data,"matrix")
+		  expect_is(ansSubspace@dataset,"matrix")
 		  expect_is(ansSubspace@cpts,"integer")
 		  expect_is(ansSubspace@method,"character")
 		  expect_is(ansSubspace@msl,"integer")
@@ -61,7 +61,7 @@ test_that("Slots are correct",{
 		  expect_is(ansSubspace@date,"character")
 		  expect_is(ansSubspace@version,"character")
 
-		  expect_is(ansCUSUM@data,"matrix")
+		  expect_is(ansCUSUM@dataset,"matrix")
 		  expect_is(ansCUSUM@cpts,"integer")
 		  expect_is(ansCUSUM@method,"character")
 		  expect_is(ansCUSUM@msl,"integer")
@@ -75,7 +75,7 @@ test_that("Slots are correct",{
 		  expect_is(ansCUSUM@date,"character")
 		  expect_is(ansCUSUM@version,"character")
 
-		  expect_is(ansRatio@data,"matrix")
+		  expect_is(ansRatio@dataset,"matrix")
 		  expect_is(ansRatio@cpts,"integer")
 		  expect_is(ansRatio@method,"character")
 		  expect_is(ansRatio@msl,"integer")
@@ -89,7 +89,7 @@ test_that("Slots are correct",{
 		  expect_is(ansRatio@date,"character")
 		  expect_is(ansRatio@version,"character")
 
-		  expect_is(ansCovCUSUM@data,"matrix")
+		  expect_is(ansCovCUSUM@dataset,"matrix")
 		  expect_is(ansCovCUSUM@cpts,"integer")
 		  expect_is(ansCovCUSUM@method,"character")
 		  expect_is(ansCovCUSUM@msl,"integer")
@@ -103,7 +103,7 @@ test_that("Slots are correct",{
 		  expect_is(ansCovCUSUM@date,"character")
 		  expect_is(ansCovCUSUM@version,"character")
 
-		  expect_is(ansCovRatio@data,"matrix")
+		  expect_is(ansCovRatio@dataset,"matrix")
 		  expect_is(ansCovRatio@cpts,"integer")
 		  expect_is(ansCovRatio@method,"character")
 		  expect_is(ansCovRatio@msl,"integer")
@@ -119,7 +119,7 @@ test_that("Slots are correct",{
 })
 
 test_that("Slot retrival functions are working",{
-		  expect_is(data(ansSubspace),"matrix")
+		  expect_is(dataset(ansSubspace),"matrix")
 		  expect_is(cpts(ansSubspace),"integer")
 		  expect_is(method(ansSubspace),"character")
 		  expect_is(msl(ansSubspace),"integer")
@@ -143,5 +143,5 @@ test_that("Slot retrival functions are working",{
 		  expect_error(LRCov(ansSubspace),"LRCov is only a valid slot for method='CUSUM'")
 })
 
-			
+
 

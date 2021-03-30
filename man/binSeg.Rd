@@ -42,9 +42,18 @@ binSeg(
 A data frame containing the identified changepoints along with their test statistic and threshold they exceeded.
 }
 \description{
-This function estimates multiple covariance changepoints. NOTE no argument error checking is performed. This function is for developer use only.
+This function estimates multiple covariance changepoints. NOTE no argument
+error checking is performed. This function is for developer use only.
 }
 \details{
-The function works by storing a matrix with columns corresponding to the start point of segment; end point of segment; most likely changepoint position within segment; and test statistic for the segment. This way as more and more segments are detected then we don't repeat the calculation of the test statistic. The while loop allows for a set number of changepoints to be calculated or if this is unknown then it will keep looping until no more changepoints are possible or the maximum test statistic across the segments doesn't exceed the threshold. For the Permutation Test the Binary Segmentation only performs a Permutation Test on the segment with the maximum test statistic.
+The function works by storing a matrix with columns corresponding to the start
+point of segment; end point of segment; most likely changepoint position
+within segment; and test statistic for the segment. This way as more and more
+segments are detected, we don't repeat the calculation of the test statistic.
+The while loop allows for a set number of changepoints to be calculated or if
+this is unknown then it will keep looping until no more changepoints are
+possible or the maximum test statistic across the segments doesn't exceed the
+threshold. For the Permutation Test the Binary Segmentation only performs a
+Permutation Test on the segment with the maximum test statistic.
 }
 \keyword{internal}

@@ -46,10 +46,16 @@ If numCpts is numeric then the threshold is not used as the number of changepoin
 An object of S4 class \code{\link{cptCovariance-class}} is returned. If Class="FALSE", just the vector of changepoints are returned.
 }
 \description{
-Finds covariance changepoints within multivariate time series data using either the Ratio method \insertCite{Ryan2020}{changepoint.cov} or the CUSUM method \insertCite{Aue2009}{changepoint.cov}.
+Finds covariance changepoints within multivariate time series data using
+either the Ratio method \insertCite{Ryan2020}{changepoint.cov} or a
+CUSUM based method \insertCite{Aue2009}{changepoint.cov}.
 }
 \details{
-This is a simple wrapper function for the functions \code{\link{cptRatio}} and \code{\link{cptCUSUM}}. If no method is specified then the method used will depend on the dimension of the time series. For p<10, the CUSUM method will be used and for p>=10 the Ratio method will be used.
+This is a simple wrapper function for the functions
+\code{\link{cptRatio}} and \code{\link{cptCUSUM}}. If no method is specified
+then the method used will depend on the dimension of the time series. For
+p<10, the CUSUM method will be used and for p>=10 the Ratio method will be
+used.
 }
 \examples{
 set.seed(1)

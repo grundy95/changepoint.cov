@@ -1,8 +1,11 @@
 #' Permutation Test for Subspace Method
 #'
-#' Calculates a threshold for the Subspace Method via a permutation test as described in \insertCite{Grundy2020;textual}{changepoint.cov}
+#' Calculates a threshold for the Subspace Method via a permutation test as
+#' described in \insertCite{Grundy2020;textual}{changepoint.cov}
 #'
-#' This function works by generating the specified number of permutations of the original data set and running the Subspace method on each permutation in order to get samples from the distribution of the test statistic.
+#' This function works by generating the specified number of permutations of the
+#' original data set and running the Subspace method on each permutation in order
+#' to get samples from the distribution of the test statistic.
 #'
 #' @param X Data matrix of dimension n by p.
 #' @param subspaceDim Dimension of the latent subspace.
@@ -25,7 +28,7 @@
 #'
 #' @importFrom stats quantile
 #' @export
-permutationTest <- function(X,subspaceDim,msl=dim(X)[2],alpha=0.05,nperm=200){
+permutationTest <- function(X, subspaceDim, msl=dim(X)[2], alpha=0.05, nperm=200){
 	T <- purrr::rerun(nperm,max(subspaceTestStat(X[sample(nrow(X),replace=FALSE),],subspaceDim,msl),na.rm=TRUE))
 	thresh <- quantile(unlist(T),1-alpha)
 	return(thresh)

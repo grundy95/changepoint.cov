@@ -1,14 +1,15 @@
-#' An S4 class for a covariance changepoint object
+#' cptCovariance: an \code{S4} class for a covariance changepoint object
 #'
-#' List of the basic methods, retrieval functions and slots
-#' 
-#' @slot data An n by p matrix of the data.
+#' Contains data and information required for further changepoint analysis,
+#' summaries and plotting.
+#'
+#' @slot dataset An n by p matrix of the data.
 #' @slot cpts A numeric vector containing the identified changepoints.
 #' @slot method Character containing covariance changepoint method used.
 #' @slot numCpts Either 'AMOC' for at most one changepoint; 'BinSeg' for a binary segmentation approach to detect multiple changepoints; or a positive integer specifying the number of changepoints.
 #' @slot cptsSig Data frame containing the changepoint locations along with their associated test statistic; threshold; and whether or not they were deemed significant.
 #' @slot threshold Character containing the method used for generating the threshold.
-#' @slot thresholdValue Threshold value used to determine significant changepoints. If permutation test within subspace method is used then a vector of threshold values is returned. 
+#' @slot thresholdValue Threshold value used to determine significant changepoints. If permutation test within subspace method is used then a vector of threshold values is returned.
 #' @slot msl Minimum segment length between changepoints.
 #' @slot subspaceDim Assumed subspace dimension. Only used for Subspace method.
 #' @slot nperm Numeric value of number of permutations used in permutation test. Only used for subspace method when threshold is "PermTest".
@@ -19,7 +20,9 @@
 #' @slot version Version of the cpt.covariance package used.
 #'
 #' @examples
-#' out <- new('cptCovariance',data=matrix(rnorm(300),ncol=3),
+#' # Create new cptCovaraince object
+#' out <- new('cptCovariance',
+#'      dataset=matrix(rnorm(300),ncol=3),
 #'			cpts=c(50,100),
 #'			method='Ratio',
 #'			numCpts='AMOC',
@@ -27,15 +30,25 @@
 #'			threshold='Manual',
 #'			thresholdValue=30,
 #'			msl=20)
+#'
+#' # Summarize cptCovariance object
 #' summary(out)
+#'
+#' # Show cptCovariance object
 #' show(out)
+#'
+#' # Plot cptCovariance object
 #' plot(out)
+#'
+#' # Show significant changepoints
 #' cptsSig(out)
+#'
+#' # Estimate covariance matrices in each segment
 #' covEst(out)
 #'
 #' @import methods
 #' @export
-setClass("cptCovariance",slots=list(data='matrix',cpts='numeric',method='character',msl='numeric',numCpts='ANY',threshold='character',thresholdValue='numeric',cptsSig='data.frame',subspaceDim='numeric',nperm='numeric',LRCov='ANY',covEst='list',subspaceEst='list',date='character',version='character'),prototype=list(subspaceDim=NA_real_,nperm=NA_real_,LRCov=NA_character_,covEst=list(NA_real_),subspaceEst=list(NA_real_),version=as(packageVersion("changepoint.cov"),'character'),date=date(),method=NULL))
+setClass("cptCovariance",slots=list(dataset='matrix',cpts='numeric',method='character',msl='numeric',numCpts='ANY',threshold='character',thresholdValue='numeric',cptsSig='data.frame',subspaceDim='numeric',nperm='numeric',LRCov='ANY',covEst='list',subspaceEst='list',date='character',version='character'),prototype=list(subspaceDim=NA_real_,nperm=NA_real_,LRCov=NA_character_,covEst=list(NA_real_),subspaceEst=list(NA_real_),version=as(packageVersion("changepoint.cov"),'character'),date=date(),method=NULL))
 
 #' @describeIn cptCovariance Summarises the cptCovariance object
 #'
@@ -63,43 +76,23 @@ setMethod("show","cptCovariance",function(object){
 		  summary(object)
 })
 
-if(!isGeneric("cptsSig")){
-	if(is.function("cptsSig")){
-		fun <- cptsSig
-	}else{
-		fun <- function(x){
-			standardGeneric("cptsSig")
-		}
-	}
-	setGeneric("cptsSig",fun)
-}
-
-#' @describeIn cptCovariance Returns a data frame containing the changepoints, the associated test statistic and threshold.
-#'
-#' @param x An object of S4 class \code{\linkS4class{cptCovariance}}
-#'
-#' @aliases cptsSig
-#'
-#' @export
-setMethod("cptsSig","cptCovariance",function(x){
-		  return(x@cptsSig)
-})
-
 
 #' @describeIn cptCovariance Plotting method for cptCovariance object. Returns a \code{\link[ggplot2]{ggplot}} object which can be manipulated as required
 #'
-#' @param x An object of S4 class \code{\linkS4class{cptCovariance}}
+#' @param object An object of S4 class \code{\linkS4class{cptCovariance}}
+#' @param x x
+#' @param y y
 #'
 #' @import ggplot2
 #' @importFrom viridis scale_fill_viridis
 #' @export
-setMethod("plot","cptCovariance",function(x){
-		  p <- ncol(x@data)
-		  covs <- covEst(x)
+setMethod("plot", "cptCovariance", function(object, x=c(), y=c()){
+		  p <- ncol(object@dataset)
+		  covs <- covEst(object)
 
 		  segCovs <- data.frame('Segment'=1,'p1'=rep(1:p,each=p),'p2'=rep(1:p,p),'Value'=as.vector(covs[[1]]))
-		  if(length(cpts(x))>1){
-			  for(i in 2:length(cpts(x))){
+		  if(length(cpts(object))>1){
+			  for(i in 2:length(cpts(object))){
 				  segCovs <- rbind(segCovs,data.frame('Segment'=i,'p1'=rep(1:p,each=p),'p2'=rep(1:p,p),'Value'=as.vector(covs[[i]])))
 			  }
 		  }
@@ -114,60 +107,46 @@ setMethod("plot","cptCovariance",function(x){
 
 
 
-if(!isGeneric("covEst")){
-	if(is.function("covEst")){
-		fun <- covEst
-	}else{
-		fun <- function(x){
-			standardGeneric("covEst")
-		}
-	}
-	setGeneric("covEst",fun)
-}
+setGeneric("covEst", function(object){
+  standardGeneric("covEst")
+})
 
 #' @describeIn cptCovariance Returns covariance estimates for each segment
 #'
-#' @param x An object of S4 class \code{\linkS4class{cptCovariance}}
+#' @param object An object of S4 class \code{\linkS4class{cptCovariance}}
 #'
 #' @aliases covEst
 #'
 #' @export
-setMethod("covEst","cptCovariance",function(x){
-		  X <- x@data
+setMethod("covEst","cptCovariance",function(object){
+		  X <- object@dataset
 		  covs <- list()
-		  cpts <- c(0,cpts(x))
+		  cpts <- c(0,cpts(object))
 		  for(i in 1:(length(cpts)-1)){
 			  covs[[i]] <- cov(X[(cpts[i]+1):cpts[i+1],])
 		  }
 		  return(covs)
 })
 
-if(!isGeneric("subspaceEst")){
-	if(is.function("subspaceEst")){
-		fun <- subspaceEst
-	}else{
-		fun <- function(x){
-			standardGeneric("subspaceEst")
-		}
-	}
-	setGeneric("subspaceEst",fun)
-}
+setGeneric("subspaceEst", function(object){
+  standardGeneric("subspaceEst")
+})
 
 #' @describeIn cptCovariance Returns a basis of the subspace estimates for each segment
 #'
-#' @param x An object of S4 class \code{\linkS4class{cptCovariance}}
+#' @param object An object of S4 class \code{\linkS4class{cptCovariance}}
 #'
 #' @aliases subspaceEst
 #'
 #' @export
-setMethod("subspaceEst","cptCovariance",function(x){
-		  if(method(x)!='Subspace'){
+setMethod("subspaceEst","cptCovariance",function(object){
+		  if(method(object)!='Subspace'){
 			  stop("Subspace estimation only possible for method='Subspace'")
 		  }else{
-			  X <- x@data
-			  q <- subspaceDim(x)
+			  X <- object@dataset
+			  q <- subspaceDim(object)
 			  subspace <- list()
-			  cpts <- c(0,cpts(x))
+			  cpts <- c(0,cpts(object))
 			  for(i in 1:(length(cpts)-1)){
 				 subspace[[i]] <- eigen(cov(X[(cpts[i]+1):cpts[i+1],]),symmetric=TRUE)$vectors[,1:q]
 			  }
@@ -175,239 +154,312 @@ setMethod("subspaceEst","cptCovariance",function(x){
 		  return(subspace)
 })
 
-if(!isGeneric("data")){
-	if(is.function("data")){
-		fun <- data
-	}else{
-		fun <- function(x){
-			standardGeneric("data")
-		}
-	}
-	setGeneric("data",fun)
-}
 
-#' @describeIn cptCovariance Retrieves the data slot 
+
+
+#' Retrieval Functions - Generic
 #'
-#' @param x An object of S4 class \code{\linkS4class{cptCovariance}}
+#' @param x object of class \code{\linkS4class{cptCovariance}}
+#' @name retrievalGeneric
+NULL
+
+#' Replacement Functions - Generic
 #'
-#' @aliases data
+#' @param x object of class \code{\linkS4class{cptCovariance}}
+#' @param value value
+#' @name replacementGeneric
+NULL
+
+#' Retrieval Functions - Method
 #'
+#' @param x object of class \code{\linkS4class{cptCovariance}}
+#' @name retrievalMethod
+NULL
+
+#' Replacement Functions - Method
+#'
+#' @param x object of class \code{\linkS4class{cptCovariance}}
+#' @param value value
+#' @name replacementMethod
+NULL
+
+#' @rdname retrievalGeneric
 #' @export
-setMethod("data","cptCovariance",function(x){
-		  x@data
+setGeneric("dataset", function(x){
+  standardGeneric("dataset")
 })
 
-if(!isGeneric("cpts")){
-	if(is.function("cpts")){
-		fun <- cpts
-	}else{
-		fun <- function(x){
-			standardGeneric("cpts")
-		}
-	}
-	setGeneric("cpts",fun)
-}
-
-#' @describeIn cptCovariance Retrieves the cpts slot 
-#'
-#' @param x An object of S4 class \code{\linkS4class{cptCovariance}}
-#'
-#' @aliases cpts
-#'
+#' @rdname replacementGeneric
 #' @export
-setMethod("cpts","cptCovariance",function(x){
-		  x@cpts
+setGeneric("dataset<-", function(x, value){
+  standardGeneric("dataset<-")
 })
 
-if(!isGeneric("method")){
-	if(is.function("method")){
-		fun <- method
-	}else{
-		fun <- function(x){
-			standardGeneric("method")
-		}
-	}
-	setGeneric("method",fun)
-}
-
-#' @describeIn cptCovariance Retrieves the method slot 
-#'
-#' @param x An object of S4 class \code{\linkS4class{cptCovariance}}
-#'
-#' @aliases method
-#'
+#' @rdname retrievalMethod
 #' @export
-setMethod("method","cptCovariance",function(x){
-		  x@method
+setMethod("dataset", "cptCovariance", function(x){
+  x@dataset
 })
 
-if(!isGeneric("msl")){
-	if(is.function("msl")){
-		fun <- msl
-	}else{
-		fun <- function(x){
-			standardGeneric("msl")
-		}
-	}
-	setGeneric("msl",fun)
-}
-
-#' @describeIn cptCovariance Retrieves the msl slot 
-#'
-#' @param x An object of S4 class \code{\linkS4class{cptCovariance}}
-#'
-#' @aliases msl
-#'
+#' @rdname replacementMethod
 #' @export
-setMethod("msl","cptCovariance",function(x){
-		  x@msl
+setMethod("dataset<-", "cptCovariance", function(x, value){
+  x@dataset <- value
 })
 
-if(!isGeneric("numCpts")){
-	if(is.function("numCpts")){
-		fun <- numCpts
-	}else{
-		fun <- function(x){
-			standardGeneric("numCpts")
-		}
-	}
-	setGeneric("numCpts",fun)
-}
-
-#' @describeIn cptCovariance Retrieves the numCpts slot 
-#'
-#' @param x An object of S4 class \code{\linkS4class{cptCovariance}}
-#'
-#' @aliases numCpts
-#'
+#' @rdname retrievalGeneric
 #' @export
-setMethod("numCpts","cptCovariance",function(x){
-		  if(is.numeric(x@numCpts)){
-			  return(paste0("Manual - ",x@numCpts," changepoints"))
-		  }else{
-			  return(x@numCpts)
-		  }
+setGeneric("cptsSig", function(x){
+  standardGeneric("cptsSig")
 })
 
-if(!isGeneric("threshold")){
-	if(is.function("threshold")){
-		fun <- threshold
-	}else{
-		fun <- function(x){
-			standardGeneric("threshold")
-		}
-	}
-	setGeneric("threshold",fun)
-}
-
-#' @describeIn cptCovariance Retrieves the threshold slot 
-#'
-#' @param x An object of S4 class \code{\linkS4class{cptCovariance}}
-#'
-#' @aliases threshold
-#'
+#' @rdname replacementGeneric
 #' @export
-setMethod("threshold","cptCovariance",function(x){
-		  x@threshold
+setGeneric("cptsSig<-", function(x, value){
+  standardGeneric("cptsSig<-")
 })
 
-if(!isGeneric("thresholdValue")){
-	if(is.function("thresholdValue")){
-		fun <- thresholdValue
-	}else{
-		fun <- function(x){
-			standardGeneric("thresholdValue")
-		}
-	}
-	setGeneric("thresholdValue",fun)
-}
-
-#' @describeIn cptCovariance Retrieves the thresholdValue slot 
-#'
-#' @param x An object of S4 class \code{\linkS4class{cptCovariance}}
-#'
-#' @aliases thresholdValue
-#'
+#' @rdname retrievalMethod
 #' @export
-setMethod("thresholdValue","cptCovariance",function(x){
-		  x@thresholdValue
+setMethod("cptsSig", "cptCovariance", function(x){
+  x@cptsSig
 })
 
-if(!isGeneric("subspaceDim")){
-	if(is.function("subspaceDim")){
-		fun <- subspaceDim
-	}else{
-		fun <- function(x){
-			standardGeneric("subspaceDim")
-		}
-	}
-	setGeneric("subspaceDim",fun)
-}
-
-#' @describeIn cptCovariance Retrieves the subspaceDim slot 
-#'
-#' @param x An object of S4 class \code{\linkS4class{cptCovariance}}
-#'
-#' @aliases subspaceDim
-#'
+#' @rdname replacementMethod
 #' @export
-setMethod("subspaceDim","cptCovariance",function(x){
-		  if(toupper(x@method)!='SUBSPACE'){
-			  stop("subspaceDim is only a valid slot for method='Subspace'")
-		  }else{
-			  return(x@subspaceDim)
-		  }
+setMethod("cptsSig<-", "cptCovariance", function(x, value){
+  x@cptsSig <- value
 })
 
-if(!isGeneric("nperm")){
-	if(is.function("nperm")){
-		fun <- nperm
-	}else{
-		fun <- function(x){
-			standardGeneric("nperm")
-		}
-	}
-	setGeneric("nperm",fun)
-}
-
-#' @describeIn cptCovariance Retrieves the nperm slot 
-#'
-#' @param x An object of S4 class \code{\linkS4class{cptCovariance}}
-#'
-#' @aliases nperm
-#'
+#' @rdname retrievalGeneric
 #' @export
-setMethod("nperm","cptCovariance",function(x){
-		  if(!((toupper(x@method)=='SUBSPACE')&&(toupper(x@threshold)=='PERMTEST'))){
-			  stop("nperm is only a valid slot when using the permutation test within method='Subspace'")
-		  }else{
-			  return(x@nperm)
-		  }
+setGeneric("cpts", function(x){
+  standardGeneric("cpts")
 })
 
-if(!isGeneric("LRCov")){
-	if(is.function("LRCov")){
-		fun <- LRCov
-	}else{
-		fun <- function(x){
-			standardGeneric("LRCov")
-		}
-	}
-	setGeneric("LRCov",fun)
-}
-
-#' @describeIn cptCovariance Retrieves the LRCov slot 
-#'
-#' @param x An object of S4 class \code{\linkS4class{cptCovariance}}
-#'
-#' @aliases LRCov
-#'
+#' @rdname replacementGeneric
 #' @export
-setMethod("LRCov","cptCovariance",function(x){
-		  if(toupper(x@method)!='CUSUM'){
-			  stop("LRCov is only a valid slot for method='CUSUM'")
-		  }else{
-			  return(x@LRCov)
-		  }
+setGeneric("cpts<-", function(x, value){
+  standardGeneric("cpts<-")
+})
+
+#' @rdname retrievalMethod
+#' @export
+setMethod("cpts", "cptCovariance", function(x){
+  x@cpts
+})
+
+#' @rdname replacementMethod
+#' @export
+setMethod("cpts<-", "cptCovariance", function(x, value){
+  x@cpts <- value
+})
+
+#' @rdname retrievalGeneric
+#' @export
+setGeneric("method", function(x){
+  standardGeneric("method")
+})
+
+#' @rdname replacementGeneric
+#' @export
+setGeneric("method<-", function(x, value){
+  standardGeneric("method<-")
+})
+
+#' @rdname retrievalMethod
+#' @export
+setMethod("method", "cptCovariance", function(x){
+  x@method
+})
+
+#' @rdname replacementMethod
+#' @export
+setMethod("method<-", "cptCovariance", function(x, value){
+  x@method <- value
+})
+
+#' @rdname retrievalGeneric
+#' @export
+setGeneric("msl", function(x){
+  standardGeneric("msl")
+})
+
+#' @rdname replacementGeneric
+#' @export
+setGeneric("msl<-", function(x, value){
+  standardGeneric("msl<-")
+})
+
+#' @rdname retrievalMethod
+#' @export
+setMethod("msl", "cptCovariance", function(x){
+  x@msl
+})
+
+#' @rdname replacementMethod
+#' @export
+setMethod("msl<-", "cptCovariance", function(x, value){
+  x@msl <- value
+})
+
+#' @rdname retrievalGeneric
+#' @export
+setGeneric("numCpts", function(x){
+  standardGeneric("numCpts")
+})
+
+#' @rdname replacementGeneric
+#' @export
+setGeneric("numCpts<-", function(x, value){
+  standardGeneric("numCpts<-")
+})
+
+#' @rdname retrievalMethod
+#' @export
+setMethod("numCpts", "cptCovariance", function(x){
+  if(is.numeric(x@numCpts)){
+    return(paste0("Manual - ",x@numCpts," changepoints"))
+  }else{
+    return(x@numCpts)
+  }
+})
+
+#' @rdname replacementMethod
+#' @export
+setMethod("numCpts<-", "cptCovariance", function(x, value){
+  x@numCpts <- value
+})
+
+#' @rdname retrievalGeneric
+#' @export
+setGeneric("threshold", function(x){
+  standardGeneric("threshold")
+})
+
+#' @rdname replacementGeneric
+#' @export
+setGeneric("threshold<-", function(x, value){
+  standardGeneric("threshold<-")
+})
+
+#' @rdname retrievalMethod
+#' @export
+setMethod("threshold", "cptCovariance", function(x){
+  x@threshold
+})
+
+#' @rdname replacementMethod
+#' @export
+setMethod("threshold<-", "cptCovariance", function(x, value){
+  x@threshold <- value
+})
+
+#' @rdname retrievalGeneric
+#' @export
+setGeneric("thresholdValue", function(x){
+  standardGeneric("thresholdValue")
+})
+
+#' @rdname replacementGeneric
+#' @export
+setGeneric("thresholdValue<-", function(x, value){
+  standardGeneric("thresholdValue<-")
+})
+
+#' @rdname retrievalMethod
+#' @export
+setMethod("thresholdValue", "cptCovariance", function(x){
+  x@thresholdValue
+})
+
+#' @rdname replacementMethod
+#' @export
+setMethod("thresholdValue<-", "cptCovariance", function(x, value){
+  x@thresholdValue <- value
+})
+
+#' @rdname retrievalGeneric
+#' @export
+setGeneric("subspaceDim", function(x){
+  standardGeneric("subspaceDim")
+})
+
+#' @rdname replacementGeneric
+#' @export
+setGeneric("subspaceDim<-", function(x, value){
+  standardGeneric("subspaceDim<-")
+})
+
+#' @rdname retrievalMethod
+#' @export
+setMethod("subspaceDim", "cptCovariance", function(x){
+  if(toupper(x@method)!='SUBSPACE'){
+    stop("subspaceDim is only a valid slot for method='Subspace'")
+  }else{
+    return(x@subspaceDim)
+  }
+})
+
+#' @rdname replacementMethod
+#' @export
+setMethod("subspaceDim<-", "cptCovariance", function(x, value){
+  x@subspaceDim <- value
+})
+
+#' @rdname retrievalGeneric
+#' @export
+setGeneric("nperm", function(x){
+  standardGeneric("nperm")
+})
+
+#' @rdname replacementGeneric
+#' @export
+setGeneric("nperm<-", function(x, value){
+  standardGeneric("nperm<-")
+})
+
+#' @rdname retrievalMethod
+#' @export
+setMethod("nperm", "cptCovariance", function(x){
+  if(!((toupper(x@method)=='SUBSPACE')&&(toupper(x@threshold)=='PERMTEST'))){
+    stop("nperm is only a valid slot when using the permutation test within method='Subspace'")
+  }else{
+    return(x@nperm)
+  }
+})
+
+#' @rdname replacementMethod
+#' @export
+setMethod("nperm<-", "cptCovariance", function(x, value){
+  x@nperm <- value
+})
+
+#' @rdname retrievalGeneric
+#' @export
+setGeneric("LRCov", function(x){
+  standardGeneric("LRCov")
+})
+
+#' @rdname replacementGeneric
+#' @export
+setGeneric("LRCov<-", function(x, value){
+  standardGeneric("LRCov<-")
+})
+
+#' @rdname retrievalMethod
+#' @export
+setMethod("LRCov", "cptCovariance", function(x){
+  if(toupper(x@method)!='CUSUM'){
+    stop("LRCov is only a valid slot for method='CUSUM'")
+  }else{
+    return(x@LRCov)
+  }
+})
+
+#' @rdname replacementMethod
+#' @export
+setMethod("LRCov<-", "cptCovariance", function(x, value){
+  x@LRCov <- value
 })
 

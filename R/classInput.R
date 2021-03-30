@@ -1,10 +1,10 @@
 #' Inputs results into S4 class
 #'
-#' Function for inputting results into the S4 class \code{\linkS4class{cptCovariance}}. 
+#' Function for inputting results into the S4 class \code{\linkS4class{cptCovariance}}.
 #'
 #' @inheritParams cptCov
 #' @inheritParams cptSubspace
-#' @param cptsSig Data frame containing the changepoint locations along with their associated test statistics; threshold; and whether or not they were deemed significant  
+#' @param cptsSig Data frame containing the changepoint locations along with their associated test statistics; threshold; and whether or not they were deemed significant
 #' @param cpts Vector of changepoint locations
 #'
 #' @return S4 class of type \code{\linkS4class{cptCovariance}}
@@ -19,7 +19,7 @@ classInput <- function(X,cpts,method,numCpts,cptsSig,threshold,thresholdValue,ms
 		threshold <- "Manual"
 	}
 	if(method=='Subspace'){
-		ans <- new('cptCovariance',data=X,
+		ans <- new('cptCovariance',dataset=X,
                            cpts=cpts,
 			   method=method,
 	                   numCpts=numCpts,
@@ -30,7 +30,7 @@ classInput <- function(X,cpts,method,numCpts,cptsSig,threshold,thresholdValue,ms
 			   subspaceDim=subspaceDim,
 			   nperm=nperm)
 	}else if(method=='CUSUM'){
-		ans <- new('cptCovariance',data=X,
+		ans <- new('cptCovariance',dataset=X,
 			   cpts=cpts,
 			   method=method,
 			   numCpts=numCpts,
@@ -40,7 +40,7 @@ classInput <- function(X,cpts,method,numCpts,cptsSig,threshold,thresholdValue,ms
 			   msl=as.integer(msl),
 			   LRCov=LRCov)
 	}else if(method=='Ratio'){
-		ans <- new('cptCovariance',data=X,
+		ans <- new('cptCovariance',dataset=X,
 			   cpts=cpts,
 			   method=method,
 			   numCpts=numCpts,

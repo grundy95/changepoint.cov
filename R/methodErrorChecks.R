@@ -7,11 +7,11 @@
 #' @seealso \code{\link{cptRatio}}
 #'
 #' @keywords internal
-ratioErrorChecks <- function(X,threshold,numCpts,thresholdValue,msl,Class){
+ratioErrorChecks <- function(X, threshold, numCpts, thresholdValue, msl, Class){
 	dataErrorChecks(X)
-	thresholdErrorChecks(threshold,thresholdValue,method='cptCov')
-	numCptsErrorChecks(numCpts,method="cptCov")
-	mslErrorChecks(X,msl)
+	thresholdErrorChecks(threshold, thresholdValue, method='cptCov')
+	numCptsErrorChecks(numCpts, method="cptCov")
+	mslErrorChecks(X, msl)
 	classErrorChecks(Class)
 
 }
@@ -26,9 +26,9 @@ ratioErrorChecks <- function(X,threshold,numCpts,thresholdValue,msl,Class){
 #' @keywords internal
 cusumErrorChecks <- function(X,threshold,numCpts,LRCov,thresholdValue,msl,Class){
 	dataErrorChecks(X)
-	thresholdErrorChecks(threshold,thresholdValue,method='cptCov')
-	numCptsErrorChecks(numCpts,method='cptCov')
-	mslErrorChecks(X,msl)
+	thresholdErrorChecks(threshold, thresholdValue, method='cptCov')
+	numCptsErrorChecks(numCpts, method='cptCov')
+	mslErrorChecks(X, msl)
 	classErrorChecks(Class)
 
 	#LRCov checks
@@ -39,7 +39,7 @@ cusumErrorChecks <- function(X,threshold,numCpts,LRCov,thresholdValue,msl,Class)
 	}
 	if((is.matrix(LRCov))&&(!((ncol(LRCov)==delta)&&nrow(LRCov==delta)))){
 		stop("Dimension of manual LRCov is not compatible with data")
-	}	
+	}
 	if(is.character(LRCov)){
 		LRCov <- toupper(LRCov)
 		if((LRCov!="BARTLETT")&&(LRCov!="EMPIRICAL")){
@@ -57,7 +57,8 @@ cusumErrorChecks <- function(X,threshold,numCpts,LRCov,thresholdValue,msl,Class)
 #' @seealso \code{\link{cptSubspace}}
 #'
 #' @keywords internal
-subspaceErrorChecks <- function(X,subspaceDim,threshold,numCpts,thresholdValue,msl,nperm,Class){
+subspaceErrorChecks <- function(X, subspaceDim, threshold, numCpts,
+                                thresholdValue, msl, nperm, Class){
 	dataErrorChecks(X)
 	thresholdErrorChecks(threshold,thresholdValue,method='cptSubspace')
 	numCptsErrorChecks(numCpts,method="cptSubspace")
@@ -98,7 +99,7 @@ subspaceErrorChecks <- function(X,subspaceDim,threshold,numCpts,thresholdValue,m
 
 
 
-	
+
 
 
 

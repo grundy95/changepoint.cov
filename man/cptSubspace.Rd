@@ -46,10 +46,29 @@ If numCpts is numeric then the threshold is not used as the number of changepoin
 An object of S4 class \code{\link{cptCovariance-class}} is returned. If Class="FALSE", the vector of changepoints are returned.
 }
 \description{
-Implements the \insertCite{Grundy2020;textual}{changepoint.cov} method for detecting changes in subspace in multivariate time series data. This method is aimed at time series that lie in a lower-dimensional latent subspace.
+Implements the \insertCite{Grundy2020;textual}{changepoint.cov} method for
+detecting changes in subspace in multivariate time series data. This method
+is aimed at time series that lie in a low-dimensional latent subspace.
 }
 \details{
-Subspace changepoint detection is aimed at time series where we assume the data lies in a low-dimensional subspace; meaning there are a q dominating eigenvalues in the covariance matrix, where q is the assumed subspace dimension. This function calculates the test statistic, $T$ described in \insertCite{Grundy2020;textual}{changepoint.cov}. A data driven threshold is recommended by using the permutation test to determine the significance of changepoints. Note that this is a data driven threshold and will therefore vary in each calculation. The calculation of the threshold via the permutation test can also be computationally expensive especially for long time series (n>1000) or a large number of permutations (nperm>1000). The number of permutations should be altered to reflect the length of the time series - the longer the time series the more permutations may be necessary. If multiple changepoints are possible then the Binary Segmentation is implemented however only one segment will be tested at each iteration in order to control the type 1 error. This method is only recommended if the data is assumed to lie in a low-dimension subspace and the dimensionality of this subspace is known. If this is not the case we recommend using the \code{\link{cptCov}} function and one of the contained methods within.
+Subspace changepoint detection is aimed at time series where we assume the
+data lies in a low-dimensional subspace; meaning there are a q dominating
+eigenvalues in the covariance matrix, where q is the assumed subspace
+dimension. This function calculates the test statistic, $T$ described in
+\insertCite{Grundy2020;textual}{changepoint.cov}. A data driven threshold
+is recommended by using the permutation test to determine the significance
+of changepoints. Note that this is a data driven threshold and will
+therefore vary in each calculation. The calculation of the threshold via
+the permutation test can also be computationally expensive especially for
+long time series (n>1000) or a large number of permutations (nperm>1000).
+The number of permutations should be altered to reflect the length of the
+time series - the longer the time series the more permutations may be
+necessary. If multiple changepoints are possible then Binary Segmentation
+is implemented however only one segment will be tested at each iteration
+in order to control the type 1 error. This method is only recommended if
+the data is assumed to lie in a low-dimension subspace and the dimensionality
+of this subspace is known. If this is not the case we recommend using the
+\code{\link{cptCov}} function and one of the contained methods within.
 }
 \examples{
 set.seed(1)

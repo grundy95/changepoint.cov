@@ -21,10 +21,13 @@ permutationTest(X, subspaceDim, msl = dim(X)[2], alpha = 0.05, nperm = 200)
 Numeric containing the threshold value
 }
 \description{
-Calculates a threshold for the Subspace Method via a permutation test as described in \insertCite{Grundy2020;textual}{changepoint.cov}
+Calculates a threshold for the Subspace Method via a permutation test as
+described in \insertCite{Grundy2020;textual}{changepoint.cov}
 }
 \details{
-This function works by generating the specified number of permutations of the original data set and running the Subspace method on each permutation in order to get samples from the distribution of the test statistic.
+This function works by generating the specified number of permutations of the
+original data set and running the Subspace method on each permutation in order
+to get samples from the distribution of the test statistic.
 }
 \examples{
 set.seed(1)

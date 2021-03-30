@@ -5,74 +5,33 @@
 \alias{cptCovariance-class}
 \alias{summary,cptCovariance-method}
 \alias{show,cptCovariance-method}
-\alias{cptsSig,cptCovariance-method}
-\alias{cptsSig}
 \alias{plot,cptCovariance-method}
 \alias{covEst,cptCovariance-method}
 \alias{covEst}
 \alias{subspaceEst,cptCovariance-method}
 \alias{subspaceEst}
-\alias{data,cptCovariance-method}
-\alias{data}
-\alias{cpts,cptCovariance-method}
-\alias{cpts}
-\alias{method,cptCovariance-method}
-\alias{method}
-\alias{msl,cptCovariance-method}
-\alias{msl}
-\alias{numCpts,cptCovariance-method}
-\alias{numCpts}
-\alias{threshold,cptCovariance-method}
-\alias{threshold}
-\alias{thresholdValue,cptCovariance-method}
-\alias{thresholdValue}
-\alias{subspaceDim,cptCovariance-method}
-\alias{subspaceDim}
-\alias{nperm,cptCovariance-method}
-\alias{nperm}
-\alias{LRCov,cptCovariance-method}
-\alias{LRCov}
-\title{An S4 class for a covariance changepoint object}
+\title{cptCovariance: an \code{S4} class for a covariance changepoint object}
 \usage{
 \S4method{summary}{cptCovariance}(object)
 
 \S4method{show}{cptCovariance}(object)
 
-\S4method{cptsSig}{cptCovariance}(x)
+\S4method{plot}{cptCovariance}(object, x = c(), y = c())
 
-\S4method{plot}{cptCovariance}(x)
+\S4method{covEst}{cptCovariance}(object)
 
-\S4method{covEst}{cptCovariance}(x)
-
-\S4method{subspaceEst}{cptCovariance}(x)
-
-\S4method{data}{cptCovariance}(x)
-
-\S4method{cpts}{cptCovariance}(x)
-
-\S4method{method}{cptCovariance}(x)
-
-\S4method{msl}{cptCovariance}(x)
-
-\S4method{numCpts}{cptCovariance}(x)
-
-\S4method{threshold}{cptCovariance}(x)
-
-\S4method{thresholdValue}{cptCovariance}(x)
-
-\S4method{subspaceDim}{cptCovariance}(x)
-
-\S4method{nperm}{cptCovariance}(x)
-
-\S4method{LRCov}{cptCovariance}(x)
+\S4method{subspaceEst}{cptCovariance}(object)
 }
 \arguments{
 \item{object}{An object of S4 class \code{\linkS4class{cptCovariance}}}
 
-\item{x}{An object of S4 class \code{\linkS4class{cptCovariance}}}
+\item{x}{x}
+
+\item{y}{y}
 }
 \description{
-List of the basic methods, retrieval functions and slots
+Contains data and information required for further changepoint analysis,
+summaries and plotting.
 }
 \section{Methods (by generic)}{
 \itemize{
@@ -80,39 +39,17 @@ List of the basic methods, retrieval functions and slots
 
 \item \code{show}: Shows the cptCovariance object
 
-\item \code{cptsSig}: Returns a data frame containing the changepoints, the associated test statistic and threshold.
-
 \item \code{plot}: Plotting method for cptCovariance object. Returns a \code{\link[ggplot2]{ggplot}} object which can be manipulated as required
 
 \item \code{covEst}: Returns covariance estimates for each segment
 
 \item \code{subspaceEst}: Returns a basis of the subspace estimates for each segment
-
-\item \code{data}: Retrieves the data slot
-
-\item \code{cpts}: Retrieves the cpts slot
-
-\item \code{method}: Retrieves the method slot
-
-\item \code{msl}: Retrieves the msl slot
-
-\item \code{numCpts}: Retrieves the numCpts slot
-
-\item \code{threshold}: Retrieves the threshold slot
-
-\item \code{thresholdValue}: Retrieves the thresholdValue slot
-
-\item \code{subspaceDim}: Retrieves the subspaceDim slot
-
-\item \code{nperm}: Retrieves the nperm slot
-
-\item \code{LRCov}: Retrieves the LRCov slot
 }}
 
 \section{Slots}{
 
 \describe{
-\item{\code{data}}{An n by p matrix of the data.}
+\item{\code{dataset}}{An n by p matrix of the data.}
 
 \item{\code{cpts}}{A numeric vector containing the identified changepoints.}
 
@@ -144,7 +81,9 @@ List of the basic methods, retrieval functions and slots
 }}
 
 \examples{
-out <- new('cptCovariance',data=matrix(rnorm(300),ncol=3),
+##
+out <- new('cptCovariance',
+     dataset=matrix(rnorm(300),ncol=3),
 		cpts=c(50,100),
 		method='Ratio',
 		numCpts='AMOC',
