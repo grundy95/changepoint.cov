@@ -1,23 +1,17 @@
-context('cptCUSUM tests')
-library(changepoint.cov)
-
-##{{{ Data Creation
 set.seed(1)
 dataAMOC <- wishartDataGeneration(n=100,p=3,tau=50)$data
 data2Change <- wishartDataGeneration(n=200,p=3,tau=c(60,120))$data
 dataHighP <- wishartDataGeneration(n=100,p=20,tau=50)$data
-##}}}
 
-##{{{ Basic Functionality
 test_that("Default arguments produce no errors",{
-		  expect_is(cptCUSUM(X=dataAMOC),"cptCovariance")
+		  expect_s4_class(cptCUSUM(X=dataAMOC),"cptCovariance")
 })
 
 test_that("cusumTestStat output is correct",{
 		  n <- 100
 		  msl <- ncol(dataAMOC)
 		  ans <- cusumTestStat(dataAMOC,LRCov='Bartlett',msl=msl)
-		  expect_is(ans,"numeric")
+		  expect_type(ans,"double")
 		  expect_equal(length(ans),n)
 		  expect_equal(sum(is.na(ans)),2*msl-1)
 		  expect_error(cusumTestStat(dataAMOC,LRCov=diag(rep(1,5))),"Dimension of manual LRCov is not compatible with data")
@@ -30,9 +24,6 @@ test_that("Large p datasets output is correct",{
 		  expect_error(cusumTestStat(dataHighP,LRCov='Empirical',msl=msl),"Long run covariance estimator is not invertible. This is most likely due to the dimension of the data being too large. Please try the Ratio method")
 })
 
-##}}}
-
-##{{{ Error catching tests
 test_that("Data is correct format",{
 		  dataAMOCdataFrame <- as.data.frame(dataAMOC)
 		  set.seed(1)
@@ -43,8 +34,8 @@ test_that("Data is correct format",{
 		  dataHighDim <- matrix(rnorm(100*75),ncol=75)
 		  dataConstant <- matrix(0,ncol=5,nrow=100)
 
-		  expect_is(cptCUSUM(dataAMOC),"cptCovariance")
-		  expect_is(cptCUSUM(dataAMOCdataFrame),"cptCovariance")
+		  expect_s4_class(cptCUSUM(dataAMOC),"cptCovariance")
+		  expect_s4_class(cptCUSUM(dataAMOCdataFrame),"cptCovariance")
 		  expect_error(cptCUSUM(dataAMOCunivariate),"Data should be a matrix")
 		  expect_error(cptCUSUM(as.matrix(dataAMOCunivariate,ncol=1)),"Univariate time series analysis not supported")
 		  expect_error(cptCUSUM(dataAMOCcharacter),"Data must be numeric")
@@ -54,8 +45,8 @@ test_that("Data is correct format",{
 })
 
 test_that("Threshold type is correct",{
-		  expect_is(cptCUSUM(dataAMOC,threshold='Asymptotic'),"cptCovariance")
-		  expect_is(cptCUSUM(dataAMOC,threshold='Manual'),"cptCovariance")
+		  expect_s4_class(cptCUSUM(dataAMOC,threshold='Asymptotic'),"cptCovariance")
+		  expect_s4_class(cptCUSUM(dataAMOC,threshold='Manual'),"cptCovariance")
 		  expect_error(cptCUSUM(dataAMOC,threshold='man'),"Threshold not identified: see ?cptCov for valid entries to threshold. NOTE thresholds should be character strings",fixed=TRUE)
 		  expect_error(cptCUSUM(dataAMOC,threshold=1),"Threshold not identified: see ?cptCov for valid entries to threshold. NOTE thresholds should be character strings",fixed=TRUE)
 		  expect_error(cptCUSUM(dataAMOC,threshold='Normal'),"Threshold not identified: see ?cptCov for valid entries to threshold. NOTE thresholds should be character strings",fixed=TRUE)
@@ -63,9 +54,9 @@ test_that("Threshold type is correct",{
 })
 
 test_that("Number of changepoints is correct",{
-		  expect_is(cptCUSUM(dataAMOC,numCpts='AMOC'),"cptCovariance")
-		  expect_is(cptCUSUM(data2Change,numCpts='BinSeg'),"cptCovariance")
-		  expect_is(cptCUSUM(data2Change,numCpts=2),"cptCovariance")
+		  expect_s4_class(cptCUSUM(dataAMOC,numCpts='AMOC'),"cptCovariance")
+		  expect_s4_class(cptCUSUM(data2Change,numCpts='BinSeg'),"cptCovariance")
+		  expect_s4_class(cptCUSUM(data2Change,numCpts=2),"cptCovariance")
 
 		  expect_error(cptCUSUM(dataAMOC,numCpts='AMC'),"numCpts not identified: see ?cptCov for valid entries to numCpts",fixed=TRUE)
 		  expect_error(cptCUSUM(dataAMOC,numCpts=TRUE),"numCpts not identified: see ?cptCov for valid entries to numCpts",fixed=TRUE)
@@ -74,8 +65,8 @@ test_that("Number of changepoints is correct",{
 })
 
 test_that("Threshold value is correct",{
-		  expect_is(cptCUSUM(dataAMOC,threshold='Asymptotic',thresholdValue=0.05),"cptCovariance")
-		  expect_is(cptCUSUM(dataAMOC,threshold='Manual',thresholdValue=30),"cptCovariance")
+		  expect_s4_class(cptCUSUM(dataAMOC,threshold='Asymptotic',thresholdValue=0.05),"cptCovariance")
+		  expect_s4_class(cptCUSUM(dataAMOC,threshold='Manual',thresholdValue=30),"cptCovariance")
 
 		  expect_error(cptCUSUM(dataAMOC,thresholdValue=-1),"thresholdValue must be a single numeric and positive if threshold='Manual' or between 0 and 1 if threshold='Asymptotic'")
 		  expect_error(cptCUSUM(dataAMOC,threshold='Asymptotic',thresholdValue=2),"thresholdValue must be a single numeric and positive if threshold='Manual' or between 0 and 1 if threshold='Asymptotic'")
@@ -84,7 +75,7 @@ test_that("Threshold value is correct",{
 })
 
 test_that("Minimum segment length is appropriate",{
-		  expect_is(cptCUSUM(dataAMOC,msl=ncol(dataAMOC)+5),"cptCovariance")
+		  expect_s4_class(cptCUSUM(dataAMOC,msl=ncol(dataAMOC)+5),"cptCovariance")
 
 		  expect_error(cptCUSUM(dataAMOC,msl=nrow(dataAMOC)-1),"Minimum segment length should be a single integer between p and n/2")
 		  expect_error(cptCUSUM(dataAMOC,msl=-5),"Minimum segment length should be a single integer between p and n/2")
@@ -94,10 +85,10 @@ test_that("Minimum segment length is appropriate",{
 })
 
 test_that("LRCov argument is appropriate",{
-		  expect_is(cptCUSUM(dataAMOC,LRCov='Bartlett'),"cptCovariance")
-		  expect_is(cptCUSUM(dataAMOC,LRCov='Empirical'),"cptCovariance")
-		  expect_is(cptCUSUM(dataAMOC,LRCov=diag(rep(1,6))),"cptCovariance")
-		  
+		  expect_s4_class(cptCUSUM(dataAMOC,LRCov='Bartlett'),"cptCovariance")
+		  expect_s4_class(cptCUSUM(dataAMOC,LRCov='Empirical'),"cptCovariance")
+		  expect_s4_class(cptCUSUM(dataAMOC,LRCov=diag(rep(1,6))),"cptCovariance")
+
 		  expect_error(cptCUSUM(dataAMOC,LRCov='Normal'),"LRCov not identified: see ?cptCov for valid entries to LRCov",fixed=TRUE)
 		  expect_error(cptCUSUM(dataAMOC,LRCov=TRUE),"LRCov not identified: see ?cptCov for valid entries to LRCov",fixed=TRUE)
 		  expect_error(cptCUSUM(dataAMOC,LRCov=bartlett))
@@ -106,8 +97,8 @@ test_that("LRCov argument is appropriate",{
 })
 
 test_that("errorCheck argument is logical",{
-		  expect_is(cptCUSUM(dataAMOC,errorCheck=TRUE),"cptCovariance")
-		  expect_is(cptCUSUM(dataAMOC,errorCheck=FALSE),"cptCovariance")
+		  expect_s4_class(cptCUSUM(dataAMOC,errorCheck=TRUE),"cptCovariance")
+		  expect_s4_class(cptCUSUM(dataAMOC,errorCheck=FALSE),"cptCovariance")
 
 		  expect_error(cptCUSUM(dataAMOC,errorCheck='FALSE'))
 		  expect_error(cptCUSUM(dataAMOC,errorCheck='TRUE'))
@@ -115,8 +106,8 @@ test_that("errorCheck argument is logical",{
 })
 
 test_that("Class argument is logical",{
-		  expect_is(cptCUSUM(dataAMOC,Class=TRUE),"cptCovariance")
-		  expect_is(cptCUSUM(dataAMOC,Class=FALSE),"integer")
+		  expect_s4_class(cptCUSUM(dataAMOC,Class=TRUE),"cptCovariance")
+		  expect_type(cptCUSUM(dataAMOC,Class=FALSE),"integer")
 
 		  expect_error(cptCUSUM(dataAMOC,Class='S4'),"Class should be logical, TRUE or FALSE")
 		  expect_error(cptCUSUM(dataAMOC,Class='TRUE'),"Class should be logical, TRUE or FALSE")

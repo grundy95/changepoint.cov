@@ -38,7 +38,7 @@
 #' ansRatio2 <- cptCov(X=dataAMOC,threshold='Manual',numCpts='AMOC',msl=10,thresholdValue=20)
 #' summary(ansRatio2)
 #'
-#' @include cptCovarianceClass.R
+#' @include cptCovariance-class.R
 #'
 #' @export
 

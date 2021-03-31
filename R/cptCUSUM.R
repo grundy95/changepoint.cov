@@ -25,9 +25,9 @@
 #'			msl=15,thresholdValue=15,LRCov='Empirical')
 #' summary(ansCUSUM2)
 #'
-#' @importFrom stats qnorm 
+#' @importFrom stats qnorm
 #'
-#' @include cptCovarianceClass.R
+#' @include cptCovariance-class.R
 #'
 #' @export
 
@@ -80,6 +80,6 @@ cptCUSUM <- function(X,threshold='Asymptotic',numCpts='AMOC',msl=2*ncol(X),LRCov
 	}
 }
 
-	
+
 
 

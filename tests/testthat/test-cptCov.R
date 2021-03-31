@@ -1,25 +1,18 @@
-context('cptCov tests')
-library(changepoint.cov)
-
-##{{{ Data Creation
 set.seed(1)
 dataAMOC <- wishartDataGeneration(n=100,p=3,tau=50)$data
 dataAMOC2 <- wishartDataGeneration(n=100,p=22,tau=50)$data
-##}}}
 
-##{{{ Basic Functionality
 test_that("Default arguments produce no errors",{
-		  expect_is(cptCov(X=dataAMOC,method="Ratio"),"cptCovariance")
-		  expect_is(cptCov(X=dataAMOC,method="CUSUM"),"cptCovariance")
+		  expect_s4_class(cptCov(X=dataAMOC,method="Ratio"),"cptCovariance")
+		  expect_s4_class(cptCov(X=dataAMOC,method="CUSUM"),"cptCovariance")
 })
-##}}}
 
 ##{{{ Error catching tests
 test_that("Method argument is correct",{
-		  expect_is(cptCov(X=dataAMOC,method="Ratio"),"cptCovariance")
-		  expect_is(cptCov(X=dataAMOC,method="CUSUM"),"cptCovariance")
-		  expect_is(cptCov(X=dataAMOC,method="Ryan"),"cptCovariance")
-		  expect_is(cptCov(X=dataAMOC,method="Aue"),"cptCovariance")
+		  expect_s4_class(cptCov(X=dataAMOC,method="Ratio"),"cptCovariance")
+		  expect_s4_class(cptCov(X=dataAMOC,method="CUSUM"),"cptCovariance")
+		  expect_s4_class(cptCov(X=dataAMOC,method="Ryan"),"cptCovariance")
+		  expect_s4_class(cptCov(X=dataAMOC,method="Aue"),"cptCovariance")
 
 		  expect_warning(cptCov(X=dataAMOC),"no method was chosen. As p<=10 the CUSUM method will be implemented")
 		  expect_warning(cptCov(X=dataAMOC2),"no method was chosen. As p>10 the Ratio method will be implemented")
@@ -34,7 +27,7 @@ test_that("Method argument is correct",{
 })
 
 test_that("Data is correct format",{
-		  expect_is(cptCov(X=as.data.frame(dataAMOC),method="Ratio"),"cptCovariance")
+		  expect_s4_class(cptCov(X=as.data.frame(dataAMOC),method="Ratio"),"cptCovariance")
 })
 
 test_that("Correct number of changepoints are returned",{
