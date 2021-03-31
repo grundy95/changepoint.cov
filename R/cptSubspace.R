@@ -69,7 +69,7 @@
 #'
 #' @return An object of S4 class \code{\link{cptCovariance-class}} is returned. If Class="FALSE", the vector of changepoints are returned.
 #'
-#' @include cptCovarianceClass.R
+#' @include cptCovariance-class.R
 #'
 #' @export
 cptSubspace <- function(X,subspaceDim,threshold='PermTest',numCpts='AMOC',thresholdValue=0.05,msl=ncol(X),nperm=200,Class=TRUE){

@@ -25,15 +25,15 @@ Imports:
     viridis,
     Rdpack
 Suggests: 
-    testthat,
-    covr
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
 RdMacros: 
     Rdpack
 Collate: 
     'binSeg.R'
     'changepoint.cov.R'
     'classInput.R'
-    'cptCovarianceClass.R'
+    'cptCovariance-class.R'
     'cptCUSUM.R'
     'cptCov.R'
     'cptRatio.R'

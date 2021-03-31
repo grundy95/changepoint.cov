@@ -61,7 +61,7 @@
 #' summary(ansCUSUM2)
 #' cptsSig(ansCUSUM2)
 #'
-#' @include cptCovarianceClass.R
+#' @include cptCovariance-class.R
 #'
 #' @export
 cptCov <- function(X,method=c("Ratio","CUSUM"),threshold="Asymptotic",numCpts='AMOC',msl=2*ncol(X),thresholdValue=0.05,LRCov='Bartlett',Class=TRUE){
